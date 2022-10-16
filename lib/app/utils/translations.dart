@@ -1,0 +1,67 @@
+// ignore_for_file: equal_keys_in_map
+
+import 'package:get/get.dart';
+
+class MyTranslations extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+        'tr': {
+          'profil': 'Ulanyjy',
+          'downloaded': 'Ýüklänlerim',
+          'favorites': 'Halanlarym',
+          'home': 'Baş sahypa',
+          'category': 'Kategoriýa',
+          'questions': 'Köp soralýan soraglar ?',
+          'aboutUs': 'Biz barada',
+          'signUp': 'Hasaba al',
+          'shareUs': 'Programmany paýlaş',
+          'transferUSB': 'USB geçir',
+          'select_language': 'Dil saýlaň',
+          'fixMachine': 'Bejeriş Hyzmaty',
+          'collars': 'Ýakalar',
+          'womenClothes': 'Zenan egin - eşikleri',
+          'machinePart': 'Sapaklar',
+          'machines': 'Maşynlar',
+          'sort': 'Yzygiderlik',
+          'sortCreatedAtHighToLow': 'Senesi boýunça (ilki täzeler)',
+          'sortCreatedAtLowToHigh': 'Senesi boýunça (ilki köneler)',
+          'sortDefault': 'Adaty',
+          'sortPriceHighToLow': 'Baha boýunça (ilki arzanlar)',
+          'sortPriceLowToHigh': 'Baha boýunça (ilki gymmatlar)',
+          'agree': 'Tassyklamak',
+          'minPrice': 'Iň arzan',
+          'maxPrice': 'Iň gymmat',
+          'selectMachine': 'Tikin maşyn görnüşi saýlaň',
+          'priceRange': 'Baha aralygy'
+        },
+        'ru': {
+          'fixMachine': 'Техническое обслуживание',
+          'profil': 'Пользователь',
+          'downloaded': 'Мои загрузки',
+          'favorites': 'Избранное',
+          'home': 'Главное',
+          'category': 'Категория',
+          'questions': 'Вопросы ?',
+          'aboutUs': 'О нас',
+          'signUp': 'Регистрация',
+          'shareUs': 'Поделитесь приложением',
+          'transferUSB': 'Передача USB',
+          'select_language': 'Выберите язык',
+          'collars': 'Ошейники',
+          'womenClothes': 'Женская одежда',
+          'machinePart': 'Уроки',
+          'machines': 'Машины',
+          'sort': 'Сортировать',
+          'sortCreatedAtHighToLow': 'По дате добавления (сначала новые)',
+          'sortCreatedAtLowToHigh': 'По дате добавления (сначала старые)',
+          'sortDefault': 'По умолчанию',
+          'sortPriceHighToLow': 'По цене (сначала дешевле)',
+          'sortPriceLowToHigh': 'По цене (сначала дороже)',
+          'termsAndCondition': 'Правила и условия пользования',
+          'agree': 'Подтверждение',
+          'maxPrice': 'Дорогой',
+          'minPrice': 'Дешевый',
+          'selectMachine': 'Выберите тип швейной машины',
+        },
+      };
+}
