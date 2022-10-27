@@ -17,6 +17,7 @@ class BannersView extends GetView {
   Widget build(BuildContext context) {
     return FutureBuilder<List<BannerModel>>(
       future: bannerController.future,
+      // future: BannerService().getBanners(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));

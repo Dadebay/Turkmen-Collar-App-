@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String serverURL = 'https://ucdayy.online';
+const String serverURL = 'http://95.85.125.234:8765';
 const Color kPrimaryColor = Color(0xff6dc792);
 const Color kPrimaryColorCard = Color.fromARGB(255, 240, 255, 246);
 // const Color kPrimaryColor1 = Theme.of(context).backgroundColor.withOpacity(0.4);

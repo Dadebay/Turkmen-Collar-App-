@@ -9,7 +9,7 @@ class BannerService {
     final List<BannerModel> bannerList = [];
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/banners/',
+        '$serverURL/api/v1/banners',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
@@ -18,12 +18,32 @@ class BannerService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      for (final Map product in responseJson) {
+      for (final Map product in responseJson['data']) {
         bannerList.add(BannerModel.fromJson(product));
       }
       return bannerList;
     } else {
       return [];
+    }
+  }
+
+  Future<BannerModel> getBannerByID(int id) async {
+    final List<BannerModel> bannerList = [];
+    final response = await http.get(
+      Uri.parse(
+        '$serverURL/api/v1/banners/$id',
+      ),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
+    );
+    if (response.statusCode == 200) {
+      final decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(decoded);
+
+      return BannerModel.fromJson(responseJson);
+    } else {
+      return BannerModel();
     }
   }
 }
