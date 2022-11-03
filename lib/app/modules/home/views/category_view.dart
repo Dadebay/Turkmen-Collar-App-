@@ -2,11 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/data/models/banner_model.dart';
+import 'package:yaka2/app/data/models/category_model.dart';
+import 'package:yaka2/app/data/services/category_service.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
-import 'package:yaka2/app/modules/home/views/show_all_products_view.dart';
+
+import '../../cards/category_card.dart';
 
 class CategoryView extends GetView {
   @override
@@ -15,8 +16,8 @@ class CategoryView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<BannerModel>>(
-      future: controller.future,
+    return FutureBuilder<List<CategoryModel>>(
+      future: CategoryService().getCategories(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: spinKit());
@@ -26,23 +27,11 @@ class CategoryView extends GetView {
           return const Text('No Kategory Image');
         }
         return CarouselSlider.builder(
-          itemCount: 8,
+          itemCount: snapshot.data!.length,
           itemBuilder: (context, index, count) {
-            return GestureDetector(
-              onTap: () {
-                Get.to(() => ShowAllProductsView(categoryName[index]));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10, top: 25, bottom: 10),
-                child: ClipRRect(
-                  borderRadius: borderRadius10,
-                  child: Image.asset(
-                    'assets/image/category/${index + 1}.png',
-                    width: 250,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+            return CategoryCard(
+              image: snapshot.data![index].image!,
+              name: snapshot.data![index].name!,
             );
           },
           options: CarouselOptions(

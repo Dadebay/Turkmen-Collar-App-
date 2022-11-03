@@ -6,31 +6,28 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/data/models/collar_model.dart';
-import 'package:yaka2/app/data/services/collars_service.dart';
-import 'package:yaka2/app/modules/buttons/fav_button.dart';
+import 'package:yaka2/app/data/models/machines_model.dart';
+import 'package:yaka2/app/data/services/machines_service.dart';
 
 import '../../../constants/widgets.dart';
 import '../controllers/product_profil_controller.dart';
 
-class ProductProfilView extends GetView<ProductProfilController> {
+class MachinesProductProfil extends GetView<ProductProfilController> {
   final ProductProfilController _productProfilController = Get.put(ProductProfilController());
 
   final int id;
   final List image;
-  final List files;
-  ProductProfilView({
+  MachinesProductProfil({
     super.key,
     required this.id,
     required this.image,
-    required this.files,
   });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: downloadButton(),
-      body: FutureBuilder<CollarModel>(
-        future: CollarService().getCollarsByID(id),
+      bottomSheet: orderButton(),
+      body: FutureBuilder<MachineModel>(
+        future: MachineService().getMachineByID(id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
@@ -78,29 +75,6 @@ class ProductProfilView extends GetView<ProductProfilController> {
                       )
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30, bottom: 10),
-                    child: Text(
-                      'data'.tr,
-                      style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
-                    ),
-                  ),
-                  twoText(name1: 'data1', name2: snapshot.data!.machineName!),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.grey.shade300,
-                  ),
-                  twoText(name1: 'data2', name2: snapshot.data!.category!),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.grey.shade300,
-                  ),
-                  twoText(name1: 'data3', name2: '${snapshot.data!.views!}'),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.grey.shade300,
-                  ),
-                  twoText(name1: 'data4', name2: '${snapshot.data!.downloads!}'),
                   Divider(
                     thickness: 1,
                     color: Colors.grey.shade300,
@@ -125,11 +99,9 @@ class ProductProfilView extends GetView<ProductProfilController> {
     );
   }
 
-  Widget downloadButton() {
+  Widget orderButton() {
     return GestureDetector(
-      onTap: () {
-        downloadFiles(list: files);
-      },
+      onTap: () {},
       child: Container(
         width: Get.size.width,
         margin: const EdgeInsets.all(15),
@@ -137,11 +109,11 @@ class ProductProfilView extends GetView<ProductProfilController> {
           color: kPrimaryColor,
           borderRadius: borderRadius20,
         ),
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Text(
-          'download'.tr,
+          'order'.tr,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white, fontSize: 22, fontFamily: normProBold),
+          style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: normProBold),
         ),
       ),
     );
@@ -223,13 +195,6 @@ class ProductProfilView extends GetView<ProductProfilController> {
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
-          child: FavButton(
-            whcihPage: true,
-            id: id,
-          ),
-        ),
         GestureDetector(
           onTap: () {
             Share.share(image[0], subject: appName);

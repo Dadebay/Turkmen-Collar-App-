@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/data/models/banner_model.dart';
+import 'package:yaka2/app/data/models/collar_model.dart';
 
-class BannerService {
-  Future<List<BannerModel>> getBanners() async {
-    final List<BannerModel> bannerList = [];
+class CollarService {
+  Future<List<CollarModel>> getCollars() async {
+    final List<CollarModel> collarList = [];
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/v1/banners',
+        '$serverURL/api/v1/collars',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
@@ -19,19 +19,21 @@ class BannerService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(responseJson);
+
       for (final Map product in responseJson['data']) {
-        bannerList.add(BannerModel.fromJson(product));
+        collarList.add(CollarModel.fromJson(product));
       }
-      return bannerList;
+      return collarList;
     } else {
       return [];
     }
   }
 
-  Future<BannerModel> getBannerByID(int id) async {
+  Future<CollarModel> getCollarsByID(int id) async {
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/v1/banners/$id',
+        '$serverURL/api/v1/collars/$id',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
@@ -41,9 +43,9 @@ class BannerService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      return BannerModel.fromJson(responseJson);
+      return CollarModel.fromJson(responseJson);
     } else {
-      return BannerModel();
+      return CollarModel();
     }
   }
 }

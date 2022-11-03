@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/modules/product_profil/views/product_profil_view.dart';
 
 import 'download_button.dart';
 import 'fav_button.dart';
@@ -21,11 +20,11 @@ class ProductCard extends StatelessWidget {
         shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
       ),
       onPressed: () {
-        Get.to(
-          () => ProductProfilView(
-            'assets/image/yaka/${index + 1}.png',
-          ),
-        );
+        // Get.to(
+        //   () => ProductProfilView(
+        //     const [],
+        //   ),
+        // );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +56,10 @@ class ProductCard extends StatelessWidget {
                       const Positioned(
                         top: 8,
                         right: 8,
-                        child: FavButton(),
+                        child: FavButton(
+                          whcihPage: false,
+                          id: 1,
+                        ),
                       )
                     ],
                   ),

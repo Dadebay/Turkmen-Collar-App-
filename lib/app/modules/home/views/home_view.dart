@@ -6,7 +6,6 @@ import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/modules/buttons/profile_button.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
-import 'package:yaka2/app/modules/home/views/listview_machines_view.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:yaka2/app/modules/user_profil/views/downloaded_view.dart';
 import 'package:yaka2/app/modules/user_profil/views/user_profil_view.dart';
@@ -14,8 +13,8 @@ import 'package:yaka2/app/modules/user_profil/views/user_profil_view.dart';
 import '../controllers/home_controller.dart';
 import 'banners_view.dart';
 import 'category_view.dart';
-import 'listview_clothes_view.dart';
 import 'listview_collars_view.dart';
+import 'listview_machines_view.dart';
 
 class HomeView extends GetView<HomeController> {
   final UserProfilController userProfilController = Get.put(UserProfilController());
@@ -32,7 +31,7 @@ class HomeView extends GetView<HomeController> {
           BannersView(),
           CategoryView(),
           ListviewCollarsView(),
-          ListviewClothesView(),
+          // ListviewClothesView(),
           ListviewMachinesView(),
           const SizedBox(
             height: 40,
@@ -134,7 +133,7 @@ class HomeView extends GetView<HomeController> {
               : ProfilButton(
                   name: 'signUp',
                   onTap: () {
-                    Get.to(() => const TabbarView());
+                    Get.to(() => TabbarView());
                   },
                   icon: IconlyBold.login,
                   langIconStatus: false,

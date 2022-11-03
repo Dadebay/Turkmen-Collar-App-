@@ -6,15 +6,19 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/data/models/collar_model.dart';
+import 'package:yaka2/app/data/services/collars_service.dart';
 import 'package:yaka2/app/modules/buttons/agree_button.dart';
 import 'package:yaka2/app/modules/buttons/product_card.dart';
+import 'package:yaka2/app/modules/cards/home_product_card.dart';
 
 import '../../../constants/widgets.dart';
 
 class ShowAllProductsView extends StatefulWidget {
-  const ShowAllProductsView(this.name, {Key? key}) : super(key: key);
+  const ShowAllProductsView({Key? key, required this.name, required this.which}) : super(key: key);
 
   final String name;
+  final bool which;
 
   @override
   State<ShowAllProductsView> createState() => _ShowAllProductsViewState();
@@ -23,7 +27,6 @@ class ShowAllProductsView extends StatefulWidget {
 class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   String name = 'Janome';
   int value = 0;
-
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller1 = TextEditingController();
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
@@ -209,7 +212,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
+        title: Text(widget.name.tr),
         centerTitle: true,
         elevation: 2,
         actions: [leftSideAppBar()],
@@ -225,21 +228,37 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         header: const MaterialClassicHeader(
           color: kPrimaryColor,
         ),
-        child: StaggeredGridView.countBuilder(
-          crossAxisCount: 2,
-          itemCount: 13,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ProductCard(
-              index: index,
-              downloadable: false,
-              removeFavButton: false,
-            ),
-          ),
-          staggeredTileBuilder: (index) => StaggeredTile.count(
-            1,
-            index % 2 == 0 ? 1.4 : 1.6,
-          ),
+        child: FutureBuilder<List<CollarModel>>(
+          future: CollarService().getCollars(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: spinKit());
+            } else if (snapshot.hasError) {
+              return const Text('Error');
+            } else if (snapshot.data!.isEmpty) {
+              return const Text('No Kategory Image');
+            }
+            return StaggeredGridView.countBuilder(
+              crossAxisCount: 2,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return widget.which
+                    ? HomePageCard(image: snapshot.data![index].images!, name: snapshot.data![index].name!, price: '${snapshot.data![index].price!}', id: snapshot.data![index].id!, files: snapshot.data![index].files!)
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ProductCard(
+                          index: index,
+                          downloadable: false,
+                          removeFavButton: false,
+                        ),
+                      );
+              },
+              staggeredTileBuilder: (index) => StaggeredTile.count(
+                1,
+                index % 2 == 0 ? 1.4 : 1.6,
+              ),
+            );
+          },
         ),
       ),
     );

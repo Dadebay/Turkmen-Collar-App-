@@ -48,13 +48,13 @@ class _UserProfilViewState extends State<UserProfilView> {
           langIconStatus: true,
           langIcon: customIcon('assets/icons/usb3.png'),
         ),
-        ProfilButton(
-          name: 'fixMachine',
-          onTap: () {},
-          icon: Icons.usb,
-          langIconStatus: true,
-          langIcon: customIcon('assets/icons/mac8.png'),
-        ),
+        // ProfilButton(
+        //   name: 'fixMachine',
+        //   onTap: () {},
+        //   icon: Icons.usb,
+        //   langIconStatus: true,
+        //   langIcon: customIcon('assets/icons/mac8.png'),
+        // ),
         ProfilButton(
           name: 'shareUs',
           onTap: () {
@@ -105,7 +105,7 @@ class _UserProfilViewState extends State<UserProfilView> {
         ProfilButton(
           name: userProfilController.userLogin.value ? 'log_out' : 'signUp',
           onTap: () {
-            userProfilController.userLogin.value ? logOut() : Get.to(() => const TabbarView());
+            userProfilController.userLogin.value ? logOut() : Get.to(() => TabbarView());
           },
           icon: IconlyLight.login,
           langIconStatus: false,

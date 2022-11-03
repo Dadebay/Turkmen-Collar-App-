@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/data/models/banner_model.dart';
+import 'package:yaka2/app/data/models/machines_model.dart';
 
-class BannerService {
-  Future<List<BannerModel>> getBanners() async {
-    final List<BannerModel> bannerList = [];
+class MachineService {
+  Future<List<MachineModel>> getMachines() async {
+    final List<MachineModel> machineList = [];
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/v1/banners',
+        '$serverURL/api/v1/machines',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
@@ -20,18 +20,19 @@ class BannerService {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson['data']) {
-        bannerList.add(BannerModel.fromJson(product));
+        machineList.add(MachineModel.fromJson(product));
       }
-      return bannerList;
+      print(machineList);
+      return machineList;
     } else {
       return [];
     }
   }
 
-  Future<BannerModel> getBannerByID(int id) async {
+  Future<MachineModel> getMachineByID(int id) async {
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/v1/banners/$id',
+        '$serverURL/api/v1/machines/$id',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
@@ -41,9 +42,9 @@ class BannerService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      return BannerModel.fromJson(responseJson);
+      return MachineModel.fromJson(responseJson);
     } else {
-      return BannerModel();
+      return MachineModel();
     }
   }
 }

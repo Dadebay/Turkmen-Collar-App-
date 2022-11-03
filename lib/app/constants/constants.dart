@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 const String serverURL = 'http://95.85.125.234:8765';
+const String token = 'KmEaSMzlgXpatQBDXaRrf0nrFDpAIPfoMfv4Q7paNo06VlrJq1HC4J8oi6Uk';
+
 const Color kPrimaryColor = Color(0xff6dc792);
 const Color kPrimaryColorCard = Color.fromARGB(255, 240, 255, 246);
-// const Color kPrimaryColor1 = Theme.of(context).backgroundColor.withOpacity(0.4);
 const Color kBlackColor = Color(0xff000000);
 const Color kGreyColor = Color(0xff737373);
 
