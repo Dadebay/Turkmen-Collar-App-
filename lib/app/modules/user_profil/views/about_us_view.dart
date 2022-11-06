@@ -15,47 +15,66 @@ class AboutUsView extends GetView {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(
+            IconlyLight.arrowLeftCircle,
+            color: Colors.black,
+          ),
+        ),
         backgroundColor: Colors.white,
-        elevation: 2,
         title: Text(
           'aboutUS'.tr,
+          style: const TextStyle(color: Colors.black),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(14.0),
-        child: FutureBuilder<AboutUsModel>(
-          future: AboutUsService().getAboutUs(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: spinKit());
-            } else if (snapshot.hasError) {
-              return const Text('error');
-            } else if (snapshot.data == null) {
-              return const Text('null');
-            }
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 8),
-                  child: Text(
-                    'contactInformation'.tr,
-                    style: const TextStyle(color: Colors.white, fontSize: 20),
+      body: FutureBuilder<AboutUsModel>(
+        future: AboutUsService().getAboutUs(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: spinKit());
+          } else if (snapshot.hasError) {
+            return const Text('error');
+          } else if (snapshot.data == null) {
+            return const Text('null');
+          }
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Divider(
+                color: kPrimaryColor,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15, bottom: 10),
+                        child: Text(
+                          'contactInformation'.tr,
+                          style: const TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ),
+                      Text(
+                        snapshot.data!.body!,
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                    ],
                   ),
                 ),
-                simpleWidget(
-                  icon: IconlyBold.message,
-                  name: snapshot.data!.email!,
-                ),
-                simpleWidget(
-                  icon: IconlyBold.location,
-                  name: Get.locale?.languageCode == 'tr' ? snapshot.data!.addressTM! : snapshot.data!.addressRu!,
-                ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -77,7 +96,7 @@ class AboutUsView extends GetView {
       title: Text(
         name,
         textAlign: TextAlign.start,
-        style: const TextStyle(fontSize: 18, color: Colors.white),
+        style: const TextStyle(fontSize: 18, color: Colors.black),
       ),
     );
   }

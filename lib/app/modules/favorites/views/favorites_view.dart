@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
-import 'package:yaka2/app/modules/buttons/product_card.dart';
-import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 
 import '../controllers/favorites_controller.dart';
 
@@ -21,7 +19,7 @@ class FavoritesView extends GetView<FavoritesController> {
       ),
       body: StaggeredGridView.countBuilder(
         crossAxisCount: 2,
-        itemCount: Get.find<HomeController>().favList.length,
+        itemCount: Get.find<FavoritesController>().favList.length,
         itemBuilder: (context, index) {
           return const Text('as');
         },

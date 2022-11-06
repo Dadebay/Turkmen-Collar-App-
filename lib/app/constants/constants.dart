@@ -6,7 +6,7 @@ const String token = 'KmEaSMzlgXpatQBDXaRrf0nrFDpAIPfoMfv4Q7paNo06VlrJq1HC4J8oi6
 const Color kPrimaryColor = Color(0xff6dc792);
 const Color kPrimaryColorCard = Color.fromARGB(255, 240, 255, 246);
 const Color kBlackColor = Color(0xff000000);
-const Color kGreyColor = Color(0xff737373);
+const Color kGreyColor = Color.fromARGB(255, 234, 234, 234);
 
 ///BorderRadius
 const BorderRadius borderRadius5 = BorderRadius.all(Radius.circular(5));
@@ -24,9 +24,9 @@ const String normProBold = 'NormsProBold';
 const String tmIcon = 'assets/image/tm.png';
 const String ruIcon = 'assets/image/ru.png';
 const String logo = 'assets/image/logo.png';
-const String loader = 'assets/lottie/pubg.json';
+const String loader1 = 'assets/lottie/loader1.json';
 const String shareIcon = 'assets/icons/share1.png';
-const String appName = 'YAKA 2';
+const String appName = 'ÝAKKA';
 const String appShareLink = 'https://ucdayy.online/';
 /////////////////////////////////////////////////
 

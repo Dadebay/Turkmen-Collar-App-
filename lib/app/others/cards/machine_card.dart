@@ -3,22 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/modules/product_profil/views/machines_product_profil.dart';
+import 'package:yaka2/app/data/models/machines_model.dart';
+import 'package:yaka2/app/others/buttons/add_cart_button.dart';
+
+import '../product_profil/views/machines_product_profil.dart';
 
 class MachineCard extends StatelessWidget {
   const MachineCard({
     Key? key,
-    required this.id,
-    required this.image,
-    required this.name,
-    required this.description,
-    required this.price,
+    required this.model,
   }) : super(key: key);
-  final List image;
-  final int id;
-  final String name;
-  final String description;
-  final String price;
+  final MachineModel model;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,14 +23,14 @@ class MachineCard extends StatelessWidget {
         onPressed: () {
           Get.to(
             () => MachinesProductProfil(
-              id: id,
-              image: image,
+              id: model.id!,
+              image: model.images!,
             ),
           );
         },
         style: ElevatedButton.styleFrom(
           elevation: 0.3,
-          backgroundColor: kPrimaryColorCard,
+          primary: kPrimaryColorCard,
           padding: EdgeInsets.zero,
           shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
         ),
@@ -56,7 +51,7 @@ class MachineCard extends StatelessWidget {
                   borderRadius: borderRadius10,
                   child: CachedNetworkImage(
                     fadeInCurve: Curves.ease,
-                    imageUrl: image[0],
+                    imageUrl: model.images![0],
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         borderRadius: borderRadius10,
@@ -81,20 +76,10 @@ class MachineCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      name,
+                      model.name!,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.black, fontSize: 19),
-                    ),
-                    Text(
-                      description,
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontFamily: normsProLight,
-                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
@@ -104,7 +89,7 @@ class MachineCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            price,
+                            '${model.price!}',
                             style: const TextStyle(
                               color: Colors.red,
                               fontSize: 21,
@@ -126,7 +111,7 @@ class MachineCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateTime.now().toString().substring(0, 10),
+                      model.createdAt!,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -135,6 +120,7 @@ class MachineCard extends StatelessWidget {
                         fontFamily: normsProRegular,
                       ),
                     ),
+                    AddCartButton(id: model.id!, price: '${model.price!}', productProfil: false)
                   ],
                 ),
               ),

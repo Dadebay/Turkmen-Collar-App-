@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:yaka2/app/constants/constants.dart';
@@ -12,8 +13,8 @@ dynamic noBannerImage() {
 }
 
 dynamic spinKit() {
-  return const CircularProgressIndicator(
-    color: kPrimaryColor,
+  return Lottie.asset(
+    loader1,
   );
 }
 
@@ -26,11 +27,11 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
         ? const SizedBox.shrink()
         : Text(
             title.tr,
-            style: const TextStyle(fontFamily: normProBold, fontSize: 18, color: Colors.white),
+            style: const TextStyle(fontFamily: normsProMedium, fontSize: 18, color: Colors.white),
           ),
     messageText: Text(
       subtitle.tr,
-      style: const TextStyle(fontFamily: normsProMedium, fontSize: 16, color: Colors.white),
+      style: const TextStyle(fontFamily: normsProRegular, fontSize: 16, color: Colors.white),
     ),
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: color,
@@ -51,21 +52,23 @@ Container divider() {
   );
 }
 
-Padding namePart({required String text, required Function() onTap}) {
+Padding namePart({required String text, required bool removeIcon, required Function() onTap}) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(text.tr, style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 22)),
-        IconButton(
-          onPressed: onTap,
-          icon: const Icon(
-            IconlyLight.arrowRightCircle,
-            color: kPrimaryColor,
-            size: 25,
-          ),
-        )
+        removeIcon
+            ? SizedBox.shrink()
+            : IconButton(
+                onPressed: onTap,
+                icon: const Icon(
+                  IconlyLight.arrowRightCircle,
+                  color: kPrimaryColor,
+                  size: 25,
+                ),
+              )
       ],
     ),
   );

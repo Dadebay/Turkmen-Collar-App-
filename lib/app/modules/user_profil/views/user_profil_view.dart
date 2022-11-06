@@ -7,8 +7,8 @@ import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
-import 'package:yaka2/app/modules/buttons/profile_button.dart';
 import 'package:yaka2/app/modules/user_profil/views/about_us_view.dart';
+import 'package:yaka2/app/others/buttons/profile_button.dart';
 
 import '../controllers/user_profil_controller.dart';
 import 'instruction_view.dart';
@@ -27,9 +27,19 @@ class _UserProfilViewState extends State<UserProfilView> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        elevation: 3,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(
+            IconlyLight.arrowLeftCircle,
+            color: Colors.black,
+          ),
+        ),
         title: Text(
           'profil'.tr,
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: Obx(() {
@@ -48,13 +58,6 @@ class _UserProfilViewState extends State<UserProfilView> {
           langIconStatus: true,
           langIcon: customIcon('assets/icons/usb3.png'),
         ),
-        // ProfilButton(
-        //   name: 'fixMachine',
-        //   onTap: () {},
-        //   icon: Icons.usb,
-        //   langIconStatus: true,
-        //   langIcon: customIcon('assets/icons/mac8.png'),
-        // ),
         ProfilButton(
           name: 'shareUs',
           onTap: () {

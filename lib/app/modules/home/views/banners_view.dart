@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/data/models/banner_model.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/others/cards/banner_card.dart';
 
-import '../../cards/banner_card.dart';
 import '../controllers/home_controller.dart';
 
 class BannersView extends GetView {
@@ -19,7 +19,7 @@ class BannersView extends GetView {
       future: bannerController.future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+          return loaderBanner();
         } else if (snapshot.hasError) {
           return const Text('Error');
         } else if (snapshot.data!.isEmpty) {
@@ -34,6 +34,7 @@ class BannersView extends GetView {
                 return BannerCard(
                   image: snapshot.data![index].image!,
                   name: snapshot.data![index].title!,
+                  description: snapshot.data![index].description!,
                 );
               },
               options: CarouselOptions(
@@ -48,14 +49,14 @@ class BannersView extends GetView {
                 autoPlayAnimationDuration: const Duration(milliseconds: 2000),
               ),
             ),
-            dots()
+            dots(snapshot.data!.length)
           ],
         );
       },
     );
   }
 
-  SizedBox dots() {
+  SizedBox dots(int length) {
     return SizedBox(
       height: 4,
       width: Get.size.width,
@@ -63,7 +64,7 @@ class BannersView extends GetView {
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount: 7,
+          itemCount: length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(() {
               return dot(index);

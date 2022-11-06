@@ -1,220 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/data/models/collar_model.dart';
-import 'package:yaka2/app/data/services/collars_service.dart';
-import 'package:yaka2/app/modules/buttons/agree_button.dart';
-import 'package:yaka2/app/modules/buttons/product_card.dart';
-import 'package:yaka2/app/modules/cards/home_product_card.dart';
+import 'package:yaka2/app/data/services/category_service.dart';
+import 'package:yaka2/app/modules/home/views/show_all_product_widgets.dart';
+import 'package:yaka2/app/others/buttons/agree_button.dart';
+import 'package:yaka2/app/others/cards/product_card.dart';
 
 import '../../../constants/widgets.dart';
 
 class ShowAllProductsView extends StatefulWidget {
-  const ShowAllProductsView({Key? key, required this.name, required this.which}) : super(key: key);
+  const ShowAllProductsView({Key? key, required this.name, required this.isCollar, required this.id}) : super(key: key);
 
+  final int id;
   final String name;
-  final bool which;
+  final bool isCollar;
 
   @override
   State<ShowAllProductsView> createState() => _ShowAllProductsViewState();
 }
 
 class _ShowAllProductsViewState extends State<ShowAllProductsView> {
-  String name = 'Janome';
-  int value = 0;
-  final TextEditingController _controller = TextEditingController();
-  final TextEditingController _controller1 = TextEditingController();
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
-
-  Padding leftSideAppBar() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            onPressed: () {
-              defaultBottomSheet(
-                name: 'sort'.tr,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: sortData.length,
-                  itemBuilder: (context, index) {
-                    return RadioListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                      value: index,
-                      tileColor: kBlackColor,
-                      selectedTileColor: kBlackColor,
-                      activeColor: kPrimaryColor,
-                      groupValue: value,
-                      onChanged: (ind) {
-                        final int a = int.parse(ind.toString());
-                        value = a;
-                        Get.back();
-                      },
-                      title: Text(
-                        "${sortData[index]["name"]}".tr,
-                        style: const TextStyle(color: Colors.black, fontFamily: normsProRegular),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-            icon: const Icon(
-              IconlyLight.filter,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          GestureDetector(
-            onTap: () {
-              defaultBottomSheet(
-                name: 'Filter'.tr,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      selectMachineType(),
-                      Divider(
-                        color: kPrimaryColor.withOpacity(0.4),
-                        thickness: 2,
-                      ),
-                      twoTextEditingField(controller1: _controller, controller2: _controller1),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: AgreeButton(
-                          onTap: () {
-                            Get.back();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-            child: const Icon(
-              IconlyLight.filter2,
-              color: Colors.black,
-              size: 30,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget twoTextEditingField({required TextEditingController controller1, required TextEditingController controller2}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 20),
-            child: Text('priceRange'.tr, style: const TextStyle(fontFamily: normsProRegular, fontSize: 19, color: Colors.black)),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  style: const TextStyle(fontFamily: normsProMedium, fontSize: 18),
-                  cursorColor: kPrimaryColor,
-                  controller: controller1,
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(9),
-                  ],
-                  decoration: InputDecoration(
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: normProBold, fontSize: 14, color: Colors.grey.shade400)),
-                    ),
-                    suffixIconConstraints: const BoxConstraints(minHeight: 15),
-                    isDense: true,
-                    hintText: 'minPrice'.tr,
-                    hintStyle: TextStyle(fontFamily: normsProMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: const OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: kPrimaryColor, width: 2),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 15,
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                height: 2,
-                color: Colors.grey,
-              ),
-              Expanded(
-                child: TextFormField(
-                  style: const TextStyle(fontFamily: normsProMedium, fontSize: 18),
-                  cursorColor: kPrimaryColor,
-                  controller: controller2,
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    // LengthLimitingTextInputFormatter(9),
-                  ],
-                  decoration: InputDecoration(
-                    suffixIcon: Padding(padding: const EdgeInsets.only(right: 8), child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: normProBold, fontSize: 14, color: Colors.grey.shade400))),
-                    suffixIconConstraints: const BoxConstraints(minHeight: 15),
-                    isDense: true,
-                    hintText: 'maxPrice'.tr,
-                    hintStyle: TextStyle(fontFamily: normsProMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: const OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: kPrimaryColor, width: 2),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
-    setState(() {});
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name.tr),
+        title: Text(
+          widget.name.tr,
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
-        elevation: 2,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(
+            IconlyLight.arrowLeftCircle,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.white,
         actions: [leftSideAppBar()],
       ),
       body: SmartRefresher(
@@ -228,29 +57,36 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         header: const MaterialClassicHeader(
           color: kPrimaryColor,
         ),
-        child: FutureBuilder<List<CollarModel>>(
-          future: CollarService().getCollars(),
+        child: FutureBuilder<List<dynamic>>(
+          future: CategoryService().getCategoryByID(widget.id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (snapshot.hasError) {
               return const Text('Error');
             } else if (snapshot.data!.isEmpty) {
-              return const Text('No Kategory Image');
+              return Center(child: const Text('No Kategory Image'));
             }
             return StaggeredGridView.countBuilder(
               crossAxisCount: 2,
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                return widget.which
-                    ? HomePageCard(image: snapshot.data![index].images!, name: snapshot.data![index].name!, price: '${snapshot.data![index].price!}', id: snapshot.data![index].id!, files: snapshot.data![index].files!)
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ProductCard(
-                          index: index,
-                          downloadable: false,
-                          removeFavButton: false,
-                        ),
+                return widget.isCollar
+                    ? ProductCard(
+                        image: snapshot.data![index].images ?? [],
+                        name: '${snapshot.data![index].name}',
+                        price: '${snapshot.data![index].price}',
+                        id: snapshot.data![index].id!,
+                        files: snapshot.data![index].files!,
+                        downloadable: true,
+                      )
+                    : ProductCard(
+                        image: snapshot.data![index].images!,
+                        name: '${snapshot.data![index].name}',
+                        price: '${snapshot.data![index].price}',
+                        id: snapshot.data![index].id!,
+                        downloadable: false,
+                        files: [],
                       );
               },
               staggeredTileBuilder: (index) => StaggeredTile.count(
@@ -262,6 +98,23 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         ),
       ),
     );
+  }
+
+  String name = 'Janome';
+  int value = 0;
+  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller1 = TextEditingController();
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.refreshCompleted();
+    setState(() {});
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
   }
 
   Padding selectMachineType() {
@@ -316,6 +169,90 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Padding leftSideAppBar() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: () {
+              defaultBottomSheet(
+                name: 'sort'.tr,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: sortData.length,
+                  itemBuilder: (context, index) {
+                    return RadioListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                      value: index,
+                      tileColor: kBlackColor,
+                      selectedTileColor: kBlackColor,
+                      activeColor: kPrimaryColor,
+                      groupValue: value,
+                      onChanged: (ind) {
+                        final int a = int.parse(ind.toString());
+                        value = a;
+                        Get.back();
+                      },
+                      title: Text(
+                        "${sortData[index]["name"]}".tr,
+                        style: const TextStyle(color: Colors.black, fontFamily: normsProRegular),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+            icon: const Icon(
+              IconlyLight.filter,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          GestureDetector(
+            onTap: () {
+              defaultBottomSheet(
+                name: 'Filter'.tr,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      widget.isCollar ? selectMachineType() : SizedBox.shrink(),
+                      widget.isCollar
+                          ? Divider(
+                              color: kPrimaryColor.withOpacity(0.4),
+                              thickness: 2,
+                            )
+                          : SizedBox.shrink(),
+                      twoTextEditingField(controller1: _controller, controller2: _controller1),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: AgreeButton(
+                          onTap: () {
+                            Get.back();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            child: const Icon(
+              IconlyLight.filter2,
+              color: Colors.black,
+              size: 30,
+            ),
+          ),
+        ],
       ),
     );
   }

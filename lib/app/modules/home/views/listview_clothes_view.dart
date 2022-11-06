@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/data/models/collar_model.dart';
+import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
+import 'package:yaka2/app/others/cards/product_card.dart';
 
-import '../../cards/home_product_card.dart';
+import '../../../data/services/dresses_service.dart';
 
 class ListviewClothesView extends GetView {
   ListviewClothesView({Key? key}) : super(key: key);
@@ -13,45 +15,45 @@ class ListviewClothesView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<CollarModel>>(
-      future: homeController.dresses,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: spinKit());
-        } else if (snapshot.hasError) {
-          return const Text('Error');
-        } else if (snapshot.data!.isEmpty) {
-          return const Text('No Kategory Image');
-        }
-        print(snapshot.error);
-        return Container(
-          height: 320,
-          margin: const EdgeInsets.only(top: 25),
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              namePart(text: 'womenClothes', onTap: () {}),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 5,
+    return Container(
+      height: 320,
+      margin: const EdgeInsets.only(top: 25),
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          namePart(text: 'womenClothes', onTap: () {}, removeIcon: true),
+          Expanded(
+            child: FutureBuilder<List<DressesModel>>(
+              future: DressesService().getDresses(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return loaderCollar();
+                } else if (snapshot.hasError) {
+                  return const Text('Error');
+                } else if (snapshot.data!.isEmpty) {
+                  return const Text('No Kategory Image');
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
-                    return HomePageCard(
+                    return ProductCard(
                       image: snapshot.data![index].images!,
                       name: '${snapshot.data![index].name}',
                       price: '${snapshot.data![index].price}',
-                      files: snapshot.data![index].files!,
                       id: snapshot.data![index].id!,
+                      downloadable: false,
+                      files: [],
                     );
                   },
-                ),
-              )
-            ],
-          ),
-        );
-      },
+                );
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

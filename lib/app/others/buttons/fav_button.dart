@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
+import 'package:yaka2/app/modules/favorites/controllers/favorites_controller.dart';
 
 class FavButton extends StatefulWidget {
-  const FavButton({super.key, required this.whcihPage, required this.id});
+  const FavButton({required this.whcihPage, required this.id});
   final bool whcihPage;
   final int id;
   @override
@@ -14,7 +14,7 @@ class FavButton extends StatefulWidget {
 
 class _FavButtonState extends State<FavButton> {
   bool value = false;
-  final HomeController homeController = Get.put(HomeController());
+  final FavoritesController favoritesController = Get.put(FavoritesController());
   @override
   void initState() {
     super.initState();
@@ -22,7 +22,7 @@ class _FavButtonState extends State<FavButton> {
   }
 
   dynamic work() {
-    for (var element in homeController.favList) {
+    for (var element in favoritesController.favList) {
       if (element['id'] == widget.id) {
         value = true;
       }
@@ -38,7 +38,7 @@ class _FavButtonState extends State<FavButton> {
         onTap: () {
           setState(() {
             value = !value;
-            homeController.toggleFav(widget.id);
+            favoritesController.toggleFav(widget.id);
           });
         },
         child: Container(

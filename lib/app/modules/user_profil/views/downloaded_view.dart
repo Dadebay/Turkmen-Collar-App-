@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
-import 'package:yaka2/app/modules/buttons/product_card.dart';
 
 class DownloadedView extends GetView {
   const DownloadedView({Key? key}) : super(key: key);
@@ -20,11 +19,10 @@ class DownloadedView extends GetView {
         itemCount: 13,
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ProductCard(
-            index: index,
-            downloadable: true,
-            removeFavButton: true,
-          ),
+          // child:
+          //  ProductCard(
+          //   downloadable: true,
+          // ),
         ),
         staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
       ),

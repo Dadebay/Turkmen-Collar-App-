@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/custom_text_field.dart';
 import 'package:yaka2/app/constants/phone_number.dart';
-import 'package:yaka2/app/modules/buttons/agree_button.dart';
+import 'package:yaka2/app/others/buttons/agree_button.dart';
 
 class SignInView extends GetView {
   TextEditingController fullNameController = TextEditingController();

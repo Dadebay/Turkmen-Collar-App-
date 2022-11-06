@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/modules/auth/connection_check/views/connection_check.dart';
 
-import 'app/routes/app_pages.dart';
 import 'app/utils/translations.dart';
 
 Future<void> main() async {
@@ -14,12 +14,10 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -36,6 +34,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: normsProRegular,
         colorSchemeSeed: kPrimaryColor,
         useMaterial3: true,
+        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       fallbackLocale: const Locale('tr'),
@@ -46,8 +45,7 @@ class _MyAppState extends State<MyApp> {
             ),
       translations: MyTranslations(),
       defaultTransition: Transition.fade,
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
+      home: ConnectionCheckpage(),
     );
   }
 }

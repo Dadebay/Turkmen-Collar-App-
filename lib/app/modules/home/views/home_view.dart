@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
-import 'package:yaka2/app/modules/buttons/profile_button.dart';
+import 'package:yaka2/app/modules/cart/views/cart_view.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:yaka2/app/modules/user_profil/views/downloaded_view.dart';
 import 'package:yaka2/app/modules/user_profil/views/user_profil_view.dart';
+import 'package:yaka2/app/others/buttons/profile_button.dart';
 
 import '../controllers/home_controller.dart';
 import 'banners_view.dart';
 import 'category_view.dart';
+import 'listview_clothes_view.dart';
 import 'listview_collars_view.dart';
 import 'listview_machines_view.dart';
 
 class HomeView extends GetView<HomeController> {
   final UserProfilController userProfilController = Get.put(UserProfilController());
-
+  var scaffoldKey = GlobalKey<ScaffoldState>();
   HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       resizeToAvoidBottomInset: false,
-      appBar: appBar(),
+      appBar: appBar(context),
       drawer: drawer(),
       body: ListView(
         children: [
           BannersView(),
           CategoryView(),
+          SizedBox(
+            height: 20,
+          ),
           ListviewCollarsView(),
-          // ListviewClothesView(),
+          ListviewClothesView(),
           ListviewMachinesView(),
           const SizedBox(
             height: 40,
@@ -41,14 +48,24 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  AppBar appBar() {
+  AppBar appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      elevation: 4,
+      elevation: 0,
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white),
       centerTitle: true,
       title: const Text(
         'Yaka',
-        style: TextStyle(fontFamily: normProBold),
+        style: TextStyle(fontFamily: normProBold, color: Colors.black),
+      ),
+      leading: IconButton(
+        icon: const Icon(
+          Icons.menu,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          scaffoldKey.currentState?.openDrawer();
+        },
       ),
       actions: [
         Center(
@@ -110,6 +127,14 @@ class HomeView extends GetView<HomeController> {
               Get.to(() => const FavoritesView());
             },
             icon: IconlyBold.heart,
+            langIconStatus: false,
+          ),
+          ProfilButton(
+            name: 'cart',
+            onTap: () {
+              Get.to(() => CartView());
+            },
+            icon: IconlyBold.bag2,
             langIconStatus: false,
           ),
           ProfilButton(

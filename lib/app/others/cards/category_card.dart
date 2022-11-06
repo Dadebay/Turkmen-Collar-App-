@@ -2,23 +2,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/modules/home/views/show_all_products_view.dart';
 
 import '../../constants/constants.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
     Key? key,
+    required this.id,
     required this.name,
     required this.image,
+    required this.isCollar,
   }) : super(key: key);
 
+  final int id;
   final String name;
   final String image;
+  final bool isCollar;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Get.to(() => ShowAllProductsView(name));
+        Get.to(() => ShowAllProductsView(name: name, id: id, isCollar: isCollar));
       },
       child: Stack(
         children: [

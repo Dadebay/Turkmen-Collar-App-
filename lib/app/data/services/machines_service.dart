@@ -22,7 +22,6 @@ class MachineService {
       for (final Map product in responseJson['data']) {
         machineList.add(MachineModel.fromJson(product));
       }
-      print(machineList);
       return machineList;
     } else {
       return [];

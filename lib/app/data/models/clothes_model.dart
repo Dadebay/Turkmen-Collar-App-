@@ -1,23 +1,27 @@
-class MachineModel {
+// ignore_for_file: unnecessary_null_comparison
+
+class DressesModel {
   final int? id;
+  final String? name;
+  final String? description;
   final int? price;
   final int? views;
   final String? createdAt;
-  final String? name;
-  final List? images;
 
-  final String? description;
-  MachineModel({
-    this.id,
+  final List? images;
+  final String? category;
+  DressesModel({
     this.name,
     this.createdAt,
+    this.category,
     this.description,
-    this.images,
     this.price,
     this.views,
+    this.images,
+    this.id,
   });
 
-  factory MachineModel.fromJson(Map<dynamic, dynamic> json) {
+  factory DressesModel.fromJson(Map<dynamic, dynamic> json) {
     final List image = json['images'] as List;
     List<dynamic> images = [];
     if (image == null) {
@@ -25,14 +29,16 @@ class MachineModel {
     } else {
       images = image.map((value) => value).toList();
     }
-    return MachineModel(
+
+    return DressesModel(
       id: json['id'],
-      name: json['name'],
       createdAt: json['created_at'],
-      images: images,
-      views: json['views'],
+      name: json['name'],
       description: json['description'],
       price: json['price'],
+      views: json['views'],
+      category: json['category']['name'],
+      images: images,
     );
   }
 }

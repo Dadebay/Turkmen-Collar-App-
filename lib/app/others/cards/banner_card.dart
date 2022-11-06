@@ -3,24 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-
-import '../home/views/banner_profile_view.dart';
+import 'package:yaka2/app/modules/home/views/banner_profile_view.dart';
 
 class BannerCard extends StatelessWidget {
   final String image;
   final String name;
+  final String description;
 
   const BannerCard({
     required this.image,
     Key? key,
     required this.name,
+    required this.description,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Get.to(() => BannerProfileView(name, image));
+        Get.to(() => BannerProfileView(name, image, description));
       },
       child: Container(
         margin: const EdgeInsets.all(8),
