@@ -42,15 +42,16 @@ class CategoryService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       if (CategoryModel.fromJson(responseJson).isCollar ?? false) {
-        for (final Map product in responseJson['collars']) {
+        for (final Map product in responseJson['collars']['data']) {
           categoryList.add(CollarModel.fromJson(product));
         }
       } else {
-        for (final Map product in responseJson['products']) {
+        for (final Map product in responseJson['products']['data']) {
           categoryList.add(DressesModel.fromJson(product));
         }
       }

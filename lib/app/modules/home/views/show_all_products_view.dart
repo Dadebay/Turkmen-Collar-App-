@@ -67,6 +67,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             } else if (snapshot.data!.isEmpty) {
               return Center(child: const Text('No Kategory Image'));
             }
+            print(snapshot.error);
             return StaggeredGridView.countBuilder(
               crossAxisCount: 2,
               itemCount: snapshot.data!.length,
@@ -79,6 +80,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         id: snapshot.data![index].id!,
                         files: snapshot.data![index].files!,
                         downloadable: true,
+                        createdAt: snapshot.data![index].createdAt!,
                       )
                     : ProductCard(
                         image: snapshot.data![index].images!,
@@ -87,6 +89,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         id: snapshot.data![index].id!,
                         downloadable: false,
                         files: [],
+                        createdAt: snapshot.data![index].createdAt!,
                       );
               },
               staggeredTileBuilder: (index) => StaggeredTile.count(

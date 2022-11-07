@@ -33,7 +33,7 @@ class TabbarView extends StatelessWidget {
                     child: const Text(
                       appName,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: kPrimaryColor, fontFamily: normProBold, fontSize: 26),
+                      style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 26),
                     ),
                   ),
                 ),
@@ -55,15 +55,15 @@ class TabbarView extends StatelessWidget {
                         child: TabBar(
                           indicatorSize: TabBarIndicatorSize.label,
                           isScrollable: true,
-                          indicatorColor: Colors.white,
+                          indicatorColor: Colors.black,
                           automaticIndicatorColorAdjustment: true,
                           labelStyle: const TextStyle(fontFamily: normsProMedium, fontSize: 22),
                           unselectedLabelStyle: const TextStyle(fontFamily: normsProMedium),
-                          labelColor: Colors.white,
+                          labelColor: Colors.black,
                           indicatorWeight: 4,
                           indicatorPadding: const EdgeInsets.only(top: 45),
-                          indicator: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                          unselectedLabelColor: Colors.grey,
+                          indicator: const BoxDecoration(color: Colors.black, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                          unselectedLabelColor: Colors.white54,
                           tabs: [
                             Tab(
                               text: 'signUp'.tr,

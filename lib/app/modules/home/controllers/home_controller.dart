@@ -13,7 +13,7 @@ import 'package:yaka2/app/data/services/machines_service.dart';
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
   RxBool agreeButton = false.obs;
-
+  RxInt balance = 0.obs;
   late final Future<List<BannerModel>> future;
   late final Future<List<CategoryModel>> category;
   late final Future<List<CollarModel>> collars;

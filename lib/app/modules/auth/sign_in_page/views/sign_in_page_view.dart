@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/custom_text_field.dart';
 import 'package:yaka2/app/constants/phone_number.dart';
+import 'package:yaka2/app/data/services/login_sig_in_service.dart';
+import 'package:yaka2/app/modules/auth/sign_in_page/views/otp_check.dart';
 import 'package:yaka2/app/others/buttons/agree_button.dart';
 
 class SignInView extends GetView {
@@ -50,7 +52,15 @@ class SignInView extends GetView {
               const SizedBox(
                 height: 10,
               ),
-              AgreeButton(onTap: () {})
+              AgreeButton(
+                onTap: () {
+                  SignInService().login(phone: '+993${phoneNumberController.text}').then((value) {
+                    if (value == 201) {
+                      Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text));
+                    }
+                  });
+                },
+              )
             ],
           ),
         ),

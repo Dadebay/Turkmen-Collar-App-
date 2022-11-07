@@ -3,53 +3,53 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
-
-import '../product_profil/views/machines_product_profil.dart';
 
 class CardCart extends StatelessWidget {
   const CardCart({
     Key? key,
+    required this.name,
+    required this.price,
+    required this.image,
+    required this.createdAt,
+    required this.id,
   }) : super(key: key);
+  final int id;
+  final String name;
+  final String image;
+  final String price;
+  final String createdAt;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: Get.size.width / 1.2,
-      margin: const EdgeInsets.only(left: 15, bottom: 5),
+      width: Get.size.width,
+      height: Get.size.height / 5,
+      margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
       child: ElevatedButton(
-        onPressed: () {
-          // Get.to(
-          //   () => MachinesProductProfil(
-          //     id: model.id!,
-          //     image: model.images!,
-          //   ),
-          // );
-        },
+        onPressed: () {},
         style: ElevatedButton.styleFrom(
           elevation: 0.3,
-          primary: kPrimaryColorCard,
+          primary: kGreyColor,
           padding: EdgeInsets.zero,
-          shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
+          shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
         ),
         child: Row(
           children: [
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Container(
-                margin: const EdgeInsets.all(8),
+                margin: const EdgeInsets.all(12),
                 width: Get.size.width,
                 height: Get.size.height,
                 decoration: const BoxDecoration(
                   borderRadius: borderRadius10,
                   color: Colors.white,
                 ),
-                padding: const EdgeInsets.all(8),
                 child: ClipRRect(
                   borderRadius: borderRadius10,
                   child: CachedNetworkImage(
                     fadeInCurve: Curves.ease,
-                    imageUrl: '',
+                    imageUrl: image,
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         borderRadius: borderRadius10,
@@ -68,13 +68,13 @@ class CardCart extends StatelessWidget {
             Expanded(
               flex: 3,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: const EdgeInsets.only(top: 14, bottom: 10, left: 14, right: 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      ' model.name!',
+                      name,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.black, fontSize: 19),
@@ -87,7 +87,7 @@ class CardCart extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'sdfs}',
+                            price,
                             style: const TextStyle(
                               color: Colors.red,
                               fontSize: 21,
@@ -109,7 +109,7 @@ class CardCart extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      ' model.createdAt!',
+                      createdAt,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -118,7 +118,14 @@ class CardCart extends StatelessWidget {
                         fontFamily: normsProRegular,
                       ),
                     ),
-                    AddCartButton(id: 1, price: 'asd', productProfil: false)
+                    AddCartButton(
+                      id: id,
+                      price: price,
+                      productProfil: false,
+                      createdAt: createdAt,
+                      image: '',
+                      name: name,
+                    )
                   ],
                 ),
               ),

@@ -10,10 +10,16 @@ class AddCartButton extends StatefulWidget {
     required this.id,
     required this.price,
     required this.productProfil,
+    required this.name,
+    required this.image,
+    required this.createdAt,
   }) : super(key: key);
 
   final int id;
   final String price;
+  final String name;
+  final String image;
+  final String createdAt;
   final bool productProfil;
 
   @override
@@ -77,7 +83,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                                 ? BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(10), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(10))
                                 : BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(7), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(7)),
                           ),
-                          child: Icon(CupertinoIcons.minus, color: Colors.white, size: widget.productProfil ? 26 : 20),
+                          child: Icon(CupertinoIcons.minus, color: Colors.black, size: widget.productProfil ? 26 : 20),
                         ),
                       ),
                     ),
@@ -96,7 +102,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                       child: GestureDetector(
                         onTap: () {
                           quantity++;
-                          cartController.addToCard(widget.id);
+                          cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
                           setState(() {});
                         },
                         child: Container(
@@ -107,7 +113,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                                 ? BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(20), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(20))
                                 : BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(15), bottomLeft: Radius.circular(7), bottomRight: Radius.circular(15)),
                           ),
-                          child: Icon(CupertinoIcons.add, color: Colors.white, size: widget.productProfil ? 26 : 20),
+                          child: Icon(CupertinoIcons.add, color: Colors.black, size: widget.productProfil ? 26 : 20),
                         ),
                       ),
                     ),
@@ -117,7 +123,7 @@ class _AddCartButtonState extends State<AddCartButton> {
             : GestureDetector(
                 onTap: () {
                   addCartBool = !addCartBool;
-                  cartController.addToCard(widget.id);
+                  cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
 
                   setState(() {});
                 },
@@ -132,9 +138,9 @@ class _AddCartButtonState extends State<AddCartButton> {
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.productProfil ? 10 : 4),
                   decoration: BoxDecoration(
                     color: kPrimaryColor,
-                    borderRadius: widget.productProfil ? borderRadius20 : borderRadius5,
+                    borderRadius: widget.productProfil ? borderRadius20 : borderRadius10,
                   ),
-                  child: Text('addCart'.tr, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: normsProMedium, fontSize: widget.productProfil ? 22 : 16)),
+                  child: Text('addCart'.tr, textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: widget.productProfil ? 22 : 16)),
                 ),
               ),
       );

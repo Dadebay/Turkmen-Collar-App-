@@ -34,12 +34,15 @@ class HomeView extends GetView<HomeController> {
         children: [
           BannersView(),
           CategoryView(),
-          SizedBox(
-            height: 20,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: ListviewCollarsView(),
           ),
-          ListviewCollarsView(),
           ListviewClothesView(),
-          ListviewMachinesView(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: ListviewMachinesView(),
+          ),
           const SizedBox(
             height: 40,
           )
@@ -52,7 +55,7 @@ class HomeView extends GetView<HomeController> {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white),
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
       centerTitle: true,
       title: const Text(
         'Yaka',

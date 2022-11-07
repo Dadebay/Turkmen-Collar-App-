@@ -15,11 +15,12 @@ import '../product_profil/views/product_profil_view.dart';
 class ProductCard extends StatelessWidget {
   final List image;
   final String name;
+  final String createdAt;
   final int id;
   final String price;
   final List<FilesModel> files;
   final bool downloadable;
-  const ProductCard({required this.image, required this.name, required this.price, required this.id, required this.files, required this.downloadable});
+  const ProductCard({required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,6 +40,8 @@ class ProductCard extends StatelessWidget {
               files: files,
               price: price,
               image: image,
+              name: name,
+              createdAt: createdAt,
               id: id,
             ),
           );
@@ -194,7 +197,7 @@ class ProductCard extends StatelessWidget {
                     child: Text(
                       'download'.tr,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white, fontFamily: normsProMedium),
+                      style: const TextStyle(color: Colors.black, fontFamily: normsProMedium),
                     ),
                   ),
                 )
@@ -202,6 +205,9 @@ class ProductCard extends StatelessWidget {
                   id: id,
                   price: price,
                   productProfil: false,
+                  createdAt: createdAt,
+                  image: image[0],
+                  name: name,
                 )
         ],
       ),

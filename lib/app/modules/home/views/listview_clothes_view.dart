@@ -7,8 +7,6 @@ import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
-import '../../../data/services/dresses_service.dart';
-
 class ListviewClothesView extends GetView {
   ListviewClothesView({Key? key}) : super(key: key);
   final HomeController homeController = Get.put(HomeController());
@@ -25,7 +23,7 @@ class ListviewClothesView extends GetView {
           namePart(text: 'womenClothes', onTap: () {}, removeIcon: true),
           Expanded(
             child: FutureBuilder<List<DressesModel>>(
-              future: DressesService().getDresses(),
+              future: homeController.dresses,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderCollar();
@@ -46,6 +44,7 @@ class ListviewClothesView extends GetView {
                       id: snapshot.data![index].id!,
                       downloadable: false,
                       files: [],
+                      createdAt: snapshot.data![index].createdAt!,
                     );
                   },
                 );

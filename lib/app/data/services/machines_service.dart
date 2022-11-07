@@ -31,13 +31,14 @@ class MachineService {
   Future<MachineModel> getMachineByID(int id) async {
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/v1/machines/$id',
+        '$serverURL/api/v1/products/$id',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

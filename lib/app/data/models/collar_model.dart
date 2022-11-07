@@ -6,6 +6,7 @@ class CollarModel {
   final String? description;
   final int? price;
   final String? machineName;
+  final String? createdAt;
   final int? views;
   final int? downloads;
   final List? images;
@@ -22,6 +23,7 @@ class CollarModel {
     this.images,
     this.files,
     this.id,
+    this.createdAt,
   });
 
   factory CollarModel.fromJson(Map<dynamic, dynamic> json) {
@@ -35,6 +37,7 @@ class CollarModel {
     return CollarModel(
       id: json['id'],
       name: json['name'],
+      createdAt: json['created_at'],
       description: json['description'],
       price: json['price'],
       machineName: json['machine_name'],

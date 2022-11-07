@@ -9,13 +9,17 @@ import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import '../product_profil/views/machines_product_profil.dart';
 
 class MachineCard extends StatelessWidget {
-  const MachineCard({
+  MachineCard({
     Key? key,
     required this.model,
   }) : super(key: key);
   final MachineModel model;
+  double a = 0.0;
+  double b = 0.0;
   @override
   Widget build(BuildContext context) {
+    a = double.parse(model.price.toString());
+    b = a / 100.0;
     return Container(
       width: Get.size.width / 1.2,
       margin: const EdgeInsets.only(left: 15, bottom: 5),
@@ -25,6 +29,9 @@ class MachineCard extends StatelessWidget {
             () => MachinesProductProfil(
               id: model.id!,
               image: model.images!,
+              name: model.name!,
+              createdAt: model.createdAt!,
+              price: '${b}',
             ),
           );
         },
@@ -89,7 +96,7 @@ class MachineCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            '${model.price!}',
+                            '${b}',
                             style: const TextStyle(
                               color: Colors.red,
                               fontSize: 21,
@@ -120,7 +127,14 @@ class MachineCard extends StatelessWidget {
                         fontFamily: normsProRegular,
                       ),
                     ),
-                    AddCartButton(id: model.id!, price: '${model.price!}', productProfil: false)
+                    AddCartButton(
+                      id: model.id!,
+                      price: '${model.price!}',
+                      productProfil: false,
+                      createdAt: model.createdAt!,
+                      image: model.images![0],
+                      name: model.name!,
+                    )
                   ],
                 ),
               ),

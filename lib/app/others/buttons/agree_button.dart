@@ -31,7 +31,7 @@ class AgreeButton extends StatelessWidget {
         color: kPrimaryColor,
       ),
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: homeController.agreeButton.value ? 0 : 8),
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: homeController.agreeButton.value ? 0 : 8),
       width: homeController.agreeButton.value ? 60 : Get.size.width,
       duration: const Duration(milliseconds: 1000),
       child: homeController.agreeButton.value
@@ -49,7 +49,7 @@ class AgreeButton extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white, fontSize: 20),
+              style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
             ),
     );
   }

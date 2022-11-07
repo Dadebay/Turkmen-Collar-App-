@@ -8,6 +8,7 @@ import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
+import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 
 import '../../../constants/widgets.dart';
 import '../controllers/product_profil_controller.dart';
@@ -16,15 +17,36 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
   final ProductProfilController _productProfilController = Get.put(ProductProfilController());
 
   final int id;
+  final String name;
+  final String createdAt;
+  final String price;
   final List image;
+  double a = 0.0;
+  double b = 0.0;
   MachinesProductProfil({
+    required this.name,
+    required this.createdAt,
+    required this.price,
     required this.id,
     required this.image,
   });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: orderButton(),
+      bottomSheet: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          AddCartButton(
+            id: id,
+            price: price,
+            productProfil: true,
+            createdAt: createdAt,
+            name: name,
+            image: image[0],
+          ),
+        ],
+      ),
       body: FutureBuilder<MachineModel>(
         future: MachineService().getMachineByID(id),
         builder: (context, snapshot) {
@@ -33,6 +55,8 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
           } else if (snapshot.hasError) {
             return const Text('Error');
           }
+          a = double.parse(snapshot.data!.price.toString());
+          b = a / 100.0;
           return NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return [appBar()];
@@ -52,7 +76,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                       Row(
                         children: [
                           Text(
-                            '${snapshot.data!.price}',
+                            '${b}',
                             style: const TextStyle(
                               color: Colors.red,
                               fontSize: 22,
@@ -74,6 +98,25 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                       )
                     ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30, bottom: 10),
+                    child: Text(
+                      'data'.tr,
+                      style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8, top: 8),
+                    child: twoText(name1: 'data3', name2: '${snapshot.data!.views}'),
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.grey.shade300,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8, top: 8),
+                    child: twoText(name1: 'createdAt'.tr, name2: '${snapshot.data!.createdAt}'),
+                  ),
                   Divider(
                     thickness: 1,
                     color: Colors.grey.shade300,
@@ -94,26 +137,6 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget orderButton() {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        width: Get.size.width,
-        margin: const EdgeInsets.all(15),
-        decoration: const BoxDecoration(
-          color: kPrimaryColor,
-          borderRadius: borderRadius20,
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Text(
-          'order'.tr,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: normProBold),
-        ),
       ),
     );
   }

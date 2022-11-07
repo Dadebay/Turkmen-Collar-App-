@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/data/models/category_model.dart';
-import 'package:yaka2/app/data/services/category_service.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/category_card.dart';
 
@@ -16,7 +15,7 @@ class CategoryView extends GetView {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CategoryModel>>(
-      future: CategoryService().getCategories(),
+      future: controller.category,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loaderCategory();

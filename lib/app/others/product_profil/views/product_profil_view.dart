@@ -16,21 +16,31 @@ import 'package:yaka2/app/others/buttons/fav_button.dart';
 import '../../../constants/widgets.dart';
 import '../controllers/product_profil_controller.dart';
 
-class ProductProfilView extends GetView<ProductProfilController> {
-  final ProductProfilController _productProfilController = Get.put(ProductProfilController());
-
+class ProductProfilView extends StatefulWidget {
   final int id;
   final bool downloadable;
   final String price;
+  final String name;
+  final String createdAt;
   final List image;
   final List files;
   ProductProfilView({
     required this.id,
     required this.price,
+    required this.name,
+    required this.createdAt,
     required this.downloadable,
     required this.image,
     required this.files,
   });
+
+  @override
+  State<ProductProfilView> createState() => _ProductProfilViewState();
+}
+
+class _ProductProfilViewState extends State<ProductProfilView> {
+  final ProductProfilController _productProfilController = Get.put(ProductProfilController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +51,13 @@ class ProductProfilView extends GetView<ProductProfilController> {
           downloadButton(),
         ],
       ),
-      body: downloadable ? downloadablePage() : orderPage(),
+      body: widget.downloadable ? downloadablePage() : orderPage(),
     );
   }
 
   FutureBuilder<DressesModel> orderPage() {
     return FutureBuilder<DressesModel>(
-      future: DressesService().getDressesByID(id),
+      future: DressesService().getDressesByID(widget.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: spinKit());
@@ -76,7 +86,7 @@ class ProductProfilView extends GetView<ProductProfilController> {
 
   FutureBuilder<CollarModel> downloadablePage() {
     return FutureBuilder<CollarModel>(
-      future: CollarService().getCollarsByID(id),
+      future: CollarService().getCollarsByID(widget.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: spinKit());
@@ -85,6 +95,7 @@ class ProductProfilView extends GetView<ProductProfilController> {
         }
         final double a = double.parse(snapshot.data!.price.toString());
         final double b = a / 100.0;
+
         return NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [appBar()];
@@ -148,8 +159,8 @@ class ProductProfilView extends GetView<ProductProfilController> {
             style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
           ),
         ),
-        downloadable ? twoText(name1: 'data1', name2: machineName) : SizedBox.shrink(),
-        downloadable
+        widget.downloadable ? twoText(name1: 'data1', name2: machineName) : SizedBox.shrink(),
+        widget.downloadable
             ? Divider(
                 thickness: 1,
                 color: Colors.grey.shade300,
@@ -165,7 +176,7 @@ class ProductProfilView extends GetView<ProductProfilController> {
           thickness: 1,
           color: Colors.grey.shade300,
         ),
-        twoText(name1: downloadable ? 'data4' : 'created At ', name2: downloads),
+        twoText(name1: widget.downloadable ? 'data4' : 'createdAt ', name2: downloads),
         Divider(
           thickness: 1,
           color: Colors.grey.shade300,
@@ -186,10 +197,10 @@ class ProductProfilView extends GetView<ProductProfilController> {
   }
 
   Widget downloadButton() {
-    return downloadable
+    return widget.downloadable
         ? GestureDetector(
             onTap: () {
-              downloadFiles(list: files);
+              downloadFiles(list: widget.files);
             },
             child: Container(
               width: Get.size.width,
@@ -207,9 +218,12 @@ class ProductProfilView extends GetView<ProductProfilController> {
             ),
           )
         : AddCartButton(
-            id: id,
-            price: price,
+            id: widget.id,
+            price: widget.price,
             productProfil: true,
+            createdAt: widget.createdAt,
+            name: widget.name,
+            image: widget.image[0],
           );
   }
 
@@ -279,12 +293,12 @@ class ProductProfilView extends GetView<ProductProfilController> {
           padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
           child: FavButton(
             whcihPage: true,
-            id: id,
+            id: widget.id,
           ),
         ),
         GestureDetector(
           onTap: () {
-            Share.share(image[0], subject: appName);
+            Share.share(widget.image[0], subject: appName);
           },
           child: Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
@@ -306,11 +320,11 @@ class ProductProfilView extends GetView<ProductProfilController> {
         color: Colors.grey.shade200,
         margin: const EdgeInsets.only(top: 30),
         child: CarouselSlider.builder(
-          itemCount: image.length,
+          itemCount: widget.image.length,
           itemBuilder: (context, index, count) {
             return CachedNetworkImage(
               fadeInCurve: Curves.ease,
-              imageUrl: image[index],
+              imageUrl: widget.image[index],
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),

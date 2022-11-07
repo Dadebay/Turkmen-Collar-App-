@@ -6,9 +6,9 @@ import 'package:get_storage/get_storage.dart';
 class CartController extends GetxController {
   RxList list = [].obs;
   final storage = GetStorage();
-  void addToCard(int id) {
+  void addToCard({required int id, required String image, required String name, required String price, required String createdAT}) {
     if (list.isEmpty) {
-      list.add({'id': id, 'quantity': 1});
+      list.add({'id': id, 'name': name, 'image': image, 'price': price, 'createdAt': createdAT, 'quantity': 1});
     } else {
       bool value = false;
       for (final element in list) {
@@ -18,7 +18,7 @@ class CartController extends GetxController {
         }
       }
       if (value == false) {
-        list.add({'id': id, 'quantity': 1});
+        list.add({'id': id, 'name': name, 'image': image, 'price': price, 'createdAt': createdAT, 'quantity': 1});
       }
       list.refresh();
       final String jsonString = jsonEncode(list);
