@@ -40,8 +40,8 @@ class CartController extends GetxController {
     print(list);
   }
 
-  void xbuttonRemoveCart(int id) {
-    list.removeWhere((element) => element['id'] == id);
+  void removeAllCartElements() {
+    list.clear();
     list.refresh();
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);

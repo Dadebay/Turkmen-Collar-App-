@@ -6,8 +6,12 @@ import 'package:yaka2/app/data/models/category_model.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 
+import 'auth_service.dart';
+
 class CategoryService {
   Future<List<CategoryModel>> getCategories() async {
+    final token = await Auth().getToken();
+
     final List<CategoryModel> categoryList = [];
     final response = await http.get(
       Uri.parse(
@@ -30,13 +34,15 @@ class CategoryService {
     }
   }
 
-  Future<List<dynamic>> getCategoryByID(int id) async {
-    final List<dynamic> categoryList = [];
+  Future<List<dynamic>> getCategoryByID(int id, {required Map<String, String> parametrs}) async {
+    final token = await Auth().getToken();
 
+    final List<dynamic> categoryList = [];
+    print(parametrs);
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/categories/$id',
-      ),
+      ).replace(queryParameters: parametrs),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',

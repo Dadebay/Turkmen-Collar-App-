@@ -4,8 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 
+import 'auth_service.dart';
+
 class MachineService {
   Future<List<MachineModel>> getMachines() async {
+    final token = await Auth().getToken();
+
     final List<MachineModel> machineList = [];
     final response = await http.get(
       Uri.parse(
@@ -29,6 +33,8 @@ class MachineService {
   }
 
   Future<MachineModel> getMachineByID(int id) async {
+    final token = await Auth().getToken();
+
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/products/$id',

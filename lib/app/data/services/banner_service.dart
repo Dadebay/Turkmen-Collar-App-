@@ -4,8 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/banner_model.dart';
 
+import 'auth_service.dart';
+
 class BannerService {
   Future<List<BannerModel>> getBanners() async {
+    final token = await Auth().getToken();
+
     final List<BannerModel> bannerList = [];
     final response = await http.get(
       Uri.parse(
@@ -29,6 +33,8 @@ class BannerService {
   }
 
   Future<BannerModel> getBannerByID(int id) async {
+    final token = await Auth().getToken();
+
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/banners/$id',

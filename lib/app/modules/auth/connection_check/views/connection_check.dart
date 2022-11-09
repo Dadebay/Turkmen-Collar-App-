@@ -172,13 +172,14 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
                   height: Get.size.width / _containerSize,
                   width: Get.size.width / _containerSize,
                   alignment: Alignment.center,
+                  padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: borderRadius30,
                   ),
-                  child: Text(
-                    appName,
-                    style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 30),
+                  child: Image.asset(
+                    logo,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

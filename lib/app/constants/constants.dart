@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 const String serverURL = 'http://95.85.125.234:8765';
-const String token = 'KmEaSMzlgXpatQBDXaRrf0nrFDpAIPfoMfv4Q7paNo06VlrJq1HC4J8oi6Uk';
 
-const Color kPrimaryColor = Color(0xff6dc792);
+const Color kPrimaryColor = Color(0xfffd7e15);
 const Color kPrimaryColorCard = Color.fromARGB(255, 240, 255, 246);
 const Color kBlackColor = Color(0xff000000);
 const Color kGreyColor = Color.fromARGB(255, 234, 234, 234);
@@ -26,68 +25,47 @@ const String ruIcon = 'assets/image/ru.png';
 const String logo = 'assets/image/logo.png';
 const String loader1 = 'assets/lottie/loader1.json';
 const String shareIcon = 'assets/icons/share1.png';
-const String appName = 'ÝAKKA';
-const String appShareLink = 'https://ucdayy.online/';
+const String appName = 'ÝAKA';
+const String appShareLink = 'https://drive.google.com/file/d/1g9_tSXWrnbpdDs49jIGteBOn4gl-J1ET/view?usp=sharing';
 /////////////////////////////////////////////////
 
 const List sortData = [
   {
     'id': 1,
     'name': 'sortDefault',
-    'sort_column': 'price',
-    'sort_direction': '',
+    'sort_column': '',
   },
   {
     'id': 2,
     'name': 'sortPriceLowToHigh',
-    'sort_column': 'price',
-    'sort_direction': 'high',
+    'sort_column': 'expensive',
   },
   {
     'id': 3,
     'name': 'sortPriceHighToLow',
-    'sort_column': 'price',
-    'sort_direction': 'low',
+    'sort_column': 'cheap',
   },
   {
     'id': 4,
     'name': 'sortCreatedAtHighToLow',
-    'sort_column': 'date',
-    'sort_direction': 'new',
+    'sort_column': 'latest',
   },
   {
     'id': 5,
     'name': 'sortCreatedAtLowToHigh',
-    'sort_column': 'date',
-    'sort_direction': 'old',
+    'sort_column': 'oldest',
+  },
+  {
+    'id': 6,
+    'name': 'sortViews',
+    'sort_column': 'views',
   },
 ];
-const List categoryName = [
-  'Ýakalar',
-  'Tikin Maşynlary',
-  'Geýimler',
-  'Çaga ýakalary',
-  'Balaklar',
-  'Fasonlar',
-  'Nagyşlar',
-  'Sapaklar',
-];
-const List machineName = [
-  'Janome',
-  'elna',
-  'brother',
-  'Husqvarna',
-  'PFAFF',
-  'Janome',
-  'elna',
-  'brother',
-  'Husqvarna',
-  'PFAFF',
-  'Janome',
-  'elna',
-  'brother',
-  'elna',
-  'brother',
-  'Husqvarna',
-  'PFAFF',
+const List cities = [
+  'Aşgabat',
+  'Ahal',
+  'Mary',
+  'Lebap',
+  'Daşoguz',
+  'Balkan',
 ];

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:yaka2/app/constants/constants.dart';
@@ -13,8 +12,8 @@ dynamic noBannerImage() {
 }
 
 dynamic spinKit() {
-  return Lottie.asset(
-    loader1,
+  return CircularProgressIndicator(
+    color: kPrimaryColor,
   );
 }
 
@@ -58,7 +57,7 @@ Padding namePart({required String text, required bool removeIcon, required Funct
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(text.tr, style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 22)),
+        Text(text.tr, style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 22)),
         removeIcon
             ? SizedBox.shrink()
             : IconButton(
@@ -277,7 +276,7 @@ void defaultBottomSheet({required String name, required Widget child}) {
           ),
           const Divider(
             color: kBlackColor,
-            thickness: 2,
+            thickness: 1,
           ),
           Center(
             child: child,

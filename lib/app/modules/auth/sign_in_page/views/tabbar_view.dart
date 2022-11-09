@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
@@ -14,26 +15,40 @@ class TabbarView extends StatelessWidget {
       length: 2,
       child: Scaffold(
         backgroundColor: kPrimaryColor,
+        appBar: AppBar(
+          backgroundColor: kPrimaryColor,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(
+              IconlyLight.arrowLeftCircle,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
+        ),
         body: Stack(
           children: [
             SizedBox(
               width: Get.size.width,
-              height: Get.size.height / 2,
+              height: Get.size.height / 2.8,
               child: ClipRRect(
                 borderRadius: borderRadius30,
                 child: Center(
                   child: Container(
                     width: 150,
                     height: 150,
+                    padding: EdgeInsets.all(15),
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: borderRadius30,
                     ),
                     alignment: Alignment.center,
-                    child: const Text(
-                      appName,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 26),
+                    child: Image.asset(
+                      logo,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -76,29 +91,12 @@ class TabbarView extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
-                      child: Container(
-                        color: kPrimaryColor,
-                        child: TabBarView(
-                          children: [SignInView(), LogInView()],
-                        ),
+                      flex: 3,
+                      child: TabBarView(
+                        children: [SignInView(), LogInView()],
                       ),
                     ),
                   ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 30,
-              left: 10,
-              child: IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: const Icon(
-                  IconlyBroken.arrowLeftCircle,
-                  color: Colors.black,
-                  size: 30,
                 ),
               ),
             ),

@@ -19,6 +19,17 @@ class CartView extends GetView<CartController> {
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              cartController.removeAllCartElements();
+            },
+            icon: Icon(
+              IconlyLight.delete,
+              color: Colors.black,
+            ),
+          )
+        ],
         title: Text(
           'cart'.tr,
           style: TextStyle(fontFamily: normProBold, color: Colors.black),
@@ -33,21 +44,18 @@ class CartView extends GetView<CartController> {
           },
         ),
       ),
-      bottomSheet: orderDetail(),
       body: Column(
         children: [
-          Divider(
-            color: kPrimaryColor,
-          ),
-          Expanded(
-            child: cartController.list.isEmpty
-                ? Center(
-                    child: Text('Bos Sebet'),
-                  )
-                : ListView.builder(
+          cartController.list.isEmpty
+              ? Center(
+                  child: Text('Bos Sebet'),
+                )
+              : Expanded(
+                  child: ListView.builder(
                     itemCount: cartController.list.length,
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       final double a = double.parse(cartController.list[index]['price']);
                       return CardCart(
@@ -59,7 +67,8 @@ class CartView extends GetView<CartController> {
                       );
                     },
                   ),
-          ),
+                ),
+          orderDetail()
         ],
       ),
     );
@@ -67,7 +76,6 @@ class CartView extends GetView<CartController> {
 
   Container orderDetail() {
     double sum = 0;
-
     cartController.list.forEach((element) {
       final double a = double.parse(element['price']);
       sum += a / 100;
@@ -82,37 +90,48 @@ class CartView extends GetView<CartController> {
             color: kPrimaryColor,
             thickness: 1,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Count',
-              ),
-              Text(
-                cartController.list.length.toString(),
-              )
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'countProducts'.tr,
+                  style: TextStyle(fontFamily: normsProRegular, fontSize: 18),
+                ),
+                Text(
+                  cartController.list.length.toString(),
+                  style: TextStyle(fontFamily: normProBold, fontSize: 20),
+                )
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Price all',
-              ),
-              Text(
-                '${sum} TMT',
-              )
-            ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15, top: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'priceProduct'.tr,
+                  style: TextStyle(fontFamily: normsProRegular, fontSize: 18),
+                ),
+                Text(
+                  '${sum} TMT',
+                  style: TextStyle(fontFamily: normProBold, fontSize: 20),
+                )
+              ],
+            ),
           ),
           ElevatedButton(
             onPressed: () {
               Get.to(() => OrderPage());
             },
-            style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+            style: ElevatedButton.styleFrom(primary: kPrimaryColor, shape: RoundedRectangleBorder(borderRadius: borderRadius15), padding: EdgeInsets.symmetric(vertical: 15)),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Order',
+                  'orderProducts'.tr,
                   style: TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 19),
                 ),
                 Padding(

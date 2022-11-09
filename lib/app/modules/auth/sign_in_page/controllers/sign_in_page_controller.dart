@@ -1,23 +1,11 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SignInPageController extends GetxController {
-  //TODO: Implement SignInPageController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  final storage = GetStorage();
+  RxBool agreeButton = false.obs;
+  dynamic saveUserName(String userName, String sureName) {
+    storage.write('userName', userName);
+    storage.write('sureName', sureName);
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

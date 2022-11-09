@@ -24,6 +24,7 @@ dependencies:
   share: any
   pull_to_refresh: ^2.0.0
   lottie: ^1.2.1
+  badges:
   change_app_package_name: ^1.1.0
   get_storage: 2.0.3
   url_launcher: 6.1.6
@@ -57,16 +58,16 @@ flutter:
   fonts: 
     - family: NormsProBold
       fonts: 
-        - asset: assets/fonts/Montserrat-Bold.ttf
+        - asset: assets/fonts/Gilroy-Bold.ttf
     - family: NormsProMedium
       fonts: 
-        - asset: assets/fonts/Montserrat-SemiBold.ttf
+        - asset: assets/fonts/Gilroy-SemiBold.ttf
     - family: NormsProRegular
       fonts: 
-        - asset: assets/fonts/Montserrat-Medium.ttf
+        - asset: assets/fonts/Gilroy-Medium.ttf
     - family: NormsProLight
       fonts: 
-        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Gilroy-Regular.ttf
   uses-material-design: true
   generate: true
 

@@ -4,8 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
 
+import 'auth_service.dart';
+
 class DressesService {
   Future<List<DressesModel>> getDresses() async {
+    final token = await Auth().getToken();
+
     final List<DressesModel> collarList = [];
     final response = await http.get(
       Uri.parse(
@@ -29,6 +33,8 @@ class DressesService {
   }
 
   Future<DressesModel> getDressesByID(int id) async {
+    final token = await Auth().getToken();
+
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/products/$id',

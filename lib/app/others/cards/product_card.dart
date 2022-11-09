@@ -161,7 +161,7 @@ class ProductCard extends StatelessWidget {
                       '${b.toStringAsFixed(0)}',
                       style: const TextStyle(
                         color: Colors.red,
-                        fontSize: 20,
+                        fontSize: 19,
                         fontFamily: normProBold,
                       ),
                     ),
@@ -197,7 +197,7 @@ class ProductCard extends StatelessWidget {
                     child: Text(
                       'download'.tr,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.black, fontFamily: normsProMedium),
+                      style: const TextStyle(color: Colors.white, fontFamily: normsProMedium),
                     ),
                   ),
                 )

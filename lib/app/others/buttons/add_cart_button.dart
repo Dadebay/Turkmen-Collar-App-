@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 
 class AddCartButton extends StatefulWidget {
@@ -83,7 +84,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                                 ? BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(10), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(10))
                                 : BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(7), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(7)),
                           ),
-                          child: Icon(CupertinoIcons.minus, color: Colors.black, size: widget.productProfil ? 26 : 20),
+                          child: Icon(CupertinoIcons.minus, color: Colors.white, size: widget.productProfil ? 26 : 20),
                         ),
                       ),
                     ),
@@ -113,7 +114,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                                 ? BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(20), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(20))
                                 : BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(15), bottomLeft: Radius.circular(7), bottomRight: Radius.circular(15)),
                           ),
-                          child: Icon(CupertinoIcons.add, color: Colors.black, size: widget.productProfil ? 26 : 20),
+                          child: Icon(CupertinoIcons.add, color: Colors.white, size: widget.productProfil ? 26 : 20),
                         ),
                       ),
                     ),
@@ -124,7 +125,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                 onTap: () {
                   addCartBool = !addCartBool;
                   cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
-
+                  showSnackBar('Goşuldy', 'Sebede haryt goşuldy !', kPrimaryColor);
                   setState(() {});
                 },
                 child: Container(
@@ -140,7 +141,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                     color: kPrimaryColor,
                     borderRadius: widget.productProfil ? borderRadius20 : borderRadius10,
                   ),
-                  child: Text('addCart'.tr, textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: widget.productProfil ? 22 : 16)),
+                  child: Text('addCart'.tr, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: normsProMedium, fontSize: widget.productProfil ? 22 : 16)),
                 ),
               ),
       );

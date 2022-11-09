@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
@@ -13,9 +14,12 @@ class AboutUsView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: kPrimaryColor,
         elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
         leading: IconButton(
           onPressed: () {
             Get.back();
@@ -25,7 +29,6 @@ class AboutUsView extends GetView {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.white,
         title: Text(
           'aboutUS'.tr,
           style: const TextStyle(color: Colors.black),
@@ -41,62 +44,29 @@ class AboutUsView extends GetView {
           } else if (snapshot.data == null) {
             return const Text('null');
           }
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Divider(
-                color: kPrimaryColor,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15, bottom: 10),
-                        child: Text(
-                          'contactInformation'.tr,
-                          style: const TextStyle(color: Colors.black, fontSize: 20),
-                        ),
-                      ),
-                      Text(
-                        snapshot.data!.body!,
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(fontSize: 18, color: Colors.black),
-                      ),
-                    ],
+          return Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'contactInformation'.tr,
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
-              ),
-            ],
+                Text(
+                  snapshot.data!.body!,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                ),
+              ],
+            ),
           );
         },
-      ),
-    );
-  }
-
-  ListTile simpleWidget({
-    required IconData icon,
-    required String name,
-  }) {
-    return ListTile(
-      dense: true,
-      onTap: () async {},
-      minLeadingWidth: 10,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 14),
-      shape: const RoundedRectangleBorder(borderRadius: borderRadius5),
-      leading: Icon(
-        icon,
-        color: kPrimaryColor,
-      ),
-      title: Text(
-        name,
-        textAlign: TextAlign.start,
-        style: const TextStyle(fontSize: 18, color: Colors.black),
       ),
     );
   }

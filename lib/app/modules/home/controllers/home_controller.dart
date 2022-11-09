@@ -12,8 +12,10 @@ import 'package:yaka2/app/data/services/machines_service.dart';
 
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
-  RxBool agreeButton = false.obs;
   RxInt balance = 0.obs;
+  RxString sortName = ''.obs;
+  RxInt sortMachineID = 0.obs;
+  RxString sortMachineName = 'Janome'.obs;
   late final Future<List<BannerModel>> future;
   late final Future<List<CategoryModel>> category;
   late final Future<List<CollarModel>> collars;

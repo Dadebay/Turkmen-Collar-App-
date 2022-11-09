@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
@@ -11,7 +12,9 @@ import 'package:yaka2/app/modules/user_profil/views/about_us_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
 
 import '../controllers/user_profil_controller.dart';
+import 'history_order.dart';
 import 'instruction_view.dart';
+import 'profil_settings.dart';
 
 class UserProfilView extends StatefulWidget {
   @override
@@ -25,9 +28,10 @@ class _UserProfilViewState extends State<UserProfilView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: kPrimaryColor,
         elevation: 0,
+        centerTitle: true,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
         leading: IconButton(
           onPressed: () {
             Get.back();
@@ -52,20 +56,12 @@ class _UserProfilViewState extends State<UserProfilView> {
     return ListView(
       children: [
         ProfilButton(
-          name: 'transferUSB',
-          onTap: () {},
-          icon: Icons.usb,
-          langIconStatus: true,
-          langIcon: customIcon('assets/icons/usb3.png'),
-        ),
-        ProfilButton(
-          name: 'shareUs',
+          name: 'profil',
           onTap: () {
-            Share.share(appShareLink, subject: appName);
+            Get.to(() => ProfilSettings());
           },
-          icon: Icons.share,
-          langIconStatus: true,
-          langIcon: customIcon('assets/icons/share1.png'),
+          icon: IconlyLight.profile,
+          langIconStatus: false,
         ),
         ProfilButton(
           name: Get.locale!.toLanguageTag() == 'tr' ? 'Türkmen dili' : 'Rus dili',
@@ -87,6 +83,39 @@ class _UserProfilViewState extends State<UserProfilView> {
               ),
             ),
           ),
+        ),
+        ProfilButton(
+          name: 'addMoney',
+          onTap: () {
+            Get.to(() => ProfilSettings());
+          },
+          icon: IconlyLight.wallet,
+          langIconStatus: false,
+        ),
+        divider(),
+        ProfilButton(
+          name: 'orders',
+          onTap: () {
+            Get.to(() => const HistoryOrders());
+          },
+          icon: CupertinoIcons.cube_box,
+          langIconStatus: false,
+        ),
+        ProfilButton(
+          name: 'transferUSB',
+          onTap: () {},
+          icon: Icons.usb,
+          langIconStatus: true,
+          langIcon: customIcon('assets/icons/usb3.png'),
+        ),
+        ProfilButton(
+          name: 'shareUs',
+          onTap: () {
+            Share.share(appShareLink, subject: appName);
+          },
+          icon: Icons.share,
+          langIconStatus: true,
+          langIcon: customIcon('assets/icons/share1.png'),
         ),
         divider(),
         ProfilButton(

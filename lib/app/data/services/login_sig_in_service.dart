@@ -35,9 +35,7 @@ class SignInService {
     }
   }
 
-  Future login({
-    required String phone,
-  }) async {
+  Future login({required String phone}) async {
     final response = await http.post(
       Uri.parse('$serverURL/api/v1/login'),
       headers: <String, String>{

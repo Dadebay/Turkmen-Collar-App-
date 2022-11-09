@@ -111,9 +111,14 @@ class HomeView extends GetView<HomeController> {
       backgroundColor: Colors.white,
       child: ListView(
         children: [
-          const DrawerHeader(
-            child: FlutterLogo(
-              size: 150,
+          DrawerHeader(
+            child: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Image.asset(
+                logo,
+                fit: BoxFit.cover,
+                height: 200,
+              ),
             ),
           ),
           ProfilButton(

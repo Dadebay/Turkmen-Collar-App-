@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
+import 'package:yaka2/app/modules/auth/sign_in_page/controllers/sign_in_page_controller.dart';
 
 class AgreeButton extends StatelessWidget {
   final Function() onTap;
@@ -13,7 +13,8 @@ class AgreeButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  HomeController homeController = Get.put(HomeController());
+  final SignInPageController signInPageController = Get.put(SignInPageController());
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -31,10 +32,10 @@ class AgreeButton extends StatelessWidget {
         color: kPrimaryColor,
       ),
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: homeController.agreeButton.value ? 0 : 8),
-      width: homeController.agreeButton.value ? 60 : Get.size.width,
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: signInPageController.agreeButton.value ? 0 : 8),
+      width: signInPageController.agreeButton.value ? 60 : Get.size.width,
       duration: const Duration(milliseconds: 1000),
-      child: homeController.agreeButton.value
+      child: signInPageController.agreeButton.value
           ? const Center(
               child: SizedBox(
                 width: 28,
@@ -49,7 +50,7 @@ class AgreeButton extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
+              style: const TextStyle(color: Colors.white, fontFamily: normsProMedium, fontSize: 20),
             ),
     );
   }
