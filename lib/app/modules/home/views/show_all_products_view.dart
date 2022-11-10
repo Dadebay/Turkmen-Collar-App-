@@ -82,7 +82,6 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             } else if (snapshot.data!.isEmpty) {
               return Center(child: const Text('No Kategory Image'));
             }
-            print(snapshot.error);
             return StaggeredGridView.countBuilder(
               crossAxisCount: 2,
               itemCount: snapshot.data!.length,
@@ -203,9 +202,9 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
     );
   }
 
-  Padding leftSideAppBar(BuildContext context) {
-    int value = 0;
+  int value = 0;
 
+  Padding leftSideAppBar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: Row(

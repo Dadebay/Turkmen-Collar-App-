@@ -23,7 +23,6 @@ class CartController extends GetxController {
       list.refresh();
       final String jsonString = jsonEncode(list);
       storage.write('cartList', jsonString);
-      print(list);
     }
   }
 
@@ -37,13 +36,15 @@ class CartController extends GetxController {
     list.refresh();
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
-    print(list);
   }
 
   void removeAllCartElements() {
+    print(list);
+
     list.clear();
-    list.refresh();
+    // list.refresh();
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
+    print(list);
   }
 }

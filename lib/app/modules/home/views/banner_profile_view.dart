@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
@@ -31,9 +32,10 @@ class BannerProfileView extends GetView {
             color: Colors.black,
           ),
         ),
+        backgroundColor: kPrimaryColor,
         elevation: 0,
-        backgroundColor: Colors.white,
         centerTitle: true,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
       ),
       body: Column(
         children: [

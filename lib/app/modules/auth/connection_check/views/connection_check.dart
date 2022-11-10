@@ -161,25 +161,29 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
       body: Column(
         children: [
           Expanded(
-            child: Center(
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 2000),
-                curve: Curves.fastLinearToSlowEaseIn,
-                opacity: _containerOpacity,
-                child: AnimatedContainer(
+            child: Container(
+              height: Get.size.height,
+              margin: EdgeInsets.only(bottom: 100),
+              child: Center(
+                child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 2000),
                   curve: Curves.fastLinearToSlowEaseIn,
-                  height: Get.size.width / _containerSize,
-                  width: Get.size.width / _containerSize,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: borderRadius30,
-                  ),
-                  child: Image.asset(
-                    logo,
-                    fit: BoxFit.cover,
+                  opacity: _containerOpacity,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 2000),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    height: Get.size.width / _containerSize,
+                    width: Get.size.width / _containerSize,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: borderRadius30,
+                    ),
+                    child: Image.asset(
+                      logo,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

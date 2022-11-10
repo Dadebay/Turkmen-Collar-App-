@@ -11,7 +11,6 @@ dependencies:
   cached_network_image: any
   material_floating_search_bar: ^0.3.7
   carousel_slider: ^4.0.0
-  # dart_code_metrics: ^4.17.1
   flutter_iconly: ^1.0.2
   firebase_messaging: ^11.2.6
   firebase_core: any
@@ -28,7 +27,8 @@ dependencies:
   change_app_package_name: ^1.1.0
   get_storage: 2.0.3
   url_launcher: 6.1.6
-
+  
+  # dart_code_metrics: ^4.17.1
   #usb
   # usb_serial: ^0.4.0
   # usb_device: ^0.0.7

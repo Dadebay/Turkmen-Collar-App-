@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
+import 'package:yaka2/app/data/services/collars_service.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
@@ -27,7 +28,8 @@ class ListviewCollarsView extends GetView {
           ),
           Expanded(
             child: FutureBuilder<List<CollarModel>>(
-              future: homeController.collars,
+              // future: homeController.collars,
+              future: CollarService().getCollars(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderCollar();

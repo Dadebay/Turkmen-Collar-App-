@@ -249,6 +249,18 @@ CustomFooter footer() {
   );
 }
 
+Padding textpart(String name, bool value) {
+  return Padding(
+    padding: EdgeInsets.only(left: 8, top: value ? 15 : 30),
+    child: Text(
+      name.tr,
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+      style: const TextStyle(fontSize: 18, color: Colors.black, fontFamily: normsProMedium),
+    ),
+  );
+}
+
 void defaultBottomSheet({required String name, required Widget child}) {
   Get.bottomSheet(
     Container(
@@ -287,83 +299,3 @@ void defaultBottomSheet({required String name, required Widget child}) {
   );
 }
 
-dynamic downloadFiles({required List list}) {
-  return Get.defaultDialog(
-    title: 'downloadFiles'.tr,
-    titleStyle: const TextStyle(fontFamily: normsProMedium),
-    backgroundColor: Colors.white,
-    titlePadding: const EdgeInsets.only(top: 10),
-    radius: 5,
-    content: SizedBox(
-      width: Get.size.width / 1.5,
-      height: 300,
-      child: ListView.separated(
-        itemCount: list.length,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/image/logo/janome.jpg',
-                    width: 70,
-                    height: 50,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text('File'),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        '50',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontFamily: normProBold,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 6),
-                        child: Text(
-                          ' TMT',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 11,
-                            fontFamily: normsProMedium,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8),
-                    child: Icon(IconlyLight.download),
-                  ),
-                ],
-              )
-            ],
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(
-            thickness: 1,
-            color: Colors.black,
-          );
-        },
-      ),
-    ),
-  );
-}

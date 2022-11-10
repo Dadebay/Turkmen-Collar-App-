@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bilermennesil.yaka2">
    <application
-        android:label="Ýaka 2"
+        android:label="Ýaka"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

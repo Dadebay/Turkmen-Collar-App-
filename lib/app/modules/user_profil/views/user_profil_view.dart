@@ -7,11 +7,13 @@ import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/modules/user_profil/views/about_us_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
 
 import '../controllers/user_profil_controller.dart';
+import 'addMoneyPage.dart';
 import 'history_order.dart';
 import 'instruction_view.dart';
 import 'profil_settings.dart';
@@ -55,14 +57,16 @@ class _UserProfilViewState extends State<UserProfilView> {
   ListView page() {
     return ListView(
       children: [
-        ProfilButton(
-          name: 'profil',
-          onTap: () {
-            Get.to(() => ProfilSettings());
-          },
-          icon: IconlyLight.profile,
-          langIconStatus: false,
-        ),
+        userProfilController.userLogin.value
+            ? ProfilButton(
+                name: 'profil',
+                onTap: () {
+                  Get.to(() => ProfilSettings());
+                },
+                icon: IconlyLight.profile,
+                langIconStatus: false,
+              )
+            : SizedBox.shrink(),
         ProfilButton(
           name: Get.locale!.toLanguageTag() == 'tr' ? 'Türkmen dili' : 'Rus dili',
           onTap: () {
@@ -87,23 +91,30 @@ class _UserProfilViewState extends State<UserProfilView> {
         ProfilButton(
           name: 'addMoney',
           onTap: () {
-            Get.to(() => ProfilSettings());
+            Get.to(() => AddCash());
           },
           icon: IconlyLight.wallet,
           langIconStatus: false,
         ),
         divider(),
-        ProfilButton(
-          name: 'orders',
-          onTap: () {
-            Get.to(() => const HistoryOrders());
-          },
-          icon: CupertinoIcons.cube_box,
-          langIconStatus: false,
-        ),
+        userProfilController.userLogin.value
+            ? ProfilButton(
+                name: 'orders',
+                onTap: () {
+                  Get.to(() => const HistoryOrders());
+                },
+                icon: CupertinoIcons.cube_box,
+                langIconStatus: false,
+              )
+            : SizedBox.shrink(),
         ProfilButton(
           name: 'transferUSB',
-          onTap: () {},
+          onTap: () async {
+            final token = await Auth().getToken();
+            if (token == null || token == '') {
+              showSnackBar('loginError', 'loginErrorSubtitle', Colors.red);
+            } else {}
+          },
           icon: Icons.usb,
           langIconStatus: true,
           langIcon: customIcon('assets/icons/usb3.png'),

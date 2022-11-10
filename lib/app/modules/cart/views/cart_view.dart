@@ -4,6 +4,8 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/others/cards/cart_card.dart';
 
 import '../controllers/cart_controller.dart';
@@ -44,40 +46,45 @@ class CartView extends GetView<CartController> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          cartController.list.isEmpty
-              ? Center(
-                  child: Text('Bos Sebet'),
-                )
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: cartController.list.length,
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      final double a = double.parse(cartController.list[index]['price']);
-                      return CardCart(
-                        createdAt: cartController.list[index]['createdAt'] ?? '0.0.0',
-                        name: cartController.list[index]['name'] ?? 'Ady',
-                        id: cartController.list[index]['id'] ?? 1,
-                        price: '${a / 100}',
-                        image: cartController.list[index]['image'] ?? '0',
-                      );
-                    },
+      body: Obx(() {
+        return Column(
+          children: [
+            cartController.list.isEmpty
+                ? Expanded(
+                    child: Center(
+                      child: Text('Bos Sebet'),
+                    ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: cartController.list.length,
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        final double a = double.parse(cartController.list[index]['price']);
+                        return CardCart(
+                          createdAt: cartController.list[index]['createdAt'] ?? '0.0.0',
+                          name: cartController.list[index]['name'] ?? 'Ady',
+                          id: cartController.list[index]['id'] ?? 1,
+                          price: '${a / 100}',
+                          image: cartController.list[index]['image'] ?? '0',
+                        );
+                      },
+                    ),
                   ),
-                ),
-          orderDetail()
-        ],
-      ),
+            orderDetail()
+          ],
+        );
+      }),
     );
   }
 
   Container orderDetail() {
     double sum = 0;
     cartController.list.forEach((element) {
-      final double a = double.parse(element['price']);
+      double a = double.parse(element['price']);
+      a *= element['quantity'];
       sum += a / 100;
     });
     return Container(
@@ -123,8 +130,17 @@ class CartView extends GetView<CartController> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              Get.to(() => OrderPage());
+            onPressed: () async {
+              final token = await Auth().getToken();
+              if (token == null || token == '') {
+                showSnackBar('loginError', 'loginErrorSubtitle', Colors.red);
+              } else {
+                if (cartController.list.isNotEmpty) {
+                  await Get.to(() => OrderPage());
+                } else {
+                  showSnackBar('emptyCart', 'emptyCartSubtitle', Colors.red);
+                }
+              }
             },
             style: ElevatedButton.styleFrom(primary: kPrimaryColor, shape: RoundedRectangleBorder(borderRadius: borderRadius15), padding: EdgeInsets.symmetric(vertical: 15)),
             child: Row(
@@ -132,7 +148,7 @@ class CartView extends GetView<CartController> {
               children: [
                 Text(
                   'orderProducts'.tr,
-                  style: TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 19),
+                  style: TextStyle(color: Colors.white, fontFamily: normsProMedium, fontSize: 19),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -140,7 +156,7 @@ class CartView extends GetView<CartController> {
                   ),
                   child: Icon(
                     IconlyBroken.arrowRightCircle,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 )
               ],

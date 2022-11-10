@@ -13,14 +13,11 @@ import 'package:yaka2/app/modules/user_profil/views/user_profil_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
 
 import '../controllers/home_controller.dart';
-import 'banners_view.dart';
-import 'category_view.dart';
-import 'listview_clothes_view.dart';
 import 'listview_collars_view.dart';
-import 'listview_machines_view.dart';
 
 class HomeView extends GetView<HomeController> {
   final UserProfilController userProfilController = Get.put(UserProfilController());
+  final HomeController homeController = Get.put(HomeController());
   var scaffoldKey = GlobalKey<ScaffoldState>();
   HomeView({Key? key}) : super(key: key);
   @override
@@ -32,20 +29,20 @@ class HomeView extends GetView<HomeController> {
       drawer: drawer(),
       body: ListView(
         children: [
-          BannersView(),
-          CategoryView(),
+          // BannersView(),
+          // CategoryView(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: ListviewCollarsView(),
           ),
-          ListviewClothesView(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: ListviewMachinesView(),
-          ),
-          const SizedBox(
-            height: 40,
-          )
+          // ListviewClothesView(),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 20),
+          //   child: ListviewMachinesView(),
+          // ),
+          // const SizedBox(
+          //   height: 40,
+          // )
         ],
       ),
     );
@@ -75,19 +72,21 @@ class HomeView extends GetView<HomeController> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
+            children: [
               Padding(
                 padding: EdgeInsets.only(right: 6),
                 child: Icon(IconlyLight.wallet),
               ),
-              Text(
-                '0',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontFamily: normsProMedium,
-                ),
-              ),
+              Obx(() {
+                return Text(
+                  '${homeController.balance}',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontFamily: normsProMedium,
+                  ),
+                );
+              }),
               Padding(
                 padding: EdgeInsets.only(right: 6, top: 4),
                 child: Text(
@@ -161,16 +160,18 @@ class HomeView extends GetView<HomeController> {
             icon: IconlyBold.profile,
             langIconStatus: false,
           ),
-          userProfilController.userLogin.value
-              ? const SizedBox.shrink()
-              : ProfilButton(
-                  name: 'signUp',
-                  onTap: () {
-                    Get.to(() => TabbarView());
-                  },
-                  icon: IconlyBold.login,
-                  langIconStatus: false,
-                ),
+          Obx(() {
+            return userProfilController.userLogin.value
+                ? const SizedBox.shrink()
+                : ProfilButton(
+                    name: 'signUp',
+                    onTap: () {
+                      Get.to(() => TabbarView());
+                    },
+                    icon: IconlyBold.login,
+                    langIconStatus: false,
+                  );
+          }),
         ],
       ),
     );

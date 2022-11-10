@@ -22,12 +22,9 @@ class SignInService {
         'phone': phoneNumber,
       }),
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['data']['api_token']);
-      print(responseJson['data']['api_token']);
       Get.find<HomeController>().balance.value = responseJson['data']['balance'];
       return true;
     } else {
@@ -45,8 +42,6 @@ class SignInService {
         'phone': phone,
       }),
     );
-    print(response.body);
-    print(response.statusCode);
 
     return response.statusCode;
   }

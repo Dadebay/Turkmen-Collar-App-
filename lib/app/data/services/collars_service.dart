@@ -23,6 +23,7 @@ class CollarService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(responseJson);
       for (final Map product in responseJson['data']) {
         collarList.add(CollarModel.fromJson(product));
       }

@@ -4,6 +4,7 @@ import 'package:yaka2/app/data/models/category_model.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
+import 'package:yaka2/app/data/services/about_us_service.dart';
 import 'package:yaka2/app/data/services/banner_service.dart';
 import 'package:yaka2/app/data/services/category_service.dart';
 import 'package:yaka2/app/data/services/collars_service.dart';
@@ -12,7 +13,7 @@ import 'package:yaka2/app/data/services/machines_service.dart';
 
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
-  RxInt balance = 0.obs;
+  RxString balance = ''.obs;
   RxString sortName = ''.obs;
   RxInt sortMachineID = 0.obs;
   RxString sortMachineName = 'Janome'.obs;
@@ -30,5 +31,10 @@ class HomeController extends GetxController {
     collars = CollarService().getCollars();
     dresses = DressesService().getDresses();
     machines = MachineService().getMachines();
+    AboutUsService().getuserData().then((value) {
+      balance.value = '${value.balance! / 100}';
+      print(balance.value);
+      print(value.balance!);
+    });
   }
 }

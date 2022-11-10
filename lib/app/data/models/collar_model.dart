@@ -53,12 +53,16 @@ class CollarModel {
 class FilesModel {
   int? price;
   String? name;
+  String? machineName;
+  bool? purchased;
   int? id;
 
-  FilesModel({this.name, this.price, this.id});
+  FilesModel({this.name, this.purchased, this.price, this.machineName, this.id});
 
   factory FilesModel.fromJson(Map<String, dynamic> json) {
     return FilesModel(
+      machineName: json['machine']['name'],
+      purchased: json['purchased'],
       price: json['price'],
       name: json['name'],
       id: json['id'],

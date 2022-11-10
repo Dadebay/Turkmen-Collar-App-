@@ -38,6 +38,7 @@ class _AddCartButtonState extends State<AddCartButton> {
   }
 
   changeCartCount2() {
+    addCartBool = false;
     for (final element in cartController.list) {
       if (element['id'] == widget.id) {
         addCartBool = true;

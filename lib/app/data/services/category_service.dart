@@ -38,7 +38,6 @@ class CategoryService {
     final token = await Auth().getToken();
 
     final List<dynamic> categoryList = [];
-    print(parametrs);
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/categories/$id',
@@ -48,10 +47,10 @@ class CategoryService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(responseJson);
       if (CategoryModel.fromJson(responseJson).isCollar ?? false) {
         for (final Map product in responseJson['collars']['data']) {
           categoryList.add(CollarModel.fromJson(product));

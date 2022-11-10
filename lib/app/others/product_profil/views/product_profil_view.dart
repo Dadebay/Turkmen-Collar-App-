@@ -15,6 +15,7 @@ import 'package:yaka2/app/others/buttons/fav_button.dart';
 
 import '../../../constants/widgets.dart';
 import '../controllers/product_profil_controller.dart';
+import 'download_yaka.dart';
 
 class ProductProfilView extends StatefulWidget {
   final int id;
@@ -23,7 +24,7 @@ class ProductProfilView extends StatefulWidget {
   final String name;
   final String createdAt;
   final List image;
-  final List files;
+  final List<FilesModel> files;
   ProductProfilView({
     required this.id,
     required this.price,
@@ -200,7 +201,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     return widget.downloadable
         ? GestureDetector(
             onTap: () {
-              downloadFiles(list: widget.files);
+              Get.to(() => DownloadYakaPage(image: widget.image[0], list: widget.files));
             },
             child: Container(
               width: Get.size.width,
@@ -293,7 +294,9 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
           child: FavButton(
             whcihPage: true,
+            name: widget.name,
             id: widget.id,
+            isCollar: widget.downloadable,
           ),
         ),
         GestureDetector(

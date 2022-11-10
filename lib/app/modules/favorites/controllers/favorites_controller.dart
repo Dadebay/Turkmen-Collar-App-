@@ -6,9 +6,9 @@ import 'package:get_storage/get_storage.dart';
 class FavoritesController extends GetxController {
   final RxList favList = [].obs;
   final storage = GetStorage();
-  dynamic toggleFav(int id) {
+  dynamic toggleFav(int id, String name) {
     if (favList.isEmpty) {
-      favList.add({'id': id});
+      favList.add({'id': id, 'name': name});
     } else {
       bool value = false;
       for (final element in favList) {
@@ -19,7 +19,7 @@ class FavoritesController extends GetxController {
       if (value) {
         favList.removeWhere((element) => element['id'] == id);
       } else if (!value) {
-        favList.add({'id': id});
+        favList.add({'id': id, 'name': name});
       }
     }
     favList.refresh();
@@ -32,7 +32,7 @@ class FavoritesController extends GetxController {
     final List jsonData = jsonDecode(result);
     if (jsonData.isNotEmpty) {
       for (final element in jsonData) {
-        toggleFav(element['id']);
+        toggleFav(element['id'], element['name']);
       }
     }
   }

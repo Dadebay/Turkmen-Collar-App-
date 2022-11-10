@@ -43,9 +43,18 @@ class _ProfilSettingsState extends State<ProfilSettings> {
   @override
   void initState() {
     super.initState();
+
+    changeUserName();
+  }
+
+  changeUserName() async {
     if (storage.read('userName') != null) {
-      userNameController.text = storage.read('userName');
-      userSurnameController.text = storage.read('sureName');
+      userNameController.text = await storage.read('userName') ?? 'Yok';
+      userSurnameController.text = await storage.read('sureName') ?? 'Yok';
+      setState(() {});
+    } else {
+      userNameController.text = 'Yok';
+      userSurnameController.text = 'Yok';
     }
   }
 
@@ -88,7 +97,7 @@ class _ProfilSettingsState extends State<ProfilSettings> {
           return ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
-              textpart('signIn1'),
+              textpart('signIn1', false),
               CustomTextField(
                 labelName: '',
                 controller: userNameController,
@@ -98,7 +107,7 @@ class _ProfilSettingsState extends State<ProfilSettings> {
                 isNumber: false,
                 disabled: true,
               ),
-              textpart('signIn2'),
+              textpart('signIn2', false),
               CustomTextField(
                 labelName: '',
                 controller: userSurnameController,
@@ -108,15 +117,15 @@ class _ProfilSettingsState extends State<ProfilSettings> {
                 isNumber: false,
                 disabled: true,
               ),
-              textpart('phoneNumber'),
+              textpart('phoneNumber', false),
               PhoneNumber(
                 mineFocus: phoneFocusNode,
                 controller: phoneController,
                 requestFocus: userNameFocusNode,
                 style: false,
-                disabled: false,
+                disabled: true,
               ),
-              textpart('balance'),
+              textpart('balance', false),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -126,9 +135,12 @@ class _ProfilSettingsState extends State<ProfilSettings> {
                       'balance'.tr + ' :',
                       style: TextStyle(fontSize: 18),
                     ),
-                    Text(
-                      balance,
-                      style: TextStyle(fontSize: 18),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Text(
+                        balance,
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ],
                 ),
@@ -145,16 +157,4 @@ class _ProfilSettingsState extends State<ProfilSettings> {
       ),
     );
   }
-}
-
-Padding textpart(String name) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 8, top: 30),
-    child: Text(
-      name.tr,
-      overflow: TextOverflow.ellipsis,
-      maxLines: 1,
-      style: const TextStyle(fontSize: 18, color: Colors.black, fontFamily: normsProMedium),
-    ),
-  );
 }

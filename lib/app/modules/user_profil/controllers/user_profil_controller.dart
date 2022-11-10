@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:yaka2/app/data/models/auth_model.dart';
 
 class UserProfilController extends GetxController {
   final RxBool userLogin = false.obs;
@@ -29,5 +30,19 @@ class UserProfilController extends GetxController {
       storage.write('langCode', 'tr');
     }
     update();
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    min();
+  }
+
+  dynamic min() async {
+    final token = await Auth().getToken();
+    if (token != null || token!.isNotEmpty) {
+      userLogin.value = true;
+    }
   }
 }
