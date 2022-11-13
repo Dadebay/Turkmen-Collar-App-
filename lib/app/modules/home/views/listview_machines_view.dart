@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
+import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/machine_card.dart';
 
@@ -32,9 +33,13 @@ class ListviewMachinesView extends GetView {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderMachines();
                 } else if (snapshot.hasError) {
-                  return const Text('Error');
+                  return errorPage(
+                    onTap: () {
+                      MachineService().getMachines();
+                    },
+                  );
                 } else if (snapshot.data!.isEmpty) {
-                  return const Text('No Kategory Image');
+                  return emptryPageText();
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,

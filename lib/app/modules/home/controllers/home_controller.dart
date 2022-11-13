@@ -5,11 +5,13 @@ import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/data/services/about_us_service.dart';
+import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/data/services/banner_service.dart';
 import 'package:yaka2/app/data/services/category_service.dart';
 import 'package:yaka2/app/data/services/collars_service.dart';
 import 'package:yaka2/app/data/services/dresses_service.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
+import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
@@ -31,10 +33,22 @@ class HomeController extends GetxController {
     collars = CollarService().getCollars();
     dresses = DressesService().getDresses();
     machines = MachineService().getMachines();
-    AboutUsService().getuserData().then((value) {
-      balance.value = '${value.balance! / 100}';
+    userMoney();
+  }
+
+  dynamic userMoney() async {
+    final token = await Auth().getToken();
+    final UserProfilController controller = Get.put(UserProfilController());
+    print(token);
+    if (token == null) {
+      balance.value = '0';
+      controller.userLogin.value = false;
+    } else {
+      await AboutUsService().getuserData().then((value) {
+        balance.value = '${value.balance! / 100}';
+      });
       print(balance.value);
-      print(value.balance!);
-    });
+      controller.userLogin.value = true;
+    }
   }
 }

@@ -7,12 +7,16 @@ import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/modules/cart/views/cart_view.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
+import 'package:yaka2/app/modules/home/views/listview_clothes_view.dart';
+import 'package:yaka2/app/modules/home/views/listview_machines_view.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:yaka2/app/modules/user_profil/views/downloaded_view.dart';
 import 'package:yaka2/app/modules/user_profil/views/user_profil_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
 
 import '../controllers/home_controller.dart';
+import 'banners_view.dart';
+import 'category_view.dart';
 import 'listview_collars_view.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -29,20 +33,20 @@ class HomeView extends GetView<HomeController> {
       drawer: drawer(),
       body: ListView(
         children: [
-          // BannersView(),
-          // CategoryView(),
+          BannersView(),
+          CategoryView(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: ListviewCollarsView(),
           ),
-          // ListviewClothesView(),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 20),
-          //   child: ListviewMachinesView(),
-          // ),
-          // const SizedBox(
-          //   height: 40,
-          // )
+          ListviewClothesView(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: ListviewMachinesView(),
+          ),
+          const SizedBox(
+            height: 40,
+          )
         ],
       ),
     );
@@ -54,11 +58,13 @@ class HomeView extends GetView<HomeController> {
       elevation: 0,
       systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
       centerTitle: true,
-      title: const Text(
-        'Yaka',
-        style: TextStyle(fontFamily: normProBold, color: Colors.black),
+      title: Image.asset(
+        logo,
+        width: 120,
+        height: 120,
       ),
       leading: IconButton(
+        padding: EdgeInsets.only(top: 5),
         icon: const Icon(
           Icons.menu,
           color: Colors.black,

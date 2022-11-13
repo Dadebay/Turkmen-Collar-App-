@@ -41,7 +41,7 @@ class _OrderPageState extends State<OrderPage> {
         systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
         centerTitle: true,
         title: Text(
-          'order'.tr,
+          'orderProducts'.tr,
           style: TextStyle(fontFamily: normProBold, color: Colors.black),
         ),
         leading: IconButton(

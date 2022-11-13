@@ -40,9 +40,17 @@ class AboutUsView extends GetView {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return const Text('error');
+            return errorPage(
+              onTap: () {
+                AboutUsService().getAboutUs();
+              },
+            );
           } else if (snapshot.data == null) {
-            return const Text('null');
+            return emptyPageImage(
+              onTap: () {
+                AboutUsService().getAboutUs();
+              },
+            );
           }
           return Padding(
             padding: const EdgeInsets.all(14.0),

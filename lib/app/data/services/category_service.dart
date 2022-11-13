@@ -50,7 +50,6 @@ class CategoryService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson);
       if (CategoryModel.fromJson(responseJson).isCollar ?? false) {
         for (final Map product in responseJson['collars']['data']) {
           categoryList.add(CollarModel.fromJson(product));

@@ -40,9 +40,17 @@ class HistoryOrders extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return const Text('error');
+            return errorPage(
+              onTap: () {
+                HistoryOrderService().getHistoryOrders();
+              },
+            );
           } else if (snapshot.data == null) {
-            return const Text('null');
+            return emptyPageImage(
+              onTap: () {
+                HistoryOrderService().getHistoryOrders();
+              },
+            );
           }
           return ListView.separated(
             itemCount: snapshot.data!.length,
@@ -157,11 +165,20 @@ class HistoryOrderProductID extends StatelessWidget {
               child: spinKit(),
             );
           } else if (snapshot.hasError) {
-            return Center(child: const Text('Error'));
+            return errorPage(
+              onTap: () {
+                HistoryOrderService().getHistoryOrderByID(id);
+              },
+            );
           } else if (snapshot.data!.isEmpty) {
-            return Center(child: const Text('Empty'));
+            return emptyPageImage(
+              onTap: () {
+                HistoryOrderService().getHistoryOrderByID(id);
+                ;
+              },
+            );
+            ;
           }
-          print(snapshot.error);
           return StaggeredGridView.countBuilder(
             crossAxisCount: snapshot.data!.length,
             itemCount: snapshot.data!.length,

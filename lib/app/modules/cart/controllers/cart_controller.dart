@@ -39,12 +39,8 @@ class CartController extends GetxController {
   }
 
   void removeAllCartElements() {
-    print(list);
-
     list.clear();
-    // list.refresh();
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
-    print(list);
   }
 }

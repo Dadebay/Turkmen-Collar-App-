@@ -25,7 +25,7 @@ class SignInService {
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['data']['api_token']);
-      Get.find<HomeController>().balance.value = responseJson['data']['balance'];
+      Get.find<HomeController>().balance.value = "${responseJson['data']['balance']}";
       return true;
     } else {
       return response.statusCode;

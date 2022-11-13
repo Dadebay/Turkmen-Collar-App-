@@ -32,6 +32,12 @@ class BannerService {
     }
   }
 
+}
+
+
+
+
+
   Future<BannerModel> getBannerByID(int id) async {
     final token = await Auth().getToken();
 
@@ -52,4 +58,3 @@ class BannerService {
       return BannerModel();
     }
   }
-}

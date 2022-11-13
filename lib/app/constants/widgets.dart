@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:yaka2/app/constants/constants.dart';
@@ -299,3 +300,104 @@ void defaultBottomSheet({required String name, required Widget child}) {
   );
 }
 
+dynamic errorPage({required Function() onTap}) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        'noConnection2'.tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: ElevatedButton(
+          onPressed: onTap,
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+            primary: kPrimaryColor,
+          ),
+          child: Text(
+            'noConnection3'.tr,
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
+      )
+    ],
+  );
+}
+
+dynamic emptyPageImage({required Function() onTap}) {
+  return Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(noData, width: 350, height: 350),
+        Text(
+          'noData'.tr,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: ElevatedButton(
+            onPressed: onTap,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+              primary: kPrimaryColor,
+            ),
+            child: Text(
+              'noConnection3'.tr,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+dynamic emptryPageText() {
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        'noData1'.tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+      ),
+    ),
+  );
+}
+
+Expanded emptyCart() {
+  return Expanded(
+    child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Lottie.asset('assets/lottie/emptyCART.json', width: 350, height: 350),
+            Text(
+              'cartEmpty'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
+            ),
+            Text(
+              'cartEmptySubtitle'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 20),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}

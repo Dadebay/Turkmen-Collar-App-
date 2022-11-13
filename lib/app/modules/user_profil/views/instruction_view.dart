@@ -38,9 +38,17 @@ class InstructionView extends GetView {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return const Text('error');
+            return errorPage(
+              onTap: () {
+                AboutUsService().getFAQ();
+              },
+            );
           } else if (snapshot.data == null) {
-            return const Text('null');
+            return emptyPageImage(
+              onTap: () {
+                AboutUsService().getFAQ();
+              },
+            );
           }
           return ListView.builder(
             itemCount: snapshot.data!.length,

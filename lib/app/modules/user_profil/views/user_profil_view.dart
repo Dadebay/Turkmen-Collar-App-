@@ -113,7 +113,9 @@ class _UserProfilViewState extends State<UserProfilView> {
             final token = await Auth().getToken();
             if (token == null || token == '') {
               showSnackBar('loginError', 'loginErrorSubtitle', Colors.red);
-            } else {}
+            } else {
+              showSnackBar('notWork', 'notWorkSubtitle', Colors.green);
+            }
           },
           icon: Icons.usb,
           langIconStatus: true,

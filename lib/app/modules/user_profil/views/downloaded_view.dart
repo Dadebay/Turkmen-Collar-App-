@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
+import 'package:yaka2/app/constants/constants.dart';
 
 class DownloadedView extends GetView {
   const DownloadedView({Key? key}) : super(key: key);
@@ -9,10 +12,23 @@ class DownloadedView extends GetView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('downloaded'.tr),
+        title: Text(
+          'downloaded'.tr,
+          style: TextStyle(fontFamily: normProBold, color: Colors.black),
+        ),
+        backgroundColor: kPrimaryColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            IconlyLight.arrowLeftCircle,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
         centerTitle: true,
-        elevation: 4,
-        backgroundColor: Colors.white,
       ),
       body: StaggeredGridView.countBuilder(
         crossAxisCount: 2,

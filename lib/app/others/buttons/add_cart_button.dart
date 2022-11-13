@@ -126,7 +126,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                 onTap: () {
                   addCartBool = !addCartBool;
                   cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
-                  showSnackBar('Goşuldy', 'Sebede haryt goşuldy !', kPrimaryColor);
+                  showSnackBar('added', 'addedSubtitle', kPrimaryColor);
                   setState(() {});
                 },
                 child: Container(

@@ -13,20 +13,15 @@ class OrderService {
     final headers = {
       'Authorization': 'Bearer $token',
     };
-    print(token);
     final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/v1/users/me/orders'));
     request.fields.addAll({'products': jsonEncode(products), 'note': note, 'customer_name': customer_name, 'address': address, 'phone': '993${phone}', 'province': province});
 
     request.headers.addAll(headers);
 
     final http.StreamedResponse response = await request.send();
-    print(response.stream);
-    print(response.statusCode);
     if (response.statusCode == 201) {
-      print(await response.stream.bytesToString());
       return true;
     } else {
-      print(response.reasonPhrase);
       return false;
     }
   }

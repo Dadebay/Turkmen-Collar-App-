@@ -14,6 +14,7 @@ import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/buttons/fav_button.dart';
 
 import '../../../constants/widgets.dart';
+import '../../../data/services/auth_service.dart';
 import '../controllers/product_profil_controller.dart';
 import 'download_yaka.dart';
 
@@ -63,7 +64,11 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: spinKit());
         } else if (snapshot.hasError) {
-          return const Text('Error');
+          return errorPage(
+            onTap: () {
+              DressesService().getDressesByID(widget.id);
+            },
+          );
         }
         final double a = double.parse(snapshot.data!.price.toString());
         final double b = a / 100.0;
@@ -92,7 +97,11 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: spinKit());
         } else if (snapshot.hasError) {
-          return const Text('Error');
+          return errorPage(
+            onTap: () {
+              CollarService().getCollarsByID(widget.id);
+            },
+          );
         }
         final double a = double.parse(snapshot.data!.price.toString());
         final double b = a / 100.0;
@@ -200,8 +209,22 @@ class _ProductProfilViewState extends State<ProductProfilView> {
   Widget downloadButton() {
     return widget.downloadable
         ? GestureDetector(
-            onTap: () {
-              Get.to(() => DownloadYakaPage(image: widget.image[0], list: widget.files));
+            onTap: () async {
+              final token = await Auth().getToken();
+              print(token);
+              if (token == null) {
+                showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+              } else {
+                widget.files.length == 0
+                    ? showSnackBar('error', 'noFile', Colors.red)
+                    : Get.to(
+                        () => DownloadYakaPage(
+                          image: widget.image[0],
+                          list: widget.files,
+                          pageName: widget.name,
+                        ),
+                      );
+              }
             },
             child: Container(
               width: Get.size.width,

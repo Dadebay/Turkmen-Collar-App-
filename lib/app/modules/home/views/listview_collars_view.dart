@@ -28,15 +28,18 @@ class ListviewCollarsView extends GetView {
           ),
           Expanded(
             child: FutureBuilder<List<CollarModel>>(
-              // future: homeController.collars,
-              future: CollarService().getCollars(),
+              future: homeController.collars,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderCollar();
                 } else if (snapshot.hasError) {
-                  return const Text('Error');
+                  return errorPage(
+                    onTap: () {
+                      CollarService().getCollars();
+                    },
+                  );
                 } else if (snapshot.data!.isEmpty) {
-                  return const Text('No Kategory Image');
+                  return emptryPageText();
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,

@@ -86,9 +86,18 @@ class _ProfilSettingsState extends State<ProfilSettings> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return const Text('error');
+            return errorPage(
+              onTap: () {
+                AboutUsService().getuserData();
+              },
+            );
+            ;
           } else if (snapshot.data == null) {
-            return const Text('null');
+            return emptyPageImage(
+              onTap: () {
+                AboutUsService().getuserData();
+              },
+            );
           }
           changeData(
             snapshot.data!.phone!.substring(4, 12),

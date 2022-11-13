@@ -22,11 +22,9 @@ class FavService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson);
       for (final Map product in responseJson['data']) {
         favListProducts.add(DressesModel.fromJson(product));
       }

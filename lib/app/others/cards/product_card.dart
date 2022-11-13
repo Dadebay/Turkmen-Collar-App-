@@ -10,6 +10,7 @@ import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/product_profil/views/download_yaka.dart';
 
+import '../../data/services/auth_service.dart';
 import '../buttons/fav_button.dart';
 import '../product_profil/views/product_profil_view.dart';
 
@@ -35,7 +36,6 @@ class ProductCard extends StatelessWidget {
           shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
         ),
         onPressed: () {
-          print(id);
           Get.to(
             () => ProductProfilView(
               downloadable: downloadable,
@@ -187,12 +187,19 @@ class ProductCard extends StatelessWidget {
           ),
           downloadable
               ? GestureDetector(
-                  onTap: () {
-                    print(files);
-                    files.forEach((element) {
-                      print(element.purchased);
-                    });
-                    files.length == 0 ? showSnackBar('File yok', 'Hic hili file yok', Colors.red) : Get.to(() => DownloadYakaPage(image: image[0], list: files));
+                  onTap: () async {
+                    final token = await Auth().getToken();
+                    if (token == null) {
+                      showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+                    } else {
+                      files.length == 0
+                          ? showSnackBar('error', 'noFile', Colors.red)
+                          : Get.to(() => DownloadYakaPage(
+                                image: image[0],
+                                list: files,
+                                pageName: name,
+                              ));
+                    }
                   },
                   child: Container(
                     margin: const EdgeInsets.only(top: 4),

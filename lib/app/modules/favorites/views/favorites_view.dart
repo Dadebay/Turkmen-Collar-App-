@@ -68,13 +68,22 @@ class FavoritesView extends GetView<FavoritesController> {
                     child: spinKit(),
                   );
                 } else if (snapshot.hasError) {
-                  return Center(child: const Text('Error'));
+                  return errorPage(
+                    onTap: () {
+                      FavService().getCollarFavList();
+                    },
+                  );
                 } else if (snapshot.data!.isEmpty) {
-                  return Center(child: const Text('Empty'));
+                  return emptyPageImage(
+                    onTap: () {
+                      FavService().getCollarFavList();
+                    },
+                  );
                 }
                 return StaggeredGridView.countBuilder(
-                  crossAxisCount: snapshot.data!.length,
+                  crossAxisCount: 2,
                   itemCount: snapshot.data!.length,
+                  scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ProductCard(
                       image: snapshot.data![index].images ?? [],
@@ -86,7 +95,7 @@ class FavoritesView extends GetView<FavoritesController> {
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },
-                  staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
+                  staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.3 : 1.5),
                 );
               },
             ),
@@ -98,13 +107,23 @@ class FavoritesView extends GetView<FavoritesController> {
                     child: spinKit(),
                   );
                 } else if (snapshot.hasError) {
-                  return Center(child: const Text('Error'));
+                  return errorPage(
+                    onTap: () {
+                      FavService().getProductFavList();
+                    },
+                  );
                 } else if (snapshot.data!.isEmpty) {
-                  return Center(child: const Text('Empty'));
+                  return emptyPageImage(
+                    onTap: () {
+                      FavService().getProductFavList();
+                    },
+                  );
+                  ;
                 }
                 return StaggeredGridView.countBuilder(
-                  crossAxisCount: snapshot.data!.length,
+                  crossAxisCount: 2,
                   itemCount: snapshot.data!.length,
+                  scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ProductCard(
                       image: snapshot.data![index].images!,
@@ -116,7 +135,7 @@ class FavoritesView extends GetView<FavoritesController> {
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },
-                  staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
+                  staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.3 : 1.5),
                 );
               },
             ),

@@ -50,11 +50,7 @@ class CartView extends GetView<CartController> {
         return Column(
           children: [
             cartController.list.isEmpty
-                ? Expanded(
-                    child: Center(
-                      child: Text('Bos Sebet'),
-                    ),
-                  )
+                ? emptyCart()
                 : Expanded(
                     child: ListView.builder(
                       itemCount: cartController.list.length,

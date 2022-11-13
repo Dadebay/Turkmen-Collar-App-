@@ -53,7 +53,11 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return const Text('Error');
+            return errorPage(
+              onTap: () {
+                MachineService().getMachineByID(id);
+              },
+            );
           }
           a = double.parse(snapshot.data!.price.toString());
           b = a / 100.0;

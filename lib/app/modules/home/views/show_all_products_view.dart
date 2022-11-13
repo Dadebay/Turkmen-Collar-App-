@@ -78,9 +78,17 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (snapshot.hasError) {
-              return const Text('Error');
+              return errorPage(
+                onTap: () {
+                  CategoryService().getCategoryByID(widget.id, parametrs: {'sort_by': '${homeController.sortName}', 'min': _controller.text, 'max': _controller1.text, 'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}'});
+                },
+              );
             } else if (snapshot.data!.isEmpty) {
-              return Center(child: const Text('No Kategory Image'));
+              return emptyPageImage(
+                onTap: () {
+                  CategoryService().getCategoryByID(widget.id, parametrs: {'sort_by': '${homeController.sortName}', 'min': _controller.text, 'max': _controller1.text, 'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}'});
+                },
+              );
             }
             return StaggeredGridView.countBuilder(
               crossAxisCount: 2,
@@ -165,9 +173,17 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.hasError) {
-                  return const Text('error');
+                  return errorPage(
+                    onTap: () {
+                      AboutUsService().getmMchines();
+                    },
+                  );
                 } else if (snapshot.data == null) {
-                  return const Text('null');
+                  return emptyPageImage(
+                    onTap: () {
+                      AboutUsService().getmMchines();
+                    },
+                  );
                 }
                 return Column(
                   children: List.generate(

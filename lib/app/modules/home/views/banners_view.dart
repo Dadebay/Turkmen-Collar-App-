@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/loaders.dart';
+import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/banner_model.dart';
+import 'package:yaka2/app/data/services/banner_service.dart';
 import 'package:yaka2/app/others/cards/banner_card.dart';
 
 import '../controllers/home_controller.dart';
@@ -21,9 +23,13 @@ class BannersView extends GetView {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loaderBanner();
         } else if (snapshot.hasError) {
-          return const Text('Error');
+          return errorPage(
+            onTap: () {
+              BannerService().getBanners();
+            },
+          );
         } else if (snapshot.data!.isEmpty) {
-          return const Text('No Banner Image');
+          return emptryPageText();
         }
         return Column(
           mainAxisSize: MainAxisSize.min,
