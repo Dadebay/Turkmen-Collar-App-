@@ -102,6 +102,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         id: snapshot.data![index].id!,
                         files: snapshot.data![index].files!,
                         downloadable: true,
+                        removeAddCard: false,
                         createdAt: snapshot.data![index].createdAt!,
                       )
                     : ProductCard(
@@ -110,6 +111,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         price: '${snapshot.data![index].price}',
                         id: snapshot.data![index].id!,
                         downloadable: false,
+                        removeAddCard: false,
                         files: [],
                         createdAt: snapshot.data![index].createdAt!,
                       );

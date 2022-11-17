@@ -16,7 +16,6 @@ import '../controllers/user_profil_controller.dart';
 import 'addMoneyPage.dart';
 import 'history_order.dart';
 import 'instruction_view.dart';
-import 'profil_settings.dart';
 
 class UserProfilView extends StatefulWidget {
   @override
@@ -57,16 +56,16 @@ class _UserProfilViewState extends State<UserProfilView> {
   ListView page() {
     return ListView(
       children: [
-        userProfilController.userLogin.value
-            ? ProfilButton(
-                name: 'profil',
-                onTap: () {
-                  Get.to(() => ProfilSettings());
-                },
-                icon: IconlyLight.profile,
-                langIconStatus: false,
-              )
-            : SizedBox.shrink(),
+        // userProfilController.userLogin.value
+        //     ? ProfilButton(
+        //         name: 'profil',
+        //         onTap: () {
+        //           Get.to(() => ProfilSettings());
+        //         },
+        //         icon: IconlyLight.profile,
+        //         langIconStatus: false,
+        //       )
+        //     : SizedBox.shrink(),
         ProfilButton(
           name: Get.locale!.toLanguageTag() == 'tr' ? 'Türkmen dili' : 'Rus dili',
           onTap: () {

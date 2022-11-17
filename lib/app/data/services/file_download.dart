@@ -20,7 +20,6 @@ class FileDownload {
       }),
     );
     final responseJson = json.decode(response.body);
-    print(responseJson['data']['file']);
     print(responseJson);
     print(response.statusCode);
     return responseJson['data']['file'];

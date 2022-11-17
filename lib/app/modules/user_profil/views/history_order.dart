@@ -70,7 +70,7 @@ class HistoryOrders extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Sargyt ${index + 1}',
+                      'order'.tr + ' ${index + 1}',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
@@ -78,7 +78,7 @@ class HistoryOrders extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      snapshot.data![index].status == 'in_review' ? 'Garasylyar' : 'Geldi',
+                      snapshot.data![index].status == 'in_review' ? 'waiting'.tr : 'come'.tr,
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 16,
@@ -153,7 +153,7 @@ class HistoryOrderProductID extends StatelessWidget {
           ),
         ),
         title: Text(
-          'order ${index}'.tr,
+          'order'.tr + ' ${index + 1}'.tr,
           style: const TextStyle(color: Colors.black),
         ),
       ),
@@ -180,7 +180,7 @@ class HistoryOrderProductID extends StatelessWidget {
             ;
           }
           return StaggeredGridView.countBuilder(
-            crossAxisCount: snapshot.data!.length,
+            crossAxisCount: 2,
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return ProductCard(
@@ -190,6 +190,7 @@ class HistoryOrderProductID extends StatelessWidget {
                 id: snapshot.data![index].id!,
                 downloadable: false,
                 files: [],
+                removeAddCard: true,
                 createdAt: '',
               );
             },

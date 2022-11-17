@@ -22,12 +22,13 @@ class ProductCard extends StatelessWidget {
   final String price;
   final List<FilesModel> files;
   final bool downloadable;
-  const ProductCard({required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable});
+  final bool? removeAddCard;
+  const ProductCard({required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable, this.removeAddCard});
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 180,
-      margin: const EdgeInsets.only(left: 15, bottom: 5),
+      margin: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0.32,
@@ -116,16 +117,18 @@ class ProductCard extends StatelessWidget {
                     ),
             ),
           ),
-          Positioned(
-            top: 12,
-            right: 12,
-            child: FavButton(
-              isCollar: downloadable,
-              whcihPage: false,
-              name: name,
-              id: id,
-            ),
-          )
+          removeAddCard!
+              ? SizedBox.shrink()
+              : Positioned(
+                  top: 12,
+                  right: 12,
+                  child: FavButton(
+                    isCollar: downloadable,
+                    whcihPage: false,
+                    name: name,
+                    id: id,
+                  ),
+                )
         ],
       ),
     );
@@ -136,7 +139,7 @@ class ProductCard extends StatelessWidget {
     final double b = a / 100.0;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(top: 4, left: 5),
+      padding: removeAddCard! ? EdgeInsets.only(top: 8, bottom: 8, left: 5) : EdgeInsets.only(top: 4, left: 5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -185,46 +188,54 @@ class ProductCard extends StatelessWidget {
               ),
             ],
           ),
-          downloadable
-              ? GestureDetector(
-                  onTap: () async {
-                    final token = await Auth().getToken();
-                    if (token == null) {
-                      showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
-                    } else {
-                      files.length == 0
-                          ? showSnackBar('error', 'noFile', Colors.red)
-                          : Get.to(() => DownloadYakaPage(
-                                image: image[0],
-                                list: files,
-                                pageName: name,
-                              ));
-                    }
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 4),
-                    width: Get.size.width,
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    decoration: const BoxDecoration(
-                      borderRadius: borderRadius5,
-                      color: kPrimaryColor,
-                    ),
-                    child: Text(
-                      'download'.tr,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white, fontFamily: normsProMedium),
-                    ),
-                  ),
-                )
-              : AddCartButton(
-                  id: id,
-                  price: price,
-                  productProfil: false,
-                  createdAt: createdAt,
-                  image: image[0],
-                  name: name,
-                )
+          removeAddCard!
+              ? SizedBox.shrink()
+              : downloadable
+                  ? downloadButton()
+                  : AddCartButton(
+                      id: id,
+                      price: price,
+                      productProfil: false,
+                      createdAt: createdAt,
+                      image: image[0],
+                      name: name,
+                    )
         ],
+      ),
+    );
+  }
+
+  GestureDetector downloadButton() {
+    return GestureDetector(
+      onTap: () async {
+        final token = await Auth().getToken();
+        if (token == null) {
+          showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+        } else {
+          files.length == 0
+              ? showSnackBar('error', 'noFile', Colors.red)
+              : Get.to(
+                  () => DownloadYakaPage(
+                    image: image[0],
+                    list: files,
+                    pageName: name,
+                  ),
+                );
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(top: 4),
+        width: Get.size.width,
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        decoration: const BoxDecoration(
+          borderRadius: borderRadius5,
+          color: kPrimaryColor,
+        ),
+        child: Text(
+          'download'.tr,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white, fontFamily: normsProMedium),
+        ),
       ),
     );
   }

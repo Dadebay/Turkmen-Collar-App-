@@ -49,6 +49,7 @@ class ListviewClothesView extends GetView {
                       id: snapshot.data![index].id!,
                       downloadable: false,
                       files: [],
+                      removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },

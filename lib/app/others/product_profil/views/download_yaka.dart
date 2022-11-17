@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
@@ -20,28 +21,20 @@ class DownloadYakaPage extends StatelessWidget {
   final List<FilesModel> list;
   final String pageName;
 
-  // Future<String> createFolder(String cow) async {
-  //   final folderName = cow;
-  //   final path = Directory('storage/emulated/0/$folderName');
-  //   final status = await Permission.storage.status;
-  //   if (!status.isGranted) {
-  //     await Permission.storage.request();
-  //   }
-  //   if (await path.exists()) {
-  //     return path.path;
-  //   } else {
-  //     await path.create(recursive: true);
-  //     return path.path;
-  //   }
-  // }
-  // final taskId = await FlutterDownloader.enqueue(
-  //   url: value,
-  //   savedDir: 'storage/emulated/0/',
-  //   showNotification: true, // show download progress in status bar (for Android)
-  //   openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-  // ).then((value2) {
-  //   print(value2);
-  // });
+  Future<String> createFolder() async {
+    final path = Directory('storage/emulated/0/Download/YAKA');
+    final status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+    if (await path.exists()) {
+      return path.path;
+    } else {
+      await path.create();
+      return path.path;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,29 +76,17 @@ class DownloadYakaPage extends StatelessWidget {
                       await Permission.storage.request();
                     }
                     if (b >= list[index].price! / 100) {
-                      await FileDownload().downloadFile(id: list[index].id!).then((value) async {
-                        ///
-                        ///
-                        print(value);
-                        final appStorage = await getApplicationDocumentsDirectory();
-                        try {
-                          final response = Dio().get(
-                            value,
-                            options: Options(
-                              responseType: ResponseType.bytes,
-                              followRedirects: false,
-                              receiveTimeout: 0,
-                            ),
-                          );
-                          print(response);
-                          print(response.asStream());
-                        } catch (e) {
-                          return null;
-                        }
-                        ////
-                        ////
-                      });
-                      homeController.userMoney();
+                      await createFolder();
+                      await FileDownload().downloadFile(id: list[index].id!).then(
+                        (value) async {
+                          final Dio dio = Dio();
+                          await dio.download(value, 'storage/emulated/0/Download' + '/${list[index].name}.jef').then((value) {
+                            print(value);
+                            showSnackBar('Skacat etdi', 'oh yesss', kPrimaryColor);
+                          });
+                        },
+                      );
+                      // homeController.userMoney();
                     } else {
                       showSnackBar('noMoney', 'noMoneySubtitle', Colors.red);
                     }

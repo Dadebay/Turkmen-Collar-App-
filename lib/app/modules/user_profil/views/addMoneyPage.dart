@@ -47,7 +47,7 @@ class AddCash extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: ElevatedButton(
                 onPressed: () async {
-                  await launch('tel://+99362990344');
+                  await launch('tel://+99364030911');
                 },
                 style: ElevatedButton.styleFrom(
                   primary: kPrimaryColor,

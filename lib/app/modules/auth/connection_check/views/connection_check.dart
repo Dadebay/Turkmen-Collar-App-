@@ -181,7 +181,7 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
                       borderRadius: borderRadius30,
                     ),
                     child: Image.asset(
-                      logo,
+                      logo1,
                       fit: BoxFit.cover,
                     ),
                   ),

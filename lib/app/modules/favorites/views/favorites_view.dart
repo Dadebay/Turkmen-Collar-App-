@@ -14,8 +14,8 @@ import 'package:yaka2/app/others/cards/product_card.dart';
 import '../controllers/favorites_controller.dart';
 
 class FavoritesView extends GetView<FavoritesController> {
-  const FavoritesView({Key? key}) : super(key: key);
-
+  FavoritesView({Key? key}) : super(key: key);
+  final FavoritesController controller = Get.put(FavoritesController());
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -75,11 +75,13 @@ class FavoritesView extends GetView<FavoritesController> {
                   );
                 } else if (snapshot.data!.isEmpty) {
                   return emptyPageImage(
+                    name: 'emptyFavoriteSubtitle'.tr,
                     onTap: () {
                       FavService().getCollarFavList();
                     },
                   );
                 }
+
                 return StaggeredGridView.countBuilder(
                   crossAxisCount: 2,
                   itemCount: snapshot.data!.length,
@@ -92,10 +94,11 @@ class FavoritesView extends GetView<FavoritesController> {
                       id: snapshot.data![index].id!,
                       files: snapshot.data![index].files!,
                       downloadable: true,
+                      removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },
-                  staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.3 : 1.5),
+                  staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.4 : 1.5),
                 );
               },
             ),
@@ -114,11 +117,11 @@ class FavoritesView extends GetView<FavoritesController> {
                   );
                 } else if (snapshot.data!.isEmpty) {
                   return emptyPageImage(
+                    name: 'emptyFavoriteSubtitle'.tr,
                     onTap: () {
                       FavService().getProductFavList();
                     },
                   );
-                  ;
                 }
                 return StaggeredGridView.countBuilder(
                   crossAxisCount: 2,
@@ -126,13 +129,14 @@ class FavoritesView extends GetView<FavoritesController> {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ProductCard(
-                      image: snapshot.data![index].images!,
-                      name: '${snapshot.data![index].name}',
-                      price: '${snapshot.data![index].price}',
+                      image: snapshot.data![index].images ?? [],
+                      name: '${snapshot.data![index].name ?? 'asd'}',
+                      price: '${snapshot.data![index].price ?? 00}',
                       id: snapshot.data![index].id!,
                       downloadable: false,
                       files: [],
-                      createdAt: snapshot.data![index].createdAt!,
+                      removeAddCard: false,
+                      createdAt: snapshot.data![index].createdAt ?? 'asd',
                     );
                   },
                   staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.3 : 1.5),

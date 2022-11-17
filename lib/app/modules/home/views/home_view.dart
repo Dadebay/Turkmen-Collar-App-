@@ -59,9 +59,9 @@ class HomeView extends GetView<HomeController> {
       systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
       centerTitle: true,
       title: Image.asset(
-        logo,
-        width: 120,
-        height: 120,
+        logo1,
+        width: 80,
+        height: 80,
       ),
       leading: IconButton(
         padding: EdgeInsets.only(top: 5),
@@ -120,7 +120,7 @@ class HomeView extends GetView<HomeController> {
             child: Padding(
               padding: const EdgeInsets.all(25.0),
               child: Image.asset(
-                logo,
+                logo1,
                 fit: BoxFit.cover,
                 height: 200,
               ),
@@ -137,7 +137,7 @@ class HomeView extends GetView<HomeController> {
           ProfilButton(
             name: 'favorites',
             onTap: () {
-              Get.to(() => const FavoritesView());
+              Get.to(() => FavoritesView());
             },
             icon: IconlyBold.heart,
             langIconStatus: false,

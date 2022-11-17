@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
-import 'package:yaka2/app/data/services/fav_service.dart';
 import 'package:yaka2/app/modules/favorites/controllers/favorites_controller.dart';
 
 class FavButton extends StatefulWidget {
@@ -28,7 +27,7 @@ class _FavButtonState extends State<FavButton> {
 
   dynamic work() {
     for (var element in favoritesController.favList) {
-      if (element['id'] == widget.id) {
+      if (element['id'] == widget.id && element['name'] == widget.name) {
         value = true;
       }
     }
@@ -42,36 +41,25 @@ class _FavButtonState extends State<FavButton> {
       return GestureDetector(
         onTap: () async {
           final token = await Auth().getToken();
+          print(token);
           if (token == null || token == '') {
             showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
           } else {
+            print(widget.isCollar);
             if (widget.isCollar == true) {
-              await FavService().addCollarToFav(id: widget.id).then((value) {
-                if (value == true) {
-                  showSnackBar('copySucces', 'collarAddToFav', Colors.green);
-                } else {
-                  showSnackBar('noConnection3', 'error', Colors.red);
-                }
-              });
               setState(() {
                 value = !value;
-                favoritesController.toggleFav(widget.id, widget.name);
+                favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);
               });
             }
             if (widget.isCollar == false) {
-              await FavService().addProductToFav(id: widget.id).then((value) {
-                if (value == true) {
-                  showSnackBar('copySucces', 'productAddToFav', Colors.green);
-                } else {
-                  showSnackBar('noConnection3', 'error', Colors.red);
-                }
-              });
               setState(() {
                 value = !value;
-                favoritesController.toggleFav(widget.id, widget.name);
+                favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);
               });
             }
           }
+          print(favoritesController.favList);
         },
         child: Container(
           padding: EdgeInsets.all(widget.whcihPage ? 8 : 6),

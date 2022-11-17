@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
-class CollarModel {
+class DownloadsModel {
   final int? id;
   final String? name;
   final int? price;
@@ -8,9 +8,11 @@ class CollarModel {
   final String? createdAt;
   final bool? purchased;
   final String? file;
-  CollarModel({this.name, this.price, this.machineName, this.id, this.createdAt, this.file, this.purchased});
+  final List? images;
 
-  factory CollarModel.fromJson(Map<dynamic, dynamic> json) {
+  DownloadsModel({this.name, this.images, this.price, this.machineName, this.id, this.createdAt, this.file, this.purchased});
+
+  factory DownloadsModel.fromJson(Map<dynamic, dynamic> json) {
     final List image = json['images'] as List;
     List<dynamic> images = [];
     if (image == null) {
@@ -18,7 +20,7 @@ class CollarModel {
     } else {
       images = image.map((value) => value).toList();
     }
-    return CollarModel(
+    return DownloadsModel(
       id: json['id'],
       name: json['name'],
       createdAt: json['created_at'],
@@ -26,6 +28,7 @@ class CollarModel {
       machineName: json['machine_name'],
       file: json['file'],
       purchased: json['purchased'],
+      images: images,
     );
   }
 }

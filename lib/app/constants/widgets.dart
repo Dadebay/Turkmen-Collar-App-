@@ -8,6 +8,8 @@ import 'package:restart_app/restart_app.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 
+import '../data/models/auth_model.dart';
+
 dynamic noBannerImage() {
   return const Text('No Image');
 }
@@ -187,7 +189,8 @@ void logOut() {
           ),
           GestureDetector(
             onTap: () async {
-              // await Auth().logout();
+              Get.find<UserProfilController>().userLogin.value = false;
+              await Auth().logout();
               Get.back();
               await Restart.restartApp();
             },
@@ -329,7 +332,7 @@ dynamic errorPage({required Function() onTap}) {
   );
 }
 
-dynamic emptyPageImage({required Function() onTap}) {
+dynamic emptyPageImage({required Function() onTap, String? name}) {
   return Center(
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -338,24 +341,27 @@ dynamic emptyPageImage({required Function() onTap}) {
       children: [
         Lottie.asset(noData, width: 350, height: 350),
         Text(
-          'noData'.tr,
+          name ?? 'noData1'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: ElevatedButton(
-            onPressed: onTap,
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-              primary: kPrimaryColor,
-            ),
-            child: Text(
-              'noConnection3'.tr,
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
-          ),
+        SizedBox(
+          height: 50,
         )
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 8),
+        //   child: ElevatedButton(
+        //     onPressed: onTap,
+        //     style: ElevatedButton.styleFrom(
+        //       shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+        //       primary: kPrimaryColor,
+        //     ),
+        //     child: Text(
+        //       'noConnection3'.tr,
+        //       style: TextStyle(color: Colors.white, fontSize: 18),
+        //     ),
+        //   ),
+        // )
       ],
     ),
   );

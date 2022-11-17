@@ -47,7 +47,7 @@ class TabbarView extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Image.asset(
-                      logo,
+                      logo1,
                       fit: BoxFit.cover,
                     ),
                   ),

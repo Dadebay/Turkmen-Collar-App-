@@ -53,6 +53,7 @@ class ListviewCollarsView extends GetView {
                       id: snapshot.data![index].id!,
                       files: snapshot.data![index].files!,
                       downloadable: true,
+                      removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },

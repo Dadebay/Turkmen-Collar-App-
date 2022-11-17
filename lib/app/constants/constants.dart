@@ -23,10 +23,11 @@ const String normProBold = 'NormsProBold';
 const String tmIcon = 'assets/image/tm.png';
 const String ruIcon = 'assets/image/ru.png';
 const String logo = 'assets/image/logo.png';
+const String logo1 = 'assets/image/logo1.png';
 const String noData = 'assets/lottie/noData.json';
 const String shareIcon = 'assets/icons/share1.png';
 const String appName = 'ÝAKA';
-const String appShareLink = 'https://drive.google.com/file/d/1g9_tSXWrnbpdDs49jIGteBOn4gl-J1ET/view?usp=sharing';
+const String appShareLink = 'https://play.google.com/store/apps/details?id=com.bilermennesil.yaka2';
 /////////////////////////////////////////////////
 
 const List sortData = [
