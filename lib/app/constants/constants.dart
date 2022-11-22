@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const String serverURL = 'http://95.85.125.234:8765';
 
 const Color kPrimaryColor = Color(0xfffd7e15);
-const Color kPrimaryColorCard = Color.fromARGB(255, 240, 255, 246);
+const Color kPrimaryColorCard = Colors.white;
 const Color kBlackColor = Color(0xff000000);
 const Color kGreyColor = Color.fromARGB(255, 234, 234, 234);
 

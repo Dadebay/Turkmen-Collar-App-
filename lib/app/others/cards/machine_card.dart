@@ -45,33 +45,48 @@ class MachineCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 3,
-              child: Container(
-                margin: const EdgeInsets.all(8),
-                width: Get.size.width,
-                height: Get.size.height,
-                decoration: const BoxDecoration(
-                  borderRadius: borderRadius10,
-                  color: Colors.white,
-                ),
-                padding: const EdgeInsets.all(8),
-                child: ClipRRect(
-                  borderRadius: borderRadius10,
-                  child: CachedNetworkImage(
-                    fadeInCurve: Curves.ease,
-                    imageUrl: model.images![0],
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      width: Get.size.width,
+                      height: Get.size.height,
+                      decoration: const BoxDecoration(
                         borderRadius: borderRadius10,
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
+                        color: Colors.white,
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: ClipRRect(
+                        borderRadius: borderRadius10,
+                        child: CachedNetworkImage(
+                          fadeInCurve: Curves.ease,
+                          imageUrl: model.images![0],
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: borderRadius10,
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) => Center(child: spinKit()),
+                          errorWidget: (context, url, error) => noBannerImage(),
                         ),
                       ),
                     ),
-                    placeholder: (context, url) => Center(child: spinKit()),
-                    errorWidget: (context, url, error) => noBannerImage(),
                   ),
-                ),
+                  Positioned(
+                    bottom: 40,
+                    right: 8,
+                    child: Image.asset(
+                      logo1,
+                      width: 50,
+                      height: 20,
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(

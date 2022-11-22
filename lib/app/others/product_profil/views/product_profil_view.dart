@@ -12,6 +12,7 @@ import 'package:yaka2/app/data/services/collars_service.dart';
 import 'package:yaka2/app/data/services/dresses_service.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/buttons/fav_button.dart';
+import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
 import '../../../constants/widgets.dart';
 import '../../../data/services/auth_service.dart';
@@ -186,11 +187,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           thickness: 1,
           color: Colors.grey.shade300,
         ),
-        twoText(name1: widget.downloadable ? 'data4' : 'createdAt ', name2: downloads),
-        Divider(
-          thickness: 1,
-          color: Colors.grey.shade300,
-        ),
+        widget.downloadable ? SizedBox.shrink() : twoText(name1: 'createdAt', name2: downloads),
+        widget.downloadable
+            ? SizedBox.shrink()
+            : Divider(
+                thickness: 1,
+                color: Colors.grey.shade300,
+              ),
         Padding(
           padding: const EdgeInsets.only(top: 30, bottom: 10),
           child: Text(
@@ -348,20 +351,25 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         child: CarouselSlider.builder(
           itemCount: widget.image.length,
           itemBuilder: (context, index, count) {
-            return CachedNetworkImage(
-              fadeInCurve: Curves.ease,
-              imageUrl: widget.image[index],
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                Get.to(() => PhotoViewPage(image: widget.image[index]));
+              },
+              child: CachedNetworkImage(
+                fadeInCurve: Curves.ease,
+                imageUrl: widget.image[index],
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+                placeholder: (context, url) => Center(child: spinKit()),
+                errorWidget: (context, url, error) => noBannerImage(),
               ),
-              placeholder: (context, url) => Center(child: spinKit()),
-              errorWidget: (context, url, error) => noBannerImage(),
             );
           },
           options: CarouselOptions(

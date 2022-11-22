@@ -1,40 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/donwloads_model.dart';
 import 'package:yaka2/app/data/services/downloads_service.dart';
 
 class DownloadedView extends GetView {
-  void download(String url) async {
-    final status = await Permission.storage.request();
-
-    if (status.isGranted) {
-      final id = await FlutterDownloader.enqueue(
-        url: url,
-        savedDir: '/storage/emulated/0/Download',
-        showNotification: true,
-        openFileFromNotification: true,
-        fileName: DateTime.now().millisecond.toString().replaceAll(' ', ''),
-      ).then((value) {
-        print('complated');
-      });
-    } else {
-      print('Permission Denied');
-    }
-  }
-
   const DownloadedView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 248, 248, 248),
       appBar: AppBar(
         title: Text(
           'downloaded'.tr,
@@ -116,10 +97,7 @@ class DownloadedView extends GetView {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () async {
-                      print(snapshot.data![index].file);
-                      download(snapshot.data![index].file!);
-                    },
+                    onTap: () {},
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                       width: Get.size.width,

@@ -9,6 +9,7 @@ import 'auth_service.dart';
 class DownloadsService {
   Future<List<DownloadsModel>> getDownloadedProducts() async {
     final token = await Auth().getToken();
+    
     final List<DownloadsModel> downoadPorducts = [];
     final response = await http.get(
       Uri.parse(

@@ -1,10 +1,14 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
+import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 import 'package:yaka2/app/modules/cart/views/cart_view.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
 import 'package:yaka2/app/modules/home/views/listview_clothes_view.dart';
@@ -22,12 +26,14 @@ import 'listview_collars_view.dart';
 class HomeView extends GetView<HomeController> {
   final UserProfilController userProfilController = Get.put(UserProfilController());
   final HomeController homeController = Get.put(HomeController());
+  final CartController cartController = Get.put(CartController());
   var scaffoldKey = GlobalKey<ScaffoldState>();
   HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      backgroundColor: Color.fromARGB(255, 248, 248, 248),
       resizeToAvoidBottomInset: false,
       appBar: appBar(context),
       drawer: drawer(),
@@ -63,16 +69,30 @@ class HomeView extends GetView<HomeController> {
         width: 80,
         height: 80,
       ),
-      leading: IconButton(
-        padding: EdgeInsets.only(top: 5),
-        icon: const Icon(
-          Icons.menu,
-          color: Colors.black,
-        ),
-        onPressed: () {
-          scaffoldKey.currentState?.openDrawer();
-        },
-      ),
+      leading: Obx(() {
+        return IconButton(
+          icon: cartController.list.length >= 1
+              ? Badge(
+                  padding: EdgeInsets.all(6),
+                  animationType: BadgeAnimationType.fade,
+                  badgeContent: Text(
+                    Get.find<CartController>().list.length.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                  child: const Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ),
+                )
+              : Icon(
+                  Icons.menu,
+                  color: Colors.black,
+                ),
+          onPressed: () {
+            scaffoldKey.currentState?.openDrawer();
+          },
+        );
+      }),
       actions: [
         Center(
           child: Row(
@@ -142,18 +162,61 @@ class HomeView extends GetView<HomeController> {
             icon: IconlyBold.heart,
             langIconStatus: false,
           ),
-          ProfilButton(
-            name: 'cart',
-            onTap: () {
-              Get.to(() => CartView());
-            },
-            icon: IconlyBold.bag2,
-            langIconStatus: false,
-          ),
+          Obx(() {
+            return ListTile(
+              onTap: () {
+                Get.to(() => CartView());
+              },
+              tileColor: Colors.white,
+              minVerticalPadding: 23,
+              title: Text(
+                'cart'.tr,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: const TextStyle(
+                  color: kBlackColor,
+                ),
+              ),
+              leading: cartController.list.length >= 1
+                  ? Badge(
+                      animationType: BadgeAnimationType.fade,
+                      padding: EdgeInsets.all(6),
+                      badgeContent: Text(
+                        Get.find<CartController>().list.length.toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.8), borderRadius: borderRadius15),
+                        child: Icon(
+                          IconlyBold.bag2,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.8), borderRadius: borderRadius15),
+                      child: Icon(
+                        IconlyBold.bag2,
+                        color: Colors.white,
+                      ),
+                    ),
+              trailing: const Icon(
+                IconlyLight.arrowRightCircle,
+                color: kPrimaryColor,
+              ),
+            );
+          }),
           ProfilButton(
             name: 'downloaded',
-            onTap: () {
-              Get.to(() => const DownloadedView());
+            onTap: () async {
+              final token = await Auth().getToken();
+              if (token == null) {
+                showSnackBar('loginError', 'loginError1', Colors.red);
+              } else {
+                await Get.to(() => const DownloadedView());
+              }
             },
             icon: IconlyBold.download,
             langIconStatus: false,

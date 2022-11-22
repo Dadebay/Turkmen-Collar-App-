@@ -156,6 +156,8 @@ class DownloadYakaPage extends StatelessWidget {
   }
 
   AppBar appbar() {
+    double a = double.parse(homeController.balance.toString());
+    a = a / 100;
     return AppBar(
       backgroundColor: kPrimaryColor,
       elevation: 0,
@@ -169,7 +171,7 @@ class DownloadYakaPage extends StatelessWidget {
             children: [
               Obx(() {
                 return Text(
-                  '${homeController.balance}',
+                  '$a',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,

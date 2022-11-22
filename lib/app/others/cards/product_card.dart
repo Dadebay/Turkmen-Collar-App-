@@ -31,7 +31,7 @@ class ProductCard extends StatelessWidget {
       margin: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          elevation: 0.32,
+          elevation: 1.0,
           primary: kPrimaryColorCard,
           padding: const EdgeInsets.only(left: 3, right: 3, top: 8, bottom: 5),
           shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
@@ -115,6 +115,15 @@ class ProductCard extends StatelessWidget {
                       placeholder: (context, url) => Center(child: spinKit()),
                       errorWidget: (context, url, error) => noBannerImage(),
                     ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Image.asset(
+              logo1,
+              width: 50,
+              height: 20,
             ),
           ),
           removeAddCard!

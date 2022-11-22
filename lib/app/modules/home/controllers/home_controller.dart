@@ -36,8 +36,7 @@ class HomeController extends GetxController {
     collars = CollarService().getCollars();
     dresses = DressesService().getDresses();
     machines = MachineService().getMachines();
-    favProducts = FavService().getProductFavList();
-    favCollars = FavService().getCollarFavList();
+
     userMoney();
   }
 
@@ -48,6 +47,8 @@ class HomeController extends GetxController {
       balance.value = '0';
       controller.userLogin.value = false;
     } else {
+      favProducts = FavService().getProductFavList();
+      favCollars = FavService().getCollarFavList();
       await AboutUsService().getuserData().then((value) {
         print(value.balance);
         balance.value = '${value.balance! / 100}';

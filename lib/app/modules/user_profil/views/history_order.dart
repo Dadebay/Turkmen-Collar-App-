@@ -70,7 +70,7 @@ class HistoryOrders extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'order'.tr + ' ${index + 1}',
+                      'order'.tr + ' ${snapshot.data!.length - index}',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
