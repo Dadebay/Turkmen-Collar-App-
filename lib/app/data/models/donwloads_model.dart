@@ -7,7 +7,7 @@ class DownloadsModel {
   final String? machineName;
   final String? createdAt;
   final bool? purchased;
-  final String? file;
+  final List? file;
   final List? images;
 
   DownloadsModel({this.name, this.images, this.price, this.machineName, this.id, this.createdAt, this.file, this.purchased});
@@ -25,8 +25,8 @@ class DownloadsModel {
       name: json['name'],
       createdAt: json['created_at'],
       price: json['price'],
-      machineName: json['machine_name'],
-      file: json['file'],
+      machineName: json['machine']['name'],
+      file: json['files'],
       purchased: json['purchased'],
       images: images,
     );

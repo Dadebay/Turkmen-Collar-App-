@@ -1,3 +1,5 @@
+// ignore_for_file: always_put_required_named_parameters_first
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -177,7 +179,6 @@ class HistoryOrderProductID extends StatelessWidget {
                 ;
               },
             );
-            ;
           }
           return StaggeredGridView.countBuilder(
             crossAxisCount: 2,

@@ -1,42 +1,32 @@
 import 'package:get/get.dart';
-import 'package:yaka2/app/data/models/banner_model.dart';
-import 'package:yaka2/app/data/models/category_model.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
-import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/data/services/about_us_service.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
-import 'package:yaka2/app/data/services/banner_service.dart';
-import 'package:yaka2/app/data/services/category_service.dart';
-import 'package:yaka2/app/data/services/collars_service.dart';
-import 'package:yaka2/app/data/services/dresses_service.dart';
 import 'package:yaka2/app/data/services/fav_service.dart';
-import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
-  RxString balance = ''.obs;
+  RxString balance = '0'.obs;
   RxString sortName = ''.obs;
   RxInt sortMachineID = 0.obs;
   RxString sortMachineName = 'Janome'.obs;
-  late final Future<List<BannerModel>> future;
-  late final Future<List<CategoryModel>> category;
-  late final Future<List<CollarModel>> collars;
-  late final Future<List<DressesModel>> dresses;
-  late final Future<List<MachineModel>> machines;
+  //
+  RxInt page = 1.obs;
+  RxInt limit = 10.obs;
+  RxInt loading = 0.obs;
+  RxList showAllList = [].obs;
+//
+  // late final Future<List<CategoryModel>> category;
   late final Future<List<DressesModel>> favProducts;
   late final Future<List<CollarModel>> favCollars;
 
   @override
   void onInit() {
     super.onInit();
-    future = BannerService().getBanners();
-    category = CategoryService().getCategories();
-    collars = CollarService().getCollars();
-    dresses = DressesService().getDresses();
-    machines = MachineService().getMachines();
-
+    // category = CategoryService().getCategories();
+    getFavorites();
     userMoney();
   }
 
@@ -47,13 +37,19 @@ class HomeController extends GetxController {
       balance.value = '0';
       controller.userLogin.value = false;
     } else {
-      favProducts = FavService().getProductFavList();
-      favCollars = FavService().getCollarFavList();
       await AboutUsService().getuserData().then((value) {
-        print(value.balance);
         balance.value = '${value.balance! / 100}';
       });
       controller.userLogin.value = true;
+    }
+  }
+
+  dynamic getFavorites() async {
+    final token = await Auth().getToken();
+    if (token == null) {
+    } else {
+      favProducts = FavService().getProductFavList();
+      favCollars = FavService().getCollarFavList();
     }
   }
 }

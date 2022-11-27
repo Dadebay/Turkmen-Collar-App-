@@ -8,16 +8,16 @@ import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
+import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/data/services/collars_service.dart';
 import 'package:yaka2/app/data/services/dresses_service.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/buttons/fav_button.dart';
+import 'package:yaka2/app/others/product_profil/views/download_yaka.dart';
 import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
 import '../../../constants/widgets.dart';
-import '../../../data/services/auth_service.dart';
 import '../controllers/product_profil_controller.dart';
-import 'download_yaka.dart';
 
 class ProductProfilView extends StatefulWidget {
   final int id;
@@ -114,7 +114,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           body: testPart(
             name: snapshot.data!.name!,
             price: b,
-            machineName: snapshot.data!.machineName!,
+            machineName: snapshot.data!.machineName ?? '',
             category: snapshot.data!.category!,
             downloads: '${snapshot.data!.downloads!}',
             views: '${snapshot.data!.views!}',
@@ -141,7 +141,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             Row(
               children: [
                 Text(
-                  '${price}',
+                  '${price.toStringAsFixed(0)}',
                   style: const TextStyle(
                     color: Colors.red,
                     fontSize: 22,
@@ -214,15 +214,15 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         ? GestureDetector(
             onTap: () async {
               final token = await Auth().getToken();
-              print(token);
               if (token == null) {
                 showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
               } else {
                 widget.files.length == 0
-                    ? showSnackBar('error', 'noFile', Colors.red)
+                    ? showSnackBar('errorTitle', 'noFile', Colors.red)
                     : Get.to(
                         () => DownloadYakaPage(
                           image: widget.image[0],
+                          id: widget.id,
                           list: widget.files,
                           pageName: widget.name,
                         ),
@@ -353,7 +353,10 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           itemBuilder: (context, index, count) {
             return GestureDetector(
               onTap: () {
-                Get.to(() => PhotoViewPage(image: widget.image[index]));
+                Get.to(() => PhotoViewPage(
+                      image: widget.image[index],
+                      networkImage: true,
+                    ));
               },
               child: CachedNetworkImage(
                 fadeInCurve: Curves.ease,

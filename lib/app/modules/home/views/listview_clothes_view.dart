@@ -24,7 +24,7 @@ class ListviewClothesView extends GetView {
           namePart(text: 'womenClothes', onTap: () {}, removeIcon: true),
           Expanded(
             child: FutureBuilder<List<DressesModel>>(
-              future: homeController.dresses,
+              future: DressesService().getDresses(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderCollar();

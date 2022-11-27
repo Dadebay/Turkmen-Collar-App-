@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -60,8 +62,9 @@ class SignInView extends GetView {
               Center(
                 child: AgreeButton(
                   onTap: () {
+                    signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
+
                     if (_signUp.currentState!.validate()) {
-                      signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
                       SignInService().login(phone: '+993${phoneNumberController.text}').then((value) {
                         if (value == 200) {
                           Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text));
@@ -72,10 +75,10 @@ class SignInView extends GetView {
                           showSnackBar('noConnection3', 'errorData', Colors.red);
                         }
                       });
-                      signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
                     } else {
-                      showSnackBar('noConnection3', 'error', Colors.red);
+                      showSnackBar('noConnection3', 'errorEmpty', Colors.red);
                     }
+                    signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
                   },
                 ),
               )

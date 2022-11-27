@@ -7,12 +7,12 @@ import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 
 class CardCart extends StatelessWidget {
   const CardCart({
-    Key? key,
     required this.name,
     required this.price,
     required this.image,
     required this.createdAt,
     required this.id,
+    Key? key,
   }) : super(key: key);
   final int id;
   final String name;

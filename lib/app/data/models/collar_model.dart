@@ -54,14 +54,23 @@ class FilesModel {
   int? price;
   String? name;
   String? machineName;
+  List? machineImage;
   bool? purchased;
   int? id;
 
-  FilesModel({this.name, this.purchased, this.price, this.machineName, this.id});
+  FilesModel({this.name, this.machineImage, this.purchased, this.price, this.machineName, this.id});
 
   factory FilesModel.fromJson(Map<String, dynamic> json) {
+    final List image = json['machine']['images'] as List;
+    List<dynamic> images = [];
+    if (image == null) {
+      images = [''];
+    } else {
+      images = image.map((value) => value).toList();
+    }
     return FilesModel(
       machineName: json['machine']['name'],
+      machineImage: images,
       purchased: json['purchased'],
       price: json['price'],
       name: json['name'],

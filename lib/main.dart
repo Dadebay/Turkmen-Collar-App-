@@ -27,9 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getToken().then((value) {
-      print(value);
-    });
+    FirebaseMessaging.instance.getToken().then((value) {});
     myAppOnInit();
   }
 
@@ -42,6 +40,7 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         fontFamily: normsProRegular,
         colorSchemeSeed: kPrimaryColor,
+        
         useMaterial3: true,
         appBarTheme: AppBarTheme(
           shadowColor: kPrimaryColor,

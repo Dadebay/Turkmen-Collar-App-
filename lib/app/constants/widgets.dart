@@ -11,7 +11,7 @@ import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller
 import '../data/models/auth_model.dart';
 
 dynamic noBannerImage() {
-  return const Text('No Image');
+  return Center(child: Text('noImage'.tr));
 }
 
 dynamic spinKit() {
@@ -21,6 +21,7 @@ dynamic spinKit() {
 }
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
+  SnackbarController.cancelAllSnackbars();
   return Get.snackbar(
     title,
     subtitle,
@@ -38,7 +39,7 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: color,
     borderRadius: 20.0,
-    animationDuration: const Duration(milliseconds: 800),
+    animationDuration: const Duration(milliseconds: 500),
     margin: const EdgeInsets.all(8),
   );
 }
@@ -156,27 +157,30 @@ void logOut() {
       child: Wrap(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            padding: const EdgeInsets.only(
+              top: 15,
+              right: 15,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox.shrink(),
                 Text(
                   'log_out'.tr,
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 18),
                 ),
                 GestureDetector(
                   onTap: () {
                     Get.back();
                   },
-                  child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.white),
+                  child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
                 )
               ],
             ),
           ),
           divider(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
             child: Text(
               'log_out_title'.tr,
               textAlign: TextAlign.center,
@@ -304,38 +308,39 @@ void defaultBottomSheet({required String name, required Widget child}) {
 }
 
 dynamic errorPage({required Function() onTap}) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(
-        'noConnection2'.tr,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: ElevatedButton(
-          onPressed: onTap,
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-            primary: kPrimaryColor,
-          ),
-          child: Text(
-            'noConnection3'.tr,
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'noConnection2'.tr,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
         ),
-      )
-    ],
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: ElevatedButton(
+            onPressed: onTap,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+              primary: kPrimaryColor,
+            ),
+            child: Text(
+              'noConnection3'.tr,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ),
+        )
+      ],
+    ),
   );
 }
 
 dynamic emptyPageImage({required Function() onTap, String? name}) {
   return Center(
     child: Column(
-      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

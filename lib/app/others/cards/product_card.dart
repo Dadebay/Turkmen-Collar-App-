@@ -222,10 +222,11 @@ class ProductCard extends StatelessWidget {
           showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
         } else {
           files.length == 0
-              ? showSnackBar('error', 'noFile', Colors.red)
+              ? showSnackBar('errorTitle', 'noFile', Colors.red)
               : Get.to(
                   () => DownloadYakaPage(
                     image: image[0],
+                    id: id,
                     list: files,
                     pageName: name,
                   ),

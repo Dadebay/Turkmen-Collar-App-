@@ -41,11 +41,9 @@ class _FavButtonState extends State<FavButton> {
       return GestureDetector(
         onTap: () async {
           final token = await Auth().getToken();
-          print(token);
           if (token == null || token == '') {
             showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
           } else {
-            print(widget.isCollar);
             if (widget.isCollar == true) {
               setState(() {
                 value = !value;
@@ -59,7 +57,6 @@ class _FavButtonState extends State<FavButton> {
               });
             }
           }
-          print(favoritesController.favList);
         },
         child: Container(
           padding: EdgeInsets.all(widget.whcihPage ? 8 : 6),

@@ -59,6 +59,13 @@ class OtpCheck extends StatelessWidget {
                 style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: normsProMedium),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                'waitForSms'.tr,
+                style: const TextStyle(color: Colors.red, fontSize: 20, fontFamily: normsProMedium),
+              ),
+            ),
             Form(key: otpCheck, child: CustomTextField(labelName: 'otp', controller: otpController, focusNode: otpFocusNode, requestfocusNode: otpFocusNode, borderRadius: true, isNumber: true)),
             const SizedBox(
               height: 15,
@@ -68,7 +75,6 @@ class OtpCheck extends StatelessWidget {
                 onTap: () {
                   if (otpCheck.currentState!.validate()) {
                     Get.find<SignInPageController>().agreeButton.value = !Get.find<SignInPageController>().agreeButton.value;
-
                     SignInService().otpCheck(otp: otpController.text, phoneNumber: '+993${phoneNumber}').then((value) {
                       if (value == true) {
                         Get.find<UserProfilController>().userLogin.value = true;
@@ -79,12 +85,12 @@ class OtpCheck extends StatelessWidget {
                           (Route<dynamic> route) => false,
                         );
                       } else {
-                        showSnackBar('noConnection3', 'noConnection2', Colors.red);
+                        showSnackBar('otpErrorTitle', 'otpErrorSubtitle', Colors.red);
                       }
                       Get.find<SignInPageController>().agreeButton.value = !Get.find<SignInPageController>().agreeButton.value;
                     });
                   } else {
-                    showSnackBar('noConnection3', 'error', Colors.red);
+                    showSnackBar('noConnection3', 'errorEmpty', Colors.red);
                   }
                 },
               ),

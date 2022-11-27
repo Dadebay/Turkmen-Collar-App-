@@ -4,15 +4,13 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-
-import 'login_view.dart';
-import 'sign_in_page_view.dart';
+import 'package:yaka2/app/modules/auth/sign_in_page/views/login_view.dart';
 
 class TabbarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: AppBar(
@@ -56,7 +54,7 @@ class TabbarView extends StatelessWidget {
             ),
             SingleChildScrollView(
               child: SizedBox(
-                height: Get.size.height,
+                height: Get.size.height - kToolbarHeight,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -81,21 +79,17 @@ class TabbarView extends StatelessWidget {
                           unselectedLabelColor: Colors.white54,
                           tabs: [
                             Tab(
-                              text: 'signUp'.tr,
-                            ),
-                            Tab(
                               text: 'login'.tr,
                             )
                           ],
                         ),
                       ),
                     ),
+                    // SignInView(),
                     Expanded(
-                      flex: 3,
-                      child: TabBarView(
-                        children: [SignInView(), LogInView()],
-                      ),
-                    ),
+                      flex: 2,
+                      child: LogInView(),
+                    )
                   ],
                 ),
               ),

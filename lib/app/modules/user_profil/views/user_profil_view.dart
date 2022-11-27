@@ -7,15 +7,14 @@ import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
+import 'package:yaka2/app/modules/home/views/instruction_page.dart';
 import 'package:yaka2/app/modules/user_profil/views/about_us_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
-
 import '../controllers/user_profil_controller.dart';
 import 'addMoneyPage.dart';
 import 'history_order.dart';
-import 'instruction_view.dart';
+import 'faq.dart';
 
 class UserProfilView extends StatefulWidget {
   @override
@@ -56,16 +55,6 @@ class _UserProfilViewState extends State<UserProfilView> {
   ListView page() {
     return ListView(
       children: [
-        // userProfilController.userLogin.value
-        //     ? ProfilButton(
-        //         name: 'profil',
-        //         onTap: () {
-        //           Get.to(() => ProfilSettings());
-        //         },
-        //         icon: IconlyLight.profile,
-        //         langIconStatus: false,
-        //       )
-        //     : SizedBox.shrink(),
         ProfilButton(
           name: Get.locale!.toLanguageTag() == 'tr' ? 'Türkmen dili' : 'Rus dili',
           onTap: () {
@@ -109,12 +98,7 @@ class _UserProfilViewState extends State<UserProfilView> {
         ProfilButton(
           name: 'transferUSB',
           onTap: () async {
-            final token = await Auth().getToken();
-            if (token == null || token == '') {
-              showSnackBar('loginError', 'loginErrorSubtitle', Colors.red);
-            } else {
-              showSnackBar('notWork', 'notWorkSubtitle', Colors.green);
-            }
+            await Get.to(() => InstructionPage());
           },
           icon: Icons.usb,
           langIconStatus: true,
@@ -133,7 +117,7 @@ class _UserProfilViewState extends State<UserProfilView> {
         ProfilButton(
           name: 'questions',
           onTap: () {
-            Get.to(() => const InstructionView());
+            Get.to(() => const FAQ());
           },
           icon: IconlyLight.document,
           langIconStatus: false,

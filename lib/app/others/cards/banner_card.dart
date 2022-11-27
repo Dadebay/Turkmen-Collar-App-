@@ -12,9 +12,9 @@ class BannerCard extends StatelessWidget {
 
   const BannerCard({
     required this.image,
-    Key? key,
     required this.name,
     required this.description,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -63,7 +63,9 @@ Widget loaderMachines() {
         width: Get.size.width / 1.2,
         margin: const EdgeInsets.only(left: 15, bottom: 5),
         decoration: BoxDecoration(borderRadius: borderRadius15, color: kGreyColor),
-        child: spinKit(),
+        child: Center(
+          child: spinKit(),
+        ),
       );
     },
   );

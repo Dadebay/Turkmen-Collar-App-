@@ -30,9 +30,9 @@ class FavService {
       for (final Map product in responseJson['data']) {
         favListProducts.add(DressesModel.fromJson(product));
       }
-
+      final FavoritesController controller = Get.put(FavoritesController());
       favListProducts.forEach((element) {
-        Get.find<FavoritesController>().addFavList(element.id!, element.name!);
+        controller.addFavList(element.id!, element.name!);
       });
       return favListProducts;
     } else {
@@ -77,10 +77,7 @@ class FavService {
     request.fields.addAll({'product_id': '${id}'});
 
     request.headers.addAll(headers);
-    print(token);
     final http.StreamedResponse response = await request.send();
-    print(response.statusCode);
-    print(response);
     if (response.statusCode == 201) {
       return true;
     } else {
@@ -118,7 +115,7 @@ class FavService {
     request.headers.addAll(headers);
 
     final http.StreamedResponse response = await request.send();
-    print('deleted Product');
+    'deleted Product';
     if (response.statusCode == 204) {
       return true;
     } else {
@@ -137,8 +134,6 @@ class FavService {
     request.headers.addAll(headers);
 
     final http.StreamedResponse response = await request.send();
-    print('deleted Collar');
-
     if (response.statusCode == 204) {
       return true;
     } else {

@@ -8,8 +8,8 @@ import 'package:yaka2/app/constants/widgets.dart';
 
 class PhotoViewPage extends StatelessWidget {
   final String? image;
-
-  const PhotoViewPage({this.image});
+  final bool networkImage;
+  const PhotoViewPage({this.image, required this.networkImage});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,19 +20,28 @@ class PhotoViewPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Center(
-                child: PhotoView(
-                  minScale: 0.4,
-                  maxScale: 2.0,
-                  imageProvider: CachedNetworkImageProvider(
-                    image!,
-                    errorListener: () {
-                      const Icon(Icons.error_outline, color: Colors.white);
-                    },
-                  ),
-                  tightMode: false,
-                  errorBuilder: (context, url, error) => const Icon(Icons.error_outline),
-                  loadingBuilder: (context, url) => Center(child: spinKit()),
-                ),
+                child: networkImage
+                    ? PhotoView(
+                        minScale: 0.4,
+                        maxScale: 2.0,
+                        imageProvider: CachedNetworkImageProvider(
+                          image!,
+                          errorListener: () {
+                            const Icon(Icons.error_outline, color: Colors.white);
+                          },
+                        ),
+                        tightMode: false,
+                        errorBuilder: (context, url, error) => const Icon(Icons.error_outline),
+                        loadingBuilder: (context, url) => Center(child: spinKit()),
+                      )
+                    : PhotoView(
+                        minScale: 0.4,
+                        maxScale: 2.0,
+                        imageProvider: AssetImage(image!),
+                        tightMode: false,
+                        errorBuilder: (context, url, error) => const Icon(Icons.error_outline),
+                        loadingBuilder: (context, url) => Center(child: spinKit()),
+                      ),
               ),
             ),
             Positioned(

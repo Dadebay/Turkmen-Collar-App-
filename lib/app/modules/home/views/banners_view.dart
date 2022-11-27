@@ -12,13 +12,12 @@ import 'package:yaka2/app/others/cards/banner_card.dart';
 import '../controllers/home_controller.dart';
 
 class BannersView extends GetView {
-  @override
   final HomeController bannerController = Get.put(HomeController());
   BannersView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<BannerModel>>(
-      future: bannerController.future,
+      future: BannerService().getBanners(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loaderBanner();
@@ -29,7 +28,10 @@ class BannersView extends GetView {
             },
           );
         } else if (snapshot.data!.isEmpty) {
-          return emptryPageText();
+          return Container(
+            height: 220,
+            child: emptryPageText(),
+          );
         }
         return Column(
           mainAxisSize: MainAxisSize.min,

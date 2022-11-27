@@ -17,7 +17,7 @@ class CategoryView extends GetView {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CategoryModel>>(
-      future: controller.category,
+      future: CategoryService().getCategories(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loaderCategory();
@@ -28,7 +28,10 @@ class CategoryView extends GetView {
             },
           );
         } else if (snapshot.data!.isEmpty) {
-          return emptryPageText();
+          return Container(
+            height: 170,
+            child: emptryPageText(),
+          );
         }
         return CarouselSlider.builder(
           itemCount: snapshot.data!.length,

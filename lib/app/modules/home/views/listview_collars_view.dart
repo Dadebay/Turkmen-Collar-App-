@@ -28,7 +28,7 @@ class ListviewCollarsView extends GetView {
           ),
           Expanded(
             child: FutureBuilder<List<CollarModel>>(
-              future: homeController.collars,
+              future: CollarService().getCollars(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderCollar();

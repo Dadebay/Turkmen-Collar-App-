@@ -8,8 +8,8 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/about_us_model.dart';
 import 'package:yaka2/app/data/services/about_us_service.dart';
 
-class InstructionView extends GetView {
-  const InstructionView({Key? key}) : super(key: key);
+class FAQ extends GetView {
+  const FAQ({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

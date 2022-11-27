@@ -17,6 +17,7 @@ import 'package:yaka2/app/others/cards/product_card.dart';
 import '../../../constants/widgets.dart';
 
 class ShowAllProductsView extends StatefulWidget {
+  // ignore: always_put_required_named_parameters_first
   const ShowAllProductsView({Key? key, required this.name, required this.isCollar, required this.id}) : super(key: key);
 
   final int id;
@@ -29,38 +30,84 @@ class ShowAllProductsView extends StatefulWidget {
 
 class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   final HomeController homeController = Get.put(HomeController());
+
   @override
   void initState() {
     super.initState();
+
     homeController.sortName.value = '';
+    homeController.page.value = 1;
     homeController.sortMachineID.value = 0;
     _controller.clear();
     _controller1.clear();
+    homeController.showAllList.clear();
+    getData();
+  }
+
+  getData() {
+    CategoryService().getCategoryByID(
+      widget.id,
+      parametrs: {
+        'sort_by': '${homeController.sortName}',
+        'min': _controller.text,
+        'max': _controller1.text,
+        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
+        'page': '${homeController.page.value}',
+        'limit': '${homeController.limit.value}',
+      },
+    ).then((value) {
+      value.forEach((element) {
+        if (widget.isCollar == true) {
+          homeController.showAllList.add({
+            'id': element.id,
+            'name': element.name,
+            'price': element.price,
+            'createdAt': element.createdAt,
+            'images': element.images,
+            'files': element.files,
+          });
+        } else {
+          homeController.showAllList.add({
+            'id': element.id,
+            'name': element.name,
+            'price': element.price,
+            'createdAt': element.createdAt,
+            'images': element.images,
+            'files': [],
+          });
+        }
+      });
+    });
+  }
+
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.refreshCompleted();
+    homeController.showAllList.clear();
+    homeController.page.value = 1;
+    homeController.limit.value = 10;
+    homeController.sortMachineID.value = 0;
+    homeController.sortName.value = '';
+    _controller.clear();
+    _controller1.clear();
+    value = 0;
+    getData();
+    setState(() {});
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+    homeController.page.value += 1;
+    homeController.limit.value = 10;
+    getData();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.name.tr,
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: kPrimaryColor,
-        elevation: 0,
-        centerTitle: true,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(
-            IconlyLight.arrowLeftCircle,
-            color: Colors.black,
-          ),
-        ),
-        actions: [leftSideAppBar(context)],
-      ),
+      appBar: appbar(context),
       body: SmartRefresher(
         footer: footer(),
         controller: _refreshController,
@@ -68,79 +115,134 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         onLoading: _onLoading,
         enablePullDown: true,
         enablePullUp: true,
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         header: const MaterialClassicHeader(
           color: kPrimaryColor,
         ),
-        child: FutureBuilder<List<dynamic>>(
-          future: CategoryService().getCategoryByID(widget.id, parametrs: {'sort_by': '${homeController.sortName}', 'min': _controller.text, 'max': _controller1.text, 'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}'}),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        child: Obx(
+          () {
+            if (homeController.loading.value == 0) {
               return Center(child: spinKit());
-            } else if (snapshot.hasError) {
-              return errorPage(
-                onTap: () {
-                  CategoryService().getCategoryByID(widget.id, parametrs: {'sort_by': '${homeController.sortName}', 'min': _controller.text, 'max': _controller1.text, 'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}'});
-                },
+            } else if (homeController.loading.value == 1) {
+              return Center(
+                child: errorPage(
+                  onTap: () {
+                    CategoryService().getCategoryByID(
+                      widget.id,
+                      parametrs: {
+                        'sort_by': '${homeController.sortName}',
+                        'min': _controller.text,
+                        'max': _controller1.text,
+                        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
+                        'page': homeController.page.value,
+                        'limit': homeController.limit.value,
+                      },
+                    );
+                  },
+                ),
               );
-            } else if (snapshot.data!.isEmpty) {
-              return emptyPageImage(
-                onTap: () {
-                  CategoryService().getCategoryByID(widget.id, parametrs: {'sort_by': '${homeController.sortName}', 'min': _controller.text, 'max': _controller1.text, 'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}'});
-                },
+            } else if (homeController.loading.value == 2) {
+              return Center(
+                child: emptyPageImage(
+                  onTap: () {
+                    CategoryService().getCategoryByID(
+                      widget.id,
+                      parametrs: {
+                        'sort_by': '${homeController.sortName}',
+                        'min': _controller.text,
+                        'max': _controller1.text,
+                        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
+                        'page': homeController.page.value,
+                        'limit': homeController.limit.value,
+                      },
+                    );
+                  },
+                ),
               );
             }
-            return StaggeredGridView.countBuilder(
-              crossAxisCount: 2,
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return widget.isCollar
-                    ? ProductCard(
-                        image: snapshot.data![index].images ?? [],
-                        name: '${snapshot.data![index].name}',
-                        price: '${snapshot.data![index].price}',
-                        id: snapshot.data![index].id!,
-                        files: snapshot.data![index].files!,
-                        downloadable: true,
-                        removeAddCard: false,
-                        createdAt: snapshot.data![index].createdAt!,
-                      )
-                    : ProductCard(
-                        image: snapshot.data![index].images!,
-                        name: '${snapshot.data![index].name}',
-                        price: '${snapshot.data![index].price}',
-                        id: snapshot.data![index].id!,
-                        downloadable: false,
-                        removeAddCard: false,
-                        files: [],
-                        createdAt: snapshot.data![index].createdAt!,
-                      );
-              },
-              staggeredTileBuilder: (index) => StaggeredTile.count(
-                1,
-                index % 2 == 0 ? 1.3 : 1.5,
-              ),
-            );
+            return homeController.showAllList.length == 0
+                ? Center(
+                    child: emptyPageImage(
+                      onTap: () {
+                        CategoryService().getCategoryByID(
+                          widget.id,
+                          parametrs: {
+                            'sort_by': '${homeController.sortName}',
+                            'min': _controller.text,
+                            'max': _controller1.text,
+                            'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
+                            'page': homeController.page.value,
+                            'limit': homeController.limit.value,
+                          },
+                        );
+                      },
+                    ),
+                  )
+                : StaggeredGridView.countBuilder(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: homeController.showAllList.length,
+                    itemBuilder: (context, index) {
+                      return widget.isCollar
+                          ? ProductCard(
+                              image: homeController.showAllList[index]['images'] ?? [],
+                              name: '${homeController.showAllList[index]['name']}',
+                              price: '${homeController.showAllList[index]['price']}',
+                              id: homeController.showAllList[index]['id'],
+                              files: homeController.showAllList[index]['files'],
+                              downloadable: true,
+                              removeAddCard: false,
+                              createdAt: homeController.showAllList[index]['createdAt'],
+                            )
+                          : ProductCard(
+                              image: homeController.showAllList[index]['images'] ?? [],
+                              name: '${homeController.showAllList[index]['name']}',
+                              price: '${homeController.showAllList[index]['price']}',
+                              id: homeController.showAllList[index]['id'],
+                              downloadable: false,
+                              removeAddCard: false,
+                              files: [],
+                              createdAt: homeController.showAllList[index]['createdAt'],
+                            );
+                    },
+                    staggeredTileBuilder: (index) => StaggeredTile.count(
+                      1,
+                      index % 2 == 0 ? 1.3 : 1.5,
+                    ),
+                  );
           },
         ),
       ),
     );
   }
 
+  AppBar appbar(BuildContext context) {
+    return AppBar(
+      title: Text(
+        widget.name.tr,
+        style: TextStyle(color: Colors.black),
+      ),
+      backgroundColor: kPrimaryColor,
+      elevation: 0,
+      centerTitle: true,
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
+      leading: IconButton(
+        onPressed: () {
+          Get.back();
+        },
+        icon: const Icon(
+          IconlyLight.arrowLeftCircle,
+          color: Colors.black,
+        ),
+      ),
+      actions: [leftSideAppBar(context)],
+    );
+  }
+
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller1 = TextEditingController();
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
-    setState(() {});
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
-  }
 
   Padding selectMachineType(BuildContext context) {
     // String _name = 'Janomeeeee';
@@ -175,16 +277,20 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.hasError) {
-                  return errorPage(
-                    onTap: () {
-                      AboutUsService().getmMchines();
-                    },
+                  return Center(
+                    child: errorPage(
+                      onTap: () {
+                        AboutUsService().getmMchines();
+                      },
+                    ),
                   );
                 } else if (snapshot.data == null) {
-                  return emptyPageImage(
-                    onTap: () {
-                      AboutUsService().getmMchines();
-                    },
+                  return Center(
+                    child: emptyPageImage(
+                      onTap: () {
+                        AboutUsService().getmMchines();
+                      },
+                    ),
                   );
                 }
                 return Column(
@@ -250,6 +356,9 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         homeController.sortMachineID.value = 0;
                         _controller.clear();
                         _controller1.clear();
+                        homeController.showAllList.clear();
+
+                        getData();
                         setState(() {});
                         Get.back();
                       },
@@ -291,6 +400,9 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         padding: const EdgeInsets.only(top: 15),
                         child: AgreeButton(
                           onTap: () {
+                            homeController.showAllList.clear();
+
+                            getData();
                             homeController.sortName.value = '';
                             setState(() {});
                             Get.back();

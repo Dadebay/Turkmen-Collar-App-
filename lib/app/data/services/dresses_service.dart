@@ -47,7 +47,7 @@ class DressesService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-
+      print(responseJson);
       return DressesModel.fromJson(responseJson);
     } else {
       return DressesModel();

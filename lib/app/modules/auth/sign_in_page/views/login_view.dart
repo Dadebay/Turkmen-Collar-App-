@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,9 +8,8 @@ import 'package:yaka2/app/constants/phone_number.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/login_sig_in_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/controllers/sign_in_page_controller.dart';
+import 'package:yaka2/app/modules/auth/sign_in_page/views/otp_check.dart';
 import 'package:yaka2/app/others/buttons/agree_button.dart';
-
-import 'otp_check.dart';
 
 class LogInView extends GetView {
   TextEditingController fullNameController = TextEditingController();
@@ -57,20 +58,30 @@ class LogInView extends GetView {
             Center(
               child: AgreeButton(
                 onTap: () {
+                  print(signInPageController.agreeButton.value);
+
+                  signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
                   if (login.currentState!.validate()) {
-                    signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
-                    SignInService().login(phone: '+993${phoneNumberController.text}').then((value) {
-                      if (value == 200) {
-                        Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text));
-                      } else if (value == 409) {
-                        showSnackBar('noConnection3', 'alreadyExist', Colors.red);
-                      } else {
-                        showSnackBar('noConnection3', 'errorData', Colors.red);
-                      }
-                    });
-                    signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
+                    if (signInPageController.agreeButton.value == true) {
+                      SignInService().login(phone: '+993${phoneNumberController.text}').then((value) {
+                        if (value == 200) {
+                          Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text));
+                          signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
+                        } else if (value == 409) {
+                          showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+                          signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
+                        } else if (value == 429) {
+                          showSnackBar('wait10MinTitle ', 'wait10Min', Colors.red);
+                          signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
+                        } else {
+                          showSnackBar('noConnection3', 'errorData', Colors.red);
+                          signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
+                        }
+                      });
+                    }
                   } else {
-                    showSnackBar('noConnection3', 'error', Colors.red);
+                    showSnackBar('noConnection3', 'errorEmpty', Colors.red);
+                    signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
                   }
                 },
               ),

@@ -1,3 +1,5 @@
+// ignore_for_file: always_put_required_named_parameters_first
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +39,7 @@ class _AddCartButtonState extends State<AddCartButton> {
     changeCartCount2();
   }
 
-  changeCartCount2() {
+  dynamic changeCartCount2() {
     addCartBool = false;
     for (final element in cartController.list) {
       if (element['id'] == widget.id) {

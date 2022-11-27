@@ -1,3 +1,5 @@
+// ignore_for_file: always_declare_return_types
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -91,7 +93,6 @@ class _ProfilSettingsState extends State<ProfilSettings> {
                 AboutUsService().getuserData();
               },
             );
-            ;
           } else if (snapshot.data == null) {
             return emptyPageImage(
               onTap: () {

@@ -4,16 +4,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
+import 'package:yaka2/app/data/services/banner_service.dart';
+import 'package:yaka2/app/data/services/category_service.dart';
+import 'package:yaka2/app/data/services/collars_service.dart';
+import 'package:yaka2/app/data/services/dresses_service.dart';
+import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 import 'package:yaka2/app/modules/cart/views/cart_view.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
+import 'package:yaka2/app/modules/home/views/instruction_page.dart';
 import 'package:yaka2/app/modules/home/views/listview_clothes_view.dart';
 import 'package:yaka2/app/modules/home/views/listview_machines_view.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
+import 'package:yaka2/app/modules/user_profil/views/addMoneyPage.dart';
 import 'package:yaka2/app/modules/user_profil/views/downloaded_view.dart';
 import 'package:yaka2/app/modules/user_profil/views/user_profil_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
@@ -23,12 +31,42 @@ import 'banners_view.dart';
 import 'category_view.dart';
 import 'listview_collars_view.dart';
 
-class HomeView extends GetView<HomeController> {
-  final UserProfilController userProfilController = Get.put(UserProfilController());
-  final HomeController homeController = Get.put(HomeController());
-  final CartController cartController = Get.put(CartController());
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final UserProfilController userProfilController = Get.put(UserProfilController());
+
+  final HomeController homeController = Get.put(HomeController());
+
+  final CartController cartController = Get.put(CartController());
+
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.refreshCompleted();
+    await BannerService().getBanners();
+    await CategoryService().getCategories();
+    await CollarService().getCollars();
+    await DressesService().getDresses();
+    await MachineService().getMachines();
+    await CategoryService().getCategories();
+    homeController.userMoney();
+    setState(() {});
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+  }
+
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,23 +75,50 @@ class HomeView extends GetView<HomeController> {
       resizeToAvoidBottomInset: false,
       appBar: appBar(context),
       drawer: drawer(),
-      body: ListView(
-        children: [
-          BannersView(),
-          CategoryView(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: ListviewCollarsView(),
-          ),
-          ListviewClothesView(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: ListviewMachinesView(),
-          ),
-          const SizedBox(
-            height: 40,
-          )
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Get.to(() => InstructionPage());
+          print('a');
+          showSnackBar('ASd', 'Asd', Colors.red);
+        },
+        backgroundColor: kPrimaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: borderRadius30,
+        ),
+        child: Icon(
+          Icons.question_mark_outlined,
+          color: Colors.white,
+        ),
+      ),
+      body: SmartRefresher(
+        footer: footer(),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        enablePullDown: true,
+        enablePullUp: true,
+        physics: const BouncingScrollPhysics(),
+        header: const MaterialClassicHeader(
+          color: kPrimaryColor,
+        ),
+        child: ListView(
+          children: [
+            BannersView(),
+            CategoryView(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: ListviewCollarsView(),
+            ),
+            ListviewClothesView(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: ListviewMachinesView(),
+            ),
+            const SizedBox(
+              height: 40,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -94,37 +159,42 @@ class HomeView extends GetView<HomeController> {
         );
       }),
       actions: [
-        Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: 6),
-                child: Icon(IconlyLight.wallet),
-              ),
-              Obx(() {
-                return Text(
-                  '${homeController.balance}',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontFamily: normsProMedium,
-                  ),
-                );
-              }),
-              Padding(
-                padding: EdgeInsets.only(right: 6, top: 4),
-                child: Text(
-                  ' TMT',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontFamily: normsProMedium,
+        GestureDetector(
+          onTap: () {
+            Get.to(() => AddCash());
+          },
+          child: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 6),
+                  child: Icon(IconlyLight.wallet),
+                ),
+                Obx(() {
+                  return Text(
+                    '${homeController.balance}',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontFamily: normsProMedium,
+                    ),
+                  );
+                }),
+                Padding(
+                  padding: EdgeInsets.only(right: 6, top: 4),
+                  child: Text(
+                    ' TMT',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontFamily: normsProMedium,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         )
       ],

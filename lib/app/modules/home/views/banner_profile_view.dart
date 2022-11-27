@@ -44,11 +44,11 @@ class BannerProfileView extends GetView {
             imageUrl: image,
             imageBuilder: (context, imageProvider) => Container(
               width: size.width,
-              height: 300,
+              height: 200,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: imageProvider,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),

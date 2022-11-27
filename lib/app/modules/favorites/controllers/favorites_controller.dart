@@ -23,7 +23,6 @@ class FavoritesController extends GetxController {
         favList.removeWhere((element) => element['id'] == id);
         if (isCollar == true) {
           await FavService().deleteCollarToFav(id: id).then((value) {
-            print('mana geldi pozmana');
             if (value == true) {
               showSnackBar('copySucces', 'deleteCollar', Colors.red);
             } else {
@@ -62,7 +61,6 @@ class FavoritesController extends GetxController {
     }
     favList.refresh();
     final String jsonString = jsonEncode(favList);
-    print(favList);
     await storage.write('favList', jsonString);
   }
 

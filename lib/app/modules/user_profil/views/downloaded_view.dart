@@ -7,6 +7,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/data/models/auth_model.dart';
 import 'package:yaka2/app/data/models/donwloads_model.dart';
 import 'package:yaka2/app/data/services/downloads_service.dart';
 
@@ -90,14 +91,47 @@ class DownloadedView extends GetView {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 10, bottom: 5),
-                    child: Text(
-                      snapshot.data![index].name!,
-                      style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: normsProRegular),
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      left: 10,
+                      bottom: 5,
+                      right: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            snapshot.data![index].name!,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: normsProRegular),
+                          ),
+                        ),
+                        Text(
+                          snapshot.data![index].machineName ?? '',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(color: Colors.grey, fontSize: 16, fontFamily: normsProRegular),
+                        ),
+                      ],
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      final token = await Auth().getToken();
+                      if (token == null) {
+                        showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+                      } else {
+                        // snapshot.data![index].file!.length == 0
+                        //     ? showSnackBar('errorTitle', 'noFile', Colors.red)
+                        //     : Get.to(
+                        //         () => DownloadYakaPage(
+                        //           image: snapshot.data![index].images![0],
+                        //           // list: snapshot.data![index].file!,
+                        //           pageName: snapshot.data![index].name!,
+                        //         ),
+                        //       );
+                      }
+                    },
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                       width: Get.size.width,
@@ -116,7 +150,7 @@ class DownloadedView extends GetView {
                       alignment: Alignment.center,
                       child: Text('download'.tr),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

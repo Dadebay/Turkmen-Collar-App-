@@ -8,11 +8,11 @@ import '../../constants/constants.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
-    Key? key,
     required this.id,
     required this.name,
     required this.image,
     required this.isCollar,
+    Key? key,
   }) : super(key: key);
 
   final int id;
@@ -46,22 +46,22 @@ class CategoryCard extends StatelessWidget {
               errorWidget: (context, url, error) => noBannerImage(),
             ),
           ),
-          Container(
-            width: Get.size.width,
-            height: Get.size.height,
-            padding: const EdgeInsets.all(15),
-            margin: const EdgeInsets.only(left: 10, top: 25, bottom: 10),
-            decoration: const BoxDecoration(
-              color: Colors.black54,
-              borderRadius: borderRadius10,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              name,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontFamily: normProBold, fontSize: 30),
-            ),
-          )
+          // Container(
+          //   width: Get.size.width,
+          //   height: Get.size.height,
+          //   padding: const EdgeInsets.all(15),
+          //   margin: const EdgeInsets.only(left: 10, top: 25, bottom: 10),
+          //   decoration: const BoxDecoration(
+          //     color: Colors.black54,
+          //     borderRadius: borderRadius10,
+          //   ),
+          //   alignment: Alignment.center,
+          //   child: Text(
+          //     name,
+          //     textAlign: TextAlign.center,
+          //     style: const TextStyle(color: Colors.white, fontFamily: normProBold, fontSize: 30),
+          //   ),
+          // )
         ],
       ),
     );

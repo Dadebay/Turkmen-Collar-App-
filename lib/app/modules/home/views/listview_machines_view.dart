@@ -28,7 +28,7 @@ class ListviewMachinesView extends GetView {
           ),
           Expanded(
             child: FutureBuilder<List<MachineModel>>(
-              future: homeController.machines,
+              future: MachineService().getMachines(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderMachines();
