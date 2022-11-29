@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
+import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/others/cards/cart_card.dart';
 
 import '../controllers/cart_controller.dart';
@@ -130,6 +131,7 @@ class CartView extends GetView<CartController> {
               final token = await Auth().getToken();
               if (token == null || token == '') {
                 showSnackBar('loginError', 'loginErrorSubtitle', Colors.red);
+                await Get.to(() => TabbarView());
               } else {
                 if (cartController.list.isNotEmpty) {
                   await Get.to(() => OrderPage());

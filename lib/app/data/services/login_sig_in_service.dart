@@ -22,8 +22,6 @@ class SignInService {
         'phone': phoneNumber,
       }),
     );
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['data']['api_token']);
@@ -44,7 +42,6 @@ class SignInService {
         'phone': phone,
       }),
     );
-    print(response.statusCode);
     return response.statusCode;
   }
 }

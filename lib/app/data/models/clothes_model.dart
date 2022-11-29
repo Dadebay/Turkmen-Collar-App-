@@ -4,6 +4,7 @@ class DressesModel {
   final int? id;
   final String? name;
   final String? description;
+  final String? barcode;
   final int? price;
   final int? views;
   final String? createdAt;
@@ -13,6 +14,7 @@ class DressesModel {
   DressesModel({
     this.name,
     this.createdAt,
+    this.barcode,
     this.category,
     this.description,
     this.price,
@@ -34,6 +36,7 @@ class DressesModel {
       id: json['id'],
       createdAt: json['created_at'],
       name: json['name'],
+      barcode: json['barcode'],
       description: json['description'],
       price: json['price'],
       views: json['views'],

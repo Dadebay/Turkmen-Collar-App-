@@ -11,6 +11,7 @@ import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/product_profil/views/download_yaka.dart';
 
 import '../../data/services/auth_service.dart';
+import '../../modules/auth/sign_in_page/views/tabbar_view.dart';
 import '../buttons/fav_button.dart';
 import '../product_profil/views/product_profil_view.dart';
 
@@ -167,14 +168,14 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      '${b.toStringAsFixed(0)}',
+                      '${b.toStringAsFixed(b > 1000 ? 0 : 2)}',
                       style: const TextStyle(
                         color: Colors.red,
                         fontSize: 19,
@@ -220,6 +221,7 @@ class ProductCard extends StatelessWidget {
         final token = await Auth().getToken();
         if (token == null) {
           showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+          await Get.to(() => TabbarView());
         } else {
           files.length == 0
               ? showSnackBar('errorTitle', 'noFile', Colors.red)

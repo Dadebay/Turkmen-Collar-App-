@@ -17,6 +17,7 @@ import 'package:yaka2/app/others/product_profil/views/download_yaka.dart';
 import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
 import '../../../constants/widgets.dart';
+import '../../../modules/auth/sign_in_page/views/tabbar_view.dart';
 import '../controllers/product_profil_controller.dart';
 
 class ProductProfilView extends StatefulWidget {
@@ -81,6 +82,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             name: snapshot.data!.name!,
             price: b,
             machineName: '',
+            barcode: snapshot.data!.barcode!,
             category: snapshot.data!.category!,
             downloads: '${snapshot.data!.createdAt!}',
             views: '${snapshot.data!.views!}',
@@ -114,6 +116,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           body: testPart(
             name: snapshot.data!.name!,
             price: b,
+            barcode: '',
             machineName: snapshot.data!.machineName ?? '',
             category: snapshot.data!.category!,
             downloads: '${snapshot.data!.downloads!}',
@@ -125,7 +128,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     );
   }
 
-  Widget testPart({required String name, required double price, required String machineName, required String category, required String views, required String downloads, required String desc}) {
+  Widget testPart({required String name, required double price, required String machineName, required String barcode, required String category, required String views, required String downloads, required String desc}) {
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
@@ -141,7 +144,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             Row(
               children: [
                 Text(
-                  '${price.toStringAsFixed(0)}',
+                  '${price.toStringAsFixed(price > 1000 ? 0 : 2)}',
                   style: const TextStyle(
                     color: Colors.red,
                     fontSize: 22,
@@ -187,6 +190,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           thickness: 1,
           color: Colors.grey.shade300,
         ),
+        widget.downloadable ? SizedBox.shrink() : twoText(name1: 'data6', name2: barcode),
+        widget.downloadable
+            ? SizedBox.shrink()
+            : Divider(
+                thickness: 1,
+                color: Colors.grey.shade300,
+              ),
         widget.downloadable ? SizedBox.shrink() : twoText(name1: 'createdAt', name2: downloads),
         widget.downloadable
             ? SizedBox.shrink()
@@ -216,6 +226,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               final token = await Auth().getToken();
               if (token == null) {
                 showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+                await Get.to(() => TabbarView());
               } else {
                 widget.files.length == 0
                     ? showSnackBar('errorTitle', 'noFile', Colors.red)
@@ -353,10 +364,12 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           itemBuilder: (context, index, count) {
             return GestureDetector(
               onTap: () {
-                Get.to(() => PhotoViewPage(
-                      image: widget.image[index],
-                      networkImage: true,
-                    ));
+                Get.to(
+                  () => PhotoViewPage(
+                    image: widget.image[index],
+                    networkImage: true,
+                  ),
+                );
               },
               child: CachedNetworkImage(
                 fadeInCurve: Curves.ease,

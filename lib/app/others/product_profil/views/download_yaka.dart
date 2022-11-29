@@ -61,61 +61,75 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
 
   Future<String> createFolder() async {
     final path = Directory('storage/emulated/0/Download/YAKA');
-
     if (await path.exists()) {
-      await createFolder2();
       return path.path;
     } else {
       await path.create();
-      await createFolder2();
       return path.path;
     }
   }
 
-  Future<String> createFolder2() async {
-    final path1 = Directory('storage/emulated/0/Download/YAKA/EMB');
-    final status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-    if (await path1.exists()) {
-      await createFolder3();
-      return path1.path;
-    } else {
-      await createFolder3();
-      await path1.create();
-      return path1.path;
-    }
-  }
-
-  Future<String> createFolder4() async {
-    final path1 = Directory('storage/emulated/0/Download/YAKA/brother');
-    final status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-    if (await path1.exists()) {
-      return path1.path;
-    } else {
-      await path1.create();
-      return path1.path;
-    }
-  }
-
-  Future<String> createFolder3() async {
-    final path1 = Directory('storage/emulated/0/Download/YAKA/EmbF5');
-    final status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-    if (await path1.exists()) {
-      await createFolder4();
-      return path1.path;
-    } else {
-      await path1.create();
-      await createFolder4();
-
-      return path1.path;
+  dynamic createFolderMachineNames(String name) async {
+    if (name == 'JANOME 4 IŇŇE') {
+      final path1 = Directory('storage/emulated/0/Download/YAKA/JANOME 4 IŇŇE');
+      if (await path1.existsSync()) {
+        return path1.path;
+      } else {
+        await path1.create(recursive: true);
+        final path2 = Directory('storage/emulated/0/Download/YAKA/JANOME 4 IŇŇE/Emb');
+        await path2.create();
+        return path1.path;
+      }
+    } else if (name == 'JANOME 450E - 500E') {
+      final path3 = Directory('storage/emulated/0/Download/YAKA/JANOME 450E - 500E');
+      if (await path3.existsSync()) {
+        return path3.path;
+      } else {
+        await path3.create(recursive: true);
+        final path4 = Directory('storage/emulated/0/Download/YAKA/JANOME 450E - 500E/Emb');
+        await path4.create();
+        return path3.path;
+      }
+    } else if (name == 'JANOME 350E - 370E') {
+      final path3 = Directory('storage/emulated/0/Download/YAKA/JANOME 350E - 370E');
+      if (await path3.existsSync()) {
+        return path3.path;
+      } else {
+        await path3.create(recursive: true);
+        final path4 = Directory('storage/emulated/0/Download/YAKA/JANOME 350E - 370E/EmbF5');
+        await path4.create();
+        return path3.path;
+      }
+    } else if (name == 'JANOME 200E - 230E') {
+      final path3 = Directory('storage/emulated/0/Download/YAKA/JANOME 200E - 230E');
+      if (await path3.existsSync()) {
+        return path3.path;
+      } else {
+        await path3.create(recursive: true);
+        final path4 = Directory('storage/emulated/0/Download/YAKA/JANOME 200E - 230E/Emb');
+        await path4.create();
+        return path3.path;
+      }
+    } else if (name == 'BERNETTE 340') {
+      final path3 = Directory('storage/emulated/0/Download/YAKA/BERNETTE 340');
+      if (await path3.existsSync()) {
+        return path3.path;
+      } else {
+        await path3.create(recursive: true);
+        final path4 = Directory('storage/emulated/0/Download/YAKA/BERNETTE 340/EmbF5');
+        await path4.create();
+        return path3.path;
+      }
+    } else if (name == 'BROTHER V3') {
+      final path3 = Directory('storage/emulated/0/Download/YAKA/BROTHER V3');
+      if (await path3.existsSync()) {
+        return path3.path;
+      } else {
+        await path3.create(recursive: true);
+        final path4 = Directory('storage/emulated/0/Download/YAKA/BROTHER V3/Emb');
+        await path4.create();
+        return path3.path;
+      }
     }
   }
 
@@ -125,10 +139,10 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     if (!status.isGranted) {
       await Permission.storage.request();
     }
-    if (await path1.exists()) {
+    if (await path1.existsSync()) {
       return path1.path;
     } else {
-      await path1.create();
+      await path1.create(recursive: true);
       return path1.path;
     }
   }
@@ -189,15 +203,17 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
 
   dynamic findName(int index) {
     String name = '';
+    String returnName = '';
 
-    if (list[index].machineName == 'brother') {
-      name = 'brother';
-    } else if (list[index].machineName! == '450 E' || list[index].machineName! == '4 iňňe' || list[index].machineName! == '200 - 230') {
-      name = 'EMB';
+    if (list[index].machineName!.toUpperCase() == 'BROTHER V3') {
+      name = 'Emb';
+    } else if (list[index].machineName!.toUpperCase() == 'JANOME 450E - 500E' || list[index].machineName!.toUpperCase() == 'JANOME 4 IŇŇE' || list[index].machineName!.toUpperCase() == 'JANOME 200E - 230E') {
+      name = 'Emb';
     } else {
       name = 'EmbF5';
     }
-    return name;
+    returnName = '${list[index].machineName!.toUpperCase()}/$name';
+    return returnName;
   }
 
   dynamic checkStatus() async {
@@ -249,25 +265,33 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
           (value) async {
             downloadFileList = value;
             await createFolder();
-            await createFolder2();
-            await createFolder3();
-            await createFolder4();
+            await createFolderMachineNames(list[index].machineName!.toUpperCase());
             await createFolderProductName(name);
 
             ///
             for (int i = 0; i < downloadFileList.length; i++) {
+              final int a = rand.nextInt(100);
+
               final String fileFormat = findFileFormat(downloadFileList[i]);
               final String fileName = findFileName(downloadFileList[i]);
-              await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/' + '$fileName' + '  -$i-' + '${fileFormat}').then((value) async {
+              await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/' + '$fileName' + '  -$a-' + '${fileFormat}').then((value) async {
                 if (i == downloadFileList.length - 1) {
                   wait = false;
                   await CollarService().getCollarsByID(widget.id).then((value) {
                     list = value.files!;
                   });
-                  await CollarService().getCollars();
+                  // await CollarService().getCollars();
                   setState(() {
                     showSnackBar('downloadTitle', 'downloadSubtitle', kPrimaryColor);
                   });
+                  if (wait == true) {
+                    Future.delayed(Duration(minutes: 1), () {
+                      wait = false;
+
+                      showSnackBar('noConnection3', 'error', kPrimaryColor);
+                      setState(() {});
+                    });
+                  }
                 }
               });
             }
@@ -280,33 +304,42 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
         showSnackBar('noMoney', 'noMoneySubtitle', Colors.red);
       }
     } else {
-      //yakany satyn alan bolsa Pula Seretmeli dal skacat etmeli goni
+      // yakany satyn alan bolsa Pula Seretmeli dal skacat etmeli goni
       wait = true;
       setState(() {});
       await FileDownloadService().downloadFile(id: list[index].id!).then(
         (value) async {
           downloadFileList = value;
           await createFolder();
-          await createFolder2();
-          await createFolder3();
-          await createFolder4();
+          await createFolderMachineNames(list[index].machineName!.toUpperCase());
+
           await createFolderProductName(name);
 
-          ///
+          //     ///
           for (int i = 0; i < downloadFileList.length; i++) {
+            final int a = rand.nextInt(100);
+
             final String fileFormat = findFileFormat(downloadFileList[i]);
             final String fileName = findFileName(downloadFileList[i]);
-            await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/' + '$fileName' + '  -$i-' + '${fileFormat}').then((value) {
+            await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/' + '$fileName' + '  -$a-' + '${fileFormat}').then((value) {
               if (i == downloadFileList.length - 1) {
                 wait = false;
                 setState(() {
                   showSnackBar('downloadTitle', 'downloadSubtitle', kPrimaryColor);
                 });
+                if (wait == true) {
+                  Future.delayed(Duration(minutes: 1), () {
+                    wait = false;
+
+                    showSnackBar('noConnection3', 'error', kPrimaryColor);
+                    setState(() {});
+                  });
+                }
               }
             });
           }
 
-          ///
+          //     ///
         },
       );
       homeController.userMoney();
@@ -326,10 +359,12 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                 margin: EdgeInsets.all(15),
                 child: GestureDetector(
                   onTap: () async {
-                    await Get.to(() => PhotoViewPage(
-                          image: widget.image,
-                          networkImage: true,
-                        ));
+                    await Get.to(
+                      () => PhotoViewPage(
+                        image: widget.image,
+                        networkImage: true,
+                      ),
+                    );
                   },
                   child: ClipRRect(
                     borderRadius: borderRadius10,

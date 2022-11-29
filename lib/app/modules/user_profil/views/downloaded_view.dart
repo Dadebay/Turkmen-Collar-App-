@@ -10,6 +10,8 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/auth_model.dart';
 import 'package:yaka2/app/data/models/donwloads_model.dart';
 import 'package:yaka2/app/data/services/downloads_service.dart';
+import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
+import 'package:yaka2/app/others/product_profil/views/download_yaka.dart';
 
 class DownloadedView extends GetView {
   const DownloadedView({Key? key}) : super(key: key);
@@ -60,103 +62,145 @@ class DownloadedView extends GetView {
               ),
             );
           }
+
           return StaggeredGridView.countBuilder(
             crossAxisCount: 2,
             itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) => Container(
-              margin: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
-              decoration: BoxDecoration(
-                borderRadius: borderRadius15,
-                color: kPrimaryColorCard,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: CachedNetworkImage(
-                      fadeInCurve: Curves.ease,
-                      imageUrl: snapshot.data![index].images![0],
-                      imageBuilder: (context, imageProvider) => Container(
-                        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: borderRadius10,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
+            itemBuilder: (context, index) {
+              final double a = double.parse(snapshot.data![index].price!.toString());
+              final double b = a / 100.0;
+              return Container(
+                margin: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+                decoration: BoxDecoration(
+                  borderRadius: borderRadius15,
+                  color: kPrimaryColorCard,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: CachedNetworkImage(
+                        fadeInCurve: Curves.ease,
+                        imageUrl: snapshot.data![index].images![0],
+                        imageBuilder: (context, imageProvider) => Container(
+                          margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: borderRadius10,
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
+                        placeholder: (context, url) => Center(child: spinKit()),
+                        errorWidget: (context, url, error) => noBannerImage(),
                       ),
-                      placeholder: (context, url) => Center(child: spinKit()),
-                      errorWidget: (context, url, error) => noBannerImage(),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 10,
-                      bottom: 5,
-                      right: 10,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            snapshot.data![index].name!,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: normsProRegular),
-                          ),
-                        ),
-                        Text(
-                          snapshot.data![index].machineName ?? '',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(color: Colors.grey, fontSize: 16, fontFamily: normsProRegular),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      final token = await Auth().getToken();
-                      if (token == null) {
-                        showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
-                      } else {
-                        // snapshot.data![index].file!.length == 0
-                        //     ? showSnackBar('errorTitle', 'noFile', Colors.red)
-                        //     : Get.to(
-                        //         () => DownloadYakaPage(
-                        //           image: snapshot.data![index].images![0],
-                        //           // list: snapshot.data![index].file!,
-                        //           pageName: snapshot.data![index].name!,
-                        //         ),
-                        //       );
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                      width: Get.size.width,
-                      padding: EdgeInsets.symmetric(vertical: 6),
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 10,
-                            spreadRadius: 1,
-                          )
-                        ],
-                        borderRadius: borderRadius10,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text('download'.tr),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                    namePart(snapshot, index, b),
+                    downloadButton(snapshot, index),
+                  ],
+                ),
+              );
+            },
             staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
           );
         },
+      ),
+    );
+  }
+
+  Padding namePart(AsyncSnapshot<List<DownloadsModel>> snapshot, int index, double b) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 10,
+        left: 10,
+        bottom: 5,
+        right: 10,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              snapshot.data![index].name!,
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: Colors.black, fontSize: 16),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  '${b.toStringAsFixed(b > 1000 ? 0 : 2)}',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 19,
+                    fontFamily: normProBold,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 6),
+                  child: Text(
+                    ' TMT',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 11,
+                      fontFamily: normsProMedium,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  GestureDetector downloadButton(AsyncSnapshot<List<DownloadsModel>> snapshot, int index) {
+    return GestureDetector(
+      onTap: () async {
+        final token = await Auth().getToken();
+        if (token == null) {
+          showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+          await Get.to(() => TabbarView());
+        } else {
+          snapshot.data![index].files!.length == 0
+              ? showSnackBar('errorTitle', 'noFile', Colors.red)
+              : Get.to(
+                  () => DownloadYakaPage(
+                    image: snapshot.data![index].images![0],
+                    list: snapshot.data![index].files!,
+                    pageName: snapshot.data![index].name!,
+                    id: snapshot.data![index].id!,
+                  ),
+                );
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        width: Get.size.width,
+        padding: EdgeInsets.symmetric(vertical: 6),
+        decoration: BoxDecoration(
+          color: kPrimaryColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              spreadRadius: 1,
+            )
+          ],
+          borderRadius: borderRadius10,
+        ),
+        alignment: Alignment.center,
+        child: Text('download'.tr),
       ),
     );
   }

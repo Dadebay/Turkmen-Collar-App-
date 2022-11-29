@@ -35,12 +35,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Yaka 2',
+      title: 'Yaka',
+      useInheritedMediaQuery: true,
       theme: ThemeData(
         brightness: Brightness.light,
         fontFamily: normsProRegular,
         colorSchemeSeed: kPrimaryColor,
-        
         useMaterial3: true,
         appBarTheme: AppBarTheme(
           shadowColor: kPrimaryColor,

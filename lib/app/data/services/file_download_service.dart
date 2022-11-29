@@ -18,7 +18,6 @@ class FileDownloadService {
         'file_id': id,
       }),
     );
-
     final responseJson = json.decode(response.body);
     return responseJson['data']['files'];
   }

@@ -12,6 +12,23 @@ class FavoritesController extends GetxController {
   dynamic toggleFav(int id, String name, bool isCollar) async {
     if (favList.isEmpty) {
       favList.add({'id': id, 'name': name});
+      if (isCollar == true) {
+        await FavService().addCollarToFav(id: id).then((value) {
+          if (value == true) {
+            showSnackBar('copySucces', 'collarAddToFav', Colors.green);
+          } else {
+            showSnackBar('noConnection3', 'error', Colors.red);
+          }
+        });
+      } else {
+        await FavService().addProductToFav(id: id).then((value) {
+          if (value == true) {
+            showSnackBar('copySucces', 'productAddToFav', Colors.green);
+          } else {
+            showSnackBar('noConnection3', 'error', Colors.red);
+          }
+        });
+      }
     } else {
       bool value = false;
       for (final element in favList) {

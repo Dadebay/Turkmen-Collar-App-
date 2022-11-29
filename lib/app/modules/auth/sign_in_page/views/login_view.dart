@@ -58,8 +58,6 @@ class LogInView extends GetView {
             Center(
               child: AgreeButton(
                 onTap: () {
-                  print(signInPageController.agreeButton.value);
-
                   signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
                   if (login.currentState!.validate()) {
                     if (signInPageController.agreeButton.value == true) {

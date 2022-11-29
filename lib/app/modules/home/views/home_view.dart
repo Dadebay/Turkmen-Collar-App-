@@ -17,7 +17,6 @@ import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 import 'package:yaka2/app/modules/cart/views/cart_view.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
-import 'package:yaka2/app/modules/home/views/instruction_page.dart';
 import 'package:yaka2/app/modules/home/views/listview_clothes_view.dart';
 import 'package:yaka2/app/modules/home/views/listview_machines_view.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
@@ -29,6 +28,7 @@ import 'package:yaka2/app/others/buttons/profile_button.dart';
 import '../controllers/home_controller.dart';
 import 'banners_view.dart';
 import 'category_view.dart';
+import 'instruction_page.dart';
 import 'listview_collars_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -77,9 +77,7 @@ class _HomeViewState extends State<HomeView> {
       drawer: drawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Get.to(() => InstructionPage());
-          print('a');
-          showSnackBar('ASd', 'Asd', Colors.red);
+          Get.to(() => InstructionPage());
         },
         backgroundColor: kPrimaryColor,
         shape: RoundedRectangleBorder(
@@ -284,6 +282,7 @@ class _HomeViewState extends State<HomeView> {
               final token = await Auth().getToken();
               if (token == null) {
                 showSnackBar('loginError', 'loginError1', Colors.red);
+                await Get.to(() => TabbarView());
               } else {
                 await Get.to(() => const DownloadedView());
               }

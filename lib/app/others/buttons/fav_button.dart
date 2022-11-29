@@ -6,6 +6,8 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/modules/favorites/controllers/favorites_controller.dart';
 
+import '../../modules/auth/sign_in_page/views/tabbar_view.dart';
+
 class FavButton extends StatefulWidget {
   const FavButton({required this.whcihPage, required this.isCollar, required this.id, required this.name});
   final bool isCollar;
@@ -43,6 +45,7 @@ class _FavButtonState extends State<FavButton> {
           final token = await Auth().getToken();
           if (token == null || token == '') {
             showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+            await Get.to(() => TabbarView());
           } else {
             if (widget.isCollar == true) {
               setState(() {
