@@ -325,7 +325,7 @@ dynamic errorPage({required Function() onTap}) {
             onPressed: onTap,
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-              primary: kPrimaryColor,
+              backgroundColor: kPrimaryColor,
             ),
             child: Text(
               'noConnection3'.tr,
@@ -334,6 +334,19 @@ dynamic errorPage({required Function() onTap}) {
           ),
         )
       ],
+    ),
+  );
+}
+
+Container customIcon(String iconNmae) {
+  return Container(
+    padding: const EdgeInsets.all(8),
+    decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.8), borderRadius: borderRadius15),
+    child: Image.asset(
+      iconNmae,
+      width: 24,
+      height: 24,
+      color: Colors.white,
     ),
   );
 }

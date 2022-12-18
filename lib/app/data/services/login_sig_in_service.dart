@@ -33,6 +33,7 @@ class SignInService {
   }
 
   Future login({required String phone}) async {
+    print('Asbcas');
     final response = await http.post(
       Uri.parse('$serverURL/api/v1/login'),
       headers: <String, String>{
@@ -42,6 +43,7 @@ class SignInService {
         'phone': phone,
       }),
     );
+    print(response.body);
     return response.statusCode;
   }
 }

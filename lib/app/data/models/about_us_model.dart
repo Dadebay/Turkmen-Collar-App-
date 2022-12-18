@@ -55,16 +55,16 @@ class UserMeModel {
   }
 }
 
-class GetMachinesModel {
+class GetFilterElements {
   final int? id;
   final String? name;
-  GetMachinesModel({
+  GetFilterElements({
     this.id,
     this.name,
   });
 
-  factory GetMachinesModel.fromJson(Map<dynamic, dynamic> json) {
-    return GetMachinesModel(
+  factory GetFilterElements.fromJson(Map<dynamic, dynamic> json) {
+    return GetFilterElements(
       id: json['id'] as int,
       name: json['name'] as String,
     );

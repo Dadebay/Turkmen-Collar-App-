@@ -68,12 +68,12 @@ class AboutUsService {
     }
   }
 
-  Future<List<GetMachinesModel>> getmMchines() async {
-    final List<GetMachinesModel> machinesList = [];
+  Future<List<GetFilterElements>> getFilterElements() async {
+    final List<GetFilterElements> machinesList = [];
 
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/v1/sort/machines',
+        '$serverURL/api/v1/tags',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
@@ -83,7 +83,7 @@ class AboutUsService {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson['data']) {
-        machinesList.add(GetMachinesModel.fromJson(product));
+        machinesList.add(GetFilterElements.fromJson(product));
       }
       return machinesList;
     } else {

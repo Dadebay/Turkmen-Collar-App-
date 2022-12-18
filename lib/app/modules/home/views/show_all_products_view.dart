@@ -4,6 +4,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/about_us_model.dart';
@@ -34,6 +35,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   @override
   void initState() {
     super.initState();
+    homeController.loading.value = 0;
 
     homeController.sortName.value = '';
     homeController.page.value = 1;
@@ -51,7 +53,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         'sort_by': '${homeController.sortName}',
         'min': _controller.text,
         'max': _controller1.text,
-        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
+        'tag': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
         'page': '${homeController.page.value}',
         'limit': '${homeController.limit.value}',
       },
@@ -92,7 +94,6 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
     _controller1.clear();
     value = 0;
     getData();
-    setState(() {});
   }
 
   void _onLoading() async {
@@ -121,6 +122,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         ),
         child: Obx(
           () {
+            print(homeController.loading.value);
             if (homeController.loading.value == 0) {
               return Center(child: spinKit());
             } else if (homeController.loading.value == 1) {
@@ -162,20 +164,20 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             }
             return homeController.showAllList.length == 0
                 ? Center(
-                    child: emptyPageImage(
-                      onTap: () {
-                        CategoryService().getCategoryByID(
-                          widget.id,
-                          parametrs: {
-                            'sort_by': '${homeController.sortName}',
-                            'min': _controller.text,
-                            'max': _controller1.text,
-                            'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
-                            'page': homeController.page.value,
-                            'limit': homeController.limit.value,
-                          },
-                        );
-                      },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(noData, width: 350, height: 350),
+                        Text(
+                          'noProductFound'.tr,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        )
+                      ],
                     ),
                   )
                 : StaggeredGridView.countBuilder(
@@ -208,7 +210,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                     },
                     staggeredTileBuilder: (index) => StaggeredTile.count(
                       1,
-                      index % 2 == 0 ? 1.3 : 1.5,
+                      1.8,
                     ),
                   );
           },
@@ -245,7 +247,6 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   Padding selectMachineType(BuildContext context) {
-    // String _name = 'Janomeeeee';
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
@@ -271,8 +272,8 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             radius: 5,
             backgroundColor: Colors.white,
             titlePadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            content: FutureBuilder<List<GetMachinesModel>>(
-              future: AboutUsService().getmMchines(),
+            content: FutureBuilder<List<GetFilterElements>>(
+              future: AboutUsService().getFilterElements(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
@@ -280,7 +281,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                   return Center(
                     child: errorPage(
                       onTap: () {
-                        AboutUsService().getmMchines();
+                        AboutUsService().getFilterElements();
                       },
                     ),
                   );
@@ -288,7 +289,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                   return Center(
                     child: emptyPageImage(
                       onTap: () {
-                        AboutUsService().getmMchines();
+                        AboutUsService().getFilterElements();
                       },
                     ),
                   );
@@ -305,6 +306,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                           onPressed: () {
                             homeController.sortMachineName.value = snapshot.data![index].name!;
                             homeController.sortMachineID.value = snapshot.data![index].id!;
+                            print(snapshot.data![index].id!);
                             Get.back();
                           },
                           child: Text(

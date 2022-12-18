@@ -44,6 +44,11 @@ class PhotoViewPage extends StatelessWidget {
                       ),
               ),
             ),
+            Positioned.fill(
+                child: Image.asset(
+              'assets/image/watermark.png',
+              fit: BoxFit.cover,
+            )),
             Positioned(
               right: 20.0,
               top: 20.0,

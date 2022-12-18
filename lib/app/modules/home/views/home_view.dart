@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
+import 'package:open_file_manager/open_file_manager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
@@ -30,6 +31,7 @@ import 'banners_view.dart';
 import 'category_view.dart';
 import 'instruction_page.dart';
 import 'listview_collars_view.dart';
+import 'listview_goods.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
@@ -110,8 +112,9 @@ class _HomeViewState extends State<HomeView> {
             ListviewClothesView(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: ListviewMachinesView(),
+              child: ListViewGoods(),
             ),
+            ListviewMachinesView(),
             const SizedBox(
               height: 40,
             )
@@ -288,6 +291,28 @@ class _HomeViewState extends State<HomeView> {
               }
             },
             icon: IconlyBold.download,
+            langIconStatus: false,
+          ),
+          divider(),
+          ProfilButton(
+            name: 'transferUSB',
+            onTap: () async {
+              await openFileManager().then((value) {
+                print(value);
+              });
+            },
+            icon: Icons.usb,
+            langIconStatus: true,
+            langIcon: customIcon(
+              'assets/icons/usb5.png',
+            ),
+          ),
+          ProfilButton(
+            name: 'addMoney',
+            onTap: () {
+              Get.to(() => AddCash());
+            },
+            icon: IconlyBold.wallet,
             langIconStatus: false,
           ),
           ProfilButton(

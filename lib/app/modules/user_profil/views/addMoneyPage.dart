@@ -19,7 +19,13 @@ class AddCash extends StatefulWidget {
 
 class _AddCashState extends State<AddCash> {
   int value = 0;
-  List moneyList = [10, 20, 30, 40, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+  List moneyList = [
+    10,
+    20,
+    30,
+    40,
+    50,
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,63 +97,25 @@ class _AddCashState extends State<AddCash> {
                 itemCount: 5,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                value = 0;
-                Get.defaultDialog(
-                  title: 'sendMoney'.tr,
-                  titleStyle: TextStyle(color: Colors.black, fontSize: 20, fontFamily: normsProMedium),
-                  content: StatefulBuilder(
-                    builder: (context, setState) {
-                      return Container(
-                        height: Get.size.height - 200,
-                        width: Get.size.width,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemExtent: 70,
-                                itemBuilder: (context, index) {
-                                  return RadioListTile(
-                                    value: index,
-                                    activeColor: kPrimaryColor,
-                                    groupValue: value,
-                                    onChanged: (int? ind) => setState(() {
-                                      value = ind!;
-                                    }),
-                                    title: Text(
-                                      '${moneyList[index]} TMT',
-                                      style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 18),
-                                    ),
-                                  );
-                                },
-                                itemCount: moneyList.length,
-                              ),
-                            ),
-                            sendMoneyButton(true),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-              child: Container(
-                width: Get.size.width,
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: kPrimaryColor.withOpacity(0.8),
-                  borderRadius: borderRadius10,
-                ),
-                child: Text(
-                  'addMoneyButton'.tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: normProBold),
-                ),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+
+            //   },
+            //   child: Container(
+            //     width: Get.size.width,
+            //     margin: EdgeInsets.symmetric(horizontal: 10),
+            //     padding: EdgeInsets.all(8),
+            //     decoration: BoxDecoration(
+            //       color: kPrimaryColor.withOpacity(0.8),
+            //       borderRadius: borderRadius10,
+            //     ),
+            //     child: Text(
+            //       'addMoneyButton'.tr,
+            //       textAlign: TextAlign.center,
+            //       style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: normProBold),
+            //     ),
+            //   ),
+            // ),
             Spacer(),
             sendMoneyButton(false),
           ],

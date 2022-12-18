@@ -11,7 +11,7 @@ class HomeController extends GetxController {
   RxString balance = '0'.obs;
   RxString sortName = ''.obs;
   RxInt sortMachineID = 0.obs;
-  RxString sortMachineName = 'Janome'.obs;
+  RxString sortMachineName = 'Yaka'.obs;
   //
   RxInt page = 1.obs;
   RxInt limit = 10.obs;

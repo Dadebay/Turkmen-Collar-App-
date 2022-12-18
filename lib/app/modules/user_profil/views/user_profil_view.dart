@@ -8,11 +8,9 @@ import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
-import 'package:yaka2/app/modules/home/views/instruction_page.dart';
 import 'package:yaka2/app/modules/user_profil/views/about_us_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
 import '../controllers/user_profil_controller.dart';
-import 'addMoneyPage.dart';
 import 'history_order.dart';
 import 'faq.dart';
 
@@ -76,15 +74,6 @@ class _UserProfilViewState extends State<UserProfilView> {
             ),
           ),
         ),
-        ProfilButton(
-          name: 'addMoney',
-          onTap: () {
-            Get.to(() => AddCash());
-          },
-          icon: IconlyLight.wallet,
-          langIconStatus: false,
-        ),
-        divider(),
         userProfilController.userLogin.value
             ? ProfilButton(
                 name: 'orders',
@@ -96,15 +85,6 @@ class _UserProfilViewState extends State<UserProfilView> {
               )
             : SizedBox.shrink(),
         ProfilButton(
-          name: 'transferUSB',
-          onTap: () async {
-            await Get.to(() => InstructionPage());
-          },
-          icon: Icons.usb,
-          langIconStatus: true,
-          langIcon: customIcon('assets/icons/usb3.png'),
-        ),
-        ProfilButton(
           name: 'shareUs',
           onTap: () {
             Share.share(appShareLink, subject: appName);
@@ -113,7 +93,6 @@ class _UserProfilViewState extends State<UserProfilView> {
           langIconStatus: true,
           langIcon: customIcon('assets/icons/share1.png'),
         ),
-        divider(),
         ProfilButton(
           name: 'questions',
           onTap: () {
@@ -139,19 +118,6 @@ class _UserProfilViewState extends State<UserProfilView> {
           langIconStatus: false,
         ),
       ],
-    );
-  }
-
-  Container customIcon(String iconNmae) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.8), borderRadius: borderRadius15),
-      child: Image.asset(
-        iconNmae,
-        width: 24,
-        height: 24,
-        color: Colors.white,
-      ),
     );
   }
 }

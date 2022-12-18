@@ -156,47 +156,37 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                flex: 2,
-                child: Text(
-                  name,
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.black, fontSize: 16),
+              Text(
+                '${b.toStringAsFixed(b > 1000 ? 0 : 2)}',
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 18,
+                  fontFamily: normProBold,
                 ),
               ),
-              Expanded(
-                flex: 3,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      '${b.toStringAsFixed(b > 1000 ? 0 : 2)}',
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 19,
-                        fontFamily: normProBold,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 6),
-                      child: Text(
-                        ' TMT',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 11,
-                          fontFamily: normsProMedium,
-                        ),
-                      ),
-                    ),
-                  ],
+              const Padding(
+                padding: EdgeInsets.only(top: 6),
+                child: Text(
+                  ' TMT',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 11,
+                    fontFamily: normsProMedium,
+                  ),
                 ),
               ),
             ],
+          ),
+          Text(
+            name,
+            textAlign: TextAlign.start,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.black, fontFamily: normsProLight, fontSize: 14),
           ),
           removeAddCard!
               ? SizedBox.shrink()
