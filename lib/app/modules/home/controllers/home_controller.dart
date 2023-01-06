@@ -6,6 +6,11 @@ import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/data/services/fav_service.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 
+import '../../../data/models/banner_model.dart';
+import '../../../data/models/category_model.dart';
+import '../../../data/services/banner_service.dart';
+import '../../../data/services/category_service.dart';
+
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
   RxString balance = '0'.obs;
@@ -18,16 +23,18 @@ class HomeController extends GetxController {
   RxInt loading = 0.obs;
   RxList showAllList = [].obs;
 //
-  // late final Future<List<CategoryModel>> category;
+  late final Future<List<BannerModel>> getBanners;
+  late final Future<List<CategoryModel>> getCategories;
   late final Future<List<DressesModel>> favProducts;
   late final Future<List<CollarModel>> favCollars;
 
   @override
   void onInit() {
     super.onInit();
-    // category = CategoryService().getCategories();
     getFavorites();
     userMoney();
+    getBanners = BannerService().getBanners();
+    getCategories = CategoryService().getCategories();
   }
 
   dynamic userMoney() async {

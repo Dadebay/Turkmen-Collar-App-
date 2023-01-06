@@ -34,6 +34,12 @@ class CollarModel {
     } else {
       images = image.map((value) => value).toList();
     }
+    String categoryName = '';
+    if (json['category'] != null) {
+      categoryName = json['category']['name'];
+    } else {
+      categoryName = '';
+    }
     return CollarModel(
       id: json['id'],
       name: json['name'],
@@ -45,7 +51,7 @@ class CollarModel {
       downloads: json['downloads'],
       files: (json['files'] as List).map((json) => FilesModel.fromJson(json)).toList(),
       images: images,
-      category: json['category']['name'],
+      category: categoryName,
     );
   }
 }

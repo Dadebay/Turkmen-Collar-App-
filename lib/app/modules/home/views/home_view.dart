@@ -297,9 +297,7 @@ class _HomeViewState extends State<HomeView> {
           ProfilButton(
             name: 'transferUSB',
             onTap: () async {
-              await openFileManager().then((value) {
-                print(value);
-              });
+              await openFileManager().then((value) {});
             },
             icon: Icons.usb,
             langIconStatus: true,

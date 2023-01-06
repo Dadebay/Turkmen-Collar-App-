@@ -36,7 +36,6 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   void initState() {
     super.initState();
     homeController.loading.value = 0;
-
     homeController.sortName.value = '';
     homeController.page.value = 1;
     homeController.sortMachineID.value = 0;
@@ -97,12 +96,18 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   }
 
   void _onLoading() async {
+    // final int a = int.parse(homeController.page.value.toString());
+    // final int b = int.parse(homeController.limit.value.toString());
+    // if ((a * b) > homeController.showAllList.length) {
+    // } else {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
     homeController.page.value += 1;
     homeController.limit.value = 10;
+
     getData();
     setState(() {});
+    // }
   }
 
   @override
@@ -122,7 +127,6 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         ),
         child: Obx(
           () {
-            print(homeController.loading.value);
             if (homeController.loading.value == 0) {
               return Center(child: spinKit());
             } else if (homeController.loading.value == 1) {
@@ -306,7 +310,6 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                           onPressed: () {
                             homeController.sortMachineName.value = snapshot.data![index].name!;
                             homeController.sortMachineID.value = snapshot.data![index].id!;
-                            print(snapshot.data![index].id!);
                             Get.back();
                           },
                           child: Text(

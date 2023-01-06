@@ -17,7 +17,7 @@ class BannersView extends GetView {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<BannerModel>>(
-      future: BannerService().getBanners(),
+      future: bannerController.getBanners,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loaderBanner();

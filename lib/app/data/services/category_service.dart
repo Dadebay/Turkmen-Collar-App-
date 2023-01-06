@@ -39,6 +39,8 @@ class CategoryService {
   Future<List<dynamic>> getCategoryByID(int id, {required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
     final HomeController homeController = Get.put(HomeController());
+    homeController.loading.value = 0;
+
     final List<dynamic> categoryList = [];
     final response = await http.get(
       Uri.parse(
@@ -49,7 +51,6 @@ class CategoryService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-
     if (response.statusCode == 200) {
       homeController.loading.value = 3;
 

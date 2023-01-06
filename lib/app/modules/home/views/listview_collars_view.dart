@@ -10,8 +10,8 @@ import 'package:yaka2/app/others/cards/product_card.dart';
 
 class ListviewCollarsView extends GetView {
   final HomeController homeController = Get.put(HomeController());
-
   ListviewCollarsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(

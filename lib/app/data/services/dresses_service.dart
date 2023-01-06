@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
@@ -45,6 +46,7 @@ class DressesService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    log(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

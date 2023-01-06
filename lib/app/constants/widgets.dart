@@ -237,7 +237,7 @@ CustomFooter footer() {
     builder: (BuildContext context, LoadStatus? mode) {
       Widget body;
       if (mode == LoadStatus.idle) {
-        body = const Text('');
+        body = const Text('Yokar yetdinizi');
       } else if (mode == LoadStatus.loading) {
         body = const CircularProgressIndicator(
           color: kPrimaryColor,

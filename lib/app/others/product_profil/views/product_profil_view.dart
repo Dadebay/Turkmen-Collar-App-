@@ -136,12 +136,17 @@ class _ProductProfilViewState extends State<ProductProfilView> {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              name,
-              style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 24),
+            Expanded(
+              child: Text(
+                name,
+                maxLines: 3,
+                style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 24),
+              ),
             ),
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   '${price.toStringAsFixed(price > 1000 ? 0 : 2)}',
@@ -214,6 +219,9 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         Text(
           desc,
           style: const TextStyle(fontFamily: normsProLight, fontSize: 18, color: Colors.black54),
+        ),
+        SizedBox(
+          height: 200,
         )
       ],
     );

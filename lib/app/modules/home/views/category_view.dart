@@ -17,7 +17,7 @@ class CategoryView extends GetView {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CategoryModel>>(
-      future: CategoryService().getCategories(),
+      future: controller.getCategories,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loaderCategory();

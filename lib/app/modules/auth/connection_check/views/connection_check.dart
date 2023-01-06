@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/modules/home/views/home_view.dart';
+
+import '../../../home/views/home_view.dart';
 
 class ConnectionCheckpage extends StatefulWidget {
   @override
@@ -106,7 +107,7 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: kPrimaryColor,
+                        backgroundColor: kPrimaryColor,
                         shape: const RoundedRectangleBorder(
                           borderRadius: borderRadius10,
                         ),
@@ -152,11 +153,11 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.white,
         elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor),
+        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.white),
       ),
       body: Column(
         children: [
@@ -177,11 +178,11 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: kPrimaryColor,
                       borderRadius: borderRadius30,
                     ),
                     child: Image.asset(
-                      logo1,
+                      logo,
                       fit: BoxFit.cover,
                     ),
                   ),
