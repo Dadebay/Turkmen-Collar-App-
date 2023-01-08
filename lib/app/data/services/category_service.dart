@@ -40,6 +40,8 @@ class CategoryService {
     final token = await Auth().getToken();
     final HomeController homeController = Get.put(HomeController());
     homeController.loading.value = 0;
+    print(parametrs);
+    print(id);
 
     final List<dynamic> categoryList = [];
     final response = await http.get(

@@ -27,7 +27,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getToken().then((value) {});
+    FirebaseMessaging.instance.getToken().then((value) {
+      print(value);
+    });
     myAppOnInit();
   }
 

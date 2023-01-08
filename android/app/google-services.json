@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:670434597472:android:dd807c197eed8890c6c105",
+        "mobilesdk_app_id": "1:670434597472:android:e6802e0861a43be9c6c105",
         "android_client_info": {
-          "package_name": "com.bilermennesil.yaka2"
+          "package_name": "com.bilermennesil.yaka"
         }
       },
       "oauth_client": [
         {
-          "client_id": "670434597472-8tg81u31nm5stgu49tc1qf8uvjgn0l3j.apps.googleusercontent.com",
+          "client_id": "670434597472-tctpm7l76a9k75pr16al8d70ecvf1irq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bilermennesil.yaka2",
-            "certificate_hash": "bdc54734cb2d09e3faf4c8a7cf4ff56deefcb3ab"
+            "package_name": "com.bilermennesil.yaka",
+            "certificate_hash": "6d0d738f468c3d6cfa97ad5d010940a63ac36575"
           }
         },
         {

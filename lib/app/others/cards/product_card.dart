@@ -15,7 +15,7 @@ import '../../modules/auth/sign_in_page/views/tabbar_view.dart';
 import '../buttons/fav_button.dart';
 import '../product_profil/views/product_profil_view.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final List image;
   final String name;
   final String createdAt;
@@ -25,28 +25,35 @@ class ProductCard extends StatelessWidget {
   final bool downloadable;
   final bool? removeAddCard;
   const ProductCard({required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable, this.removeAddCard});
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       width: 180,
       margin: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 1.0,
-          primary: kPrimaryColorCard,
+          backgroundColor: kPrimaryColorCard,
           padding: const EdgeInsets.only(left: 3, right: 3, top: 8, bottom: 5),
           shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
         ),
         onPressed: () {
           Get.to(
             () => ProductProfilView(
-              downloadable: downloadable,
-              files: files,
-              price: price,
-              image: image,
-              name: name,
-              createdAt: createdAt,
-              id: id,
+              downloadable: widget.downloadable,
+              files: widget.files,
+              price: widget.price,
+              image: widget.image,
+              name: widget.name,
+              createdAt: widget.createdAt,
+              id: widget.id,
             ),
           );
         },
@@ -68,13 +75,13 @@ class ProductCard extends StatelessWidget {
           Positioned.fill(
             child: ClipRRect(
               borderRadius: borderRadius10,
-              child: image.length != 1
+              child: widget.image.length != 1
                   ? CarouselSlider.builder(
-                      itemCount: image.length,
+                      itemCount: widget.image.length,
                       itemBuilder: (context, index, count) {
                         return CachedNetworkImage(
                           fadeInCurve: Curves.ease,
-                          imageUrl: image[index],
+                          imageUrl: widget.image[index],
                           imageBuilder: (context, imageProvider) => Container(
                             margin: const EdgeInsets.symmetric(horizontal: 5),
                             decoration: BoxDecoration(
@@ -102,7 +109,7 @@ class ProductCard extends StatelessWidget {
                     )
                   : CachedNetworkImage(
                       fadeInCurve: Curves.ease,
-                      imageUrl: image[0],
+                      imageUrl: widget.image[0],
                       imageBuilder: (context, imageProvider) => Container(
                         margin: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
@@ -127,16 +134,16 @@ class ProductCard extends StatelessWidget {
               height: 20,
             ),
           ),
-          removeAddCard!
+          widget.removeAddCard!
               ? SizedBox.shrink()
               : Positioned(
                   top: 12,
                   right: 12,
                   child: FavButton(
-                    isCollar: downloadable,
+                    isCollar: widget.downloadable,
                     whcihPage: false,
-                    name: name,
-                    id: id,
+                    name: widget.name,
+                    id: widget.id,
                   ),
                 )
         ],
@@ -145,11 +152,11 @@ class ProductCard extends StatelessWidget {
   }
 
   Container namePart1() {
-    final double a = double.parse(price.toString());
+    final double a = double.parse(widget.price.toString());
     final double b = a / 100.0;
     return Container(
       width: double.infinity,
-      padding: removeAddCard! ? EdgeInsets.only(top: 8, bottom: 8, left: 5) : EdgeInsets.only(top: 4, left: 5),
+      padding: widget.removeAddCard! ? EdgeInsets.only(top: 8, bottom: 8, left: 5) : EdgeInsets.only(top: 4, left: 5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -182,23 +189,23 @@ class ProductCard extends StatelessWidget {
             ],
           ),
           Text(
-            name,
+            widget.name,
             textAlign: TextAlign.start,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.black, fontFamily: normsProLight, fontSize: 14),
           ),
-          removeAddCard!
+          widget.removeAddCard!
               ? SizedBox.shrink()
-              : downloadable
+              : widget.downloadable
                   ? downloadButton()
                   : AddCartButton(
-                      id: id,
-                      price: price,
+                      id: widget.id,
+                      price: widget.price,
                       productProfil: false,
-                      createdAt: createdAt,
-                      image: image[0],
-                      name: name,
+                      createdAt: widget.createdAt,
+                      image: widget.image[0],
+                      name: widget.name,
                     )
         ],
       ),
@@ -213,14 +220,14 @@ class ProductCard extends StatelessWidget {
           showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
           await Get.to(() => TabbarView());
         } else {
-          files.length == 0
+          widget.files.length == 0
               ? showSnackBar('errorTitle', 'noFile', Colors.red)
               : Get.to(
                   () => DownloadYakaPage(
-                    image: image[0],
-                    id: id,
-                    list: files,
-                    pageName: name,
+                    image: widget.image[0],
+                    id: widget.id,
+                    list: widget.files,
+                    pageName: widget.name,
                   ),
                 );
         }
@@ -241,4 +248,8 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -46,6 +46,10 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   }
 
   getData() {
+    print(homeController.showAllList.length);
+    print(
+      '${homeController.page.value}',
+    );
     CategoryService().getCategoryByID(
       widget.id,
       parametrs: {
@@ -96,18 +100,12 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   }
 
   void _onLoading() async {
-    // final int a = int.parse(homeController.page.value.toString());
-    // final int b = int.parse(homeController.limit.value.toString());
-    // if ((a * b) > homeController.showAllList.length) {
-    // } else {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
     homeController.page.value += 1;
     homeController.limit.value = 10;
-
     getData();
     setState(() {});
-    // }
   }
 
   @override
@@ -187,6 +185,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                 : StaggeredGridView.countBuilder(
                     crossAxisCount: 2,
                     shrinkWrap: true,
+                    addAutomaticKeepAlives: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: homeController.showAllList.length,
                     itemBuilder: (context, index) {

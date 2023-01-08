@@ -10,6 +10,7 @@ import '../../../data/models/banner_model.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/services/banner_service.dart';
 import '../../../data/services/category_service.dart';
+import 'collar_controller.dart';
 
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
@@ -17,6 +18,21 @@ class HomeController extends GetxController {
   RxString sortName = ''.obs;
   RxInt sortMachineID = 0.obs;
   RxString sortMachineName = 'Yaka'.obs;
+  final CollarController collarController = Get.put(CollarController());
+  final ClothesController clothesController = Get.put(ClothesController());
+  final GoodsController goodsController = Get.put(GoodsController());
+  getAllProducts() {
+    collarController.collarList.clear();
+    clothesController.clothesList.clear();
+    goodsController.goodsList.clear();
+    goodsController.goodsLoading.value = 0;
+    clothesController.clothesLoading.value = 0;
+    collarController.collarLoading.value = 0;
+    collarController.getData();
+    clothesController.getDataClothes();
+    goodsController.getDataGoods();
+  }
+
   //
   RxInt page = 1.obs;
   RxInt limit = 10.obs;

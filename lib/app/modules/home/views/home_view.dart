@@ -11,14 +11,12 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/data/services/banner_service.dart';
 import 'package:yaka2/app/data/services/category_service.dart';
-import 'package:yaka2/app/data/services/collars_service.dart';
-import 'package:yaka2/app/data/services/dresses_service.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 import 'package:yaka2/app/modules/cart/views/cart_view.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
-import 'package:yaka2/app/modules/home/views/listview_clothes_view.dart';
+import 'package:yaka2/app/modules/home/views/instruction_page.dart';
 import 'package:yaka2/app/modules/home/views/listview_machines_view.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:yaka2/app/modules/user_profil/views/addMoneyPage.dart';
@@ -29,7 +27,7 @@ import 'package:yaka2/app/others/buttons/profile_button.dart';
 import '../controllers/home_controller.dart';
 import 'banners_view.dart';
 import 'category_view.dart';
-import 'instruction_page.dart';
+import 'listview_clothes_view.dart';
 import 'listview_collars_view.dart';
 import 'listview_goods.dart';
 
@@ -42,29 +40,29 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final UserProfilController userProfilController = Get.put(UserProfilController());
-
   final HomeController homeController = Get.put(HomeController());
-
   final CartController cartController = Get.put(CartController());
 
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  @override
+  void initState() {
+    super.initState();
+    homeController.getAllProducts();
+  }
 
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
     await BannerService().getBanners();
     await CategoryService().getCategories();
-    await CollarService().getCollars();
-    await DressesService().getDresses();
+
     await MachineService().getMachines();
     await CategoryService().getCategories();
+    homeController.getAllProducts();
+
     homeController.userMoney();
     setState(() {});
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
   }
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -94,9 +92,8 @@ class _HomeViewState extends State<HomeView> {
         footer: footer(),
         controller: _refreshController,
         onRefresh: _onRefresh,
-        onLoading: _onLoading,
         enablePullDown: true,
-        enablePullUp: true,
+        enablePullUp: false,
         physics: const BouncingScrollPhysics(),
         header: const MaterialClassicHeader(
           color: kPrimaryColor,

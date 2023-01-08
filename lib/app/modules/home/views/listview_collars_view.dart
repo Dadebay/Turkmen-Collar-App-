@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/data/models/collar_model.dart';
-import 'package:yaka2/app/data/services/collars_service.dart';
-import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
-class ListviewCollarsView extends GetView {
-  final HomeController homeController = Get.put(HomeController());
+import '../../../constants/constants.dart';
+import '../controllers/collar_controller.dart';
+
+class ListviewCollarsView extends StatelessWidget {
+  final CollarController collarController = Get.put(CollarController());
   ListviewCollarsView({Key? key}) : super(key: key);
+
+  final RefreshController _refreshController = RefreshController();
+
+  void _onLoading() async {
+    print('i loaded');
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+    collarController.collarPage.value += 1;
+    collarController.collarLimit.value = 10;
+    collarController.getData();
+    _refreshController.refreshCompleted();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,38 +40,53 @@ class ListviewCollarsView extends GetView {
             onTap: () {},
           ),
           Expanded(
-            child: FutureBuilder<List<CollarModel>>(
-              future: CollarService().getCollars(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            child: SmartRefresher(
+              footer: footer(),
+              controller: _refreshController,
+              onLoading: _onLoading,
+              enablePullDown: false,
+              enablePullUp: true,
+              scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
+              header: const MaterialClassicHeader(
+                color: kPrimaryColor,
+              ),
+              child: Obx(() {
+                if (collarController.collarLoading.value == 0) {
                   return loaderCollar();
-                } else if (snapshot.hasError) {
-                  return errorPage(
-                    onTap: () {
-                      CollarService().getCollars();
-                    },
+                } else if (collarController.collarLoading.value == 1) {
+                  return Center(
+                    child: errorPage(
+                      onTap: () {
+                        collarController.getData();
+                      },
+                    ),
                   );
-                } else if (snapshot.data!.isEmpty) {
-                  return emptryPageText();
+                } else if (collarController.collarLoading.value == 2) {
+                  return Center(
+                    child: emptryPageText(),
+                  );
                 }
                 return ListView.builder(
-                  itemCount: snapshot.data!.length,
+                  itemCount: collarController.collarList.length,
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  addAutomaticKeepAlives: true,
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
-                      image: snapshot.data![index].images ?? [],
-                      name: '${snapshot.data![index].name}',
-                      price: '${snapshot.data![index].price}',
-                      id: snapshot.data![index].id!,
-                      files: snapshot.data![index].files!,
+                      image: collarController.collarList[index]['images'],
+                      name: collarController.collarList[index]['name'],
+                      price: collarController.collarList[index]['price'].toString(),
+                      id: int.parse(collarController.collarList[index]['id'].toString()),
+                      files: collarController.collarList[index]['files'],
                       downloadable: true,
                       removeAddCard: false,
-                      createdAt: snapshot.data![index].createdAt!,
+                      createdAt: collarController.collarList[index]['createdAt'],
                     );
                   },
                 );
-              },
+              }),
             ),
           )
         ],
