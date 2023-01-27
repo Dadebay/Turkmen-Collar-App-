@@ -45,6 +45,8 @@ class ListviewMachinesView extends GetView {
                   itemCount: snapshot.data!.length,
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  addAutomaticKeepAlives: true,
                   itemBuilder: (BuildContext context, int index) {
                     return MachineCard(
                       model: snapshot.data![index],

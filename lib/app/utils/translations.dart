@@ -137,8 +137,12 @@ class MyTranslations extends Translations {
           'wait10MinTitle': 'Garaşyň !',
           'wait10Min': '10 minut garaşyp täzeden synanşyň',
           'listview_goods': 'Tikinçilik harytlary',
+          'myNumber': 'Meniň belgim : ',
+          'noOrder': 'Hiç hili sargyt ýok'
         },
         'ru': {
+          'noOrder': 'Заказов нет',
+          'myNumber': 'Мой номер :',
           'listview_goods': 'Одежда',
           'noProductFound': 'Товар не найден',
           'wait10MinTitle': 'Подождите !',

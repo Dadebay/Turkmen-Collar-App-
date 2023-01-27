@@ -67,8 +67,8 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
             },
             body: Padding(
               padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,6 +135,9 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                   Text(
                     snapshot.data!.description!,
                     style: const TextStyle(fontFamily: normsProLight, fontSize: 18, color: Colors.black54),
+                  ),
+                  SizedBox(
+                    height: 200,
                   )
                 ],
               ),

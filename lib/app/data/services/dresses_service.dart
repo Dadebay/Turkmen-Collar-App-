@@ -57,6 +57,7 @@ class DressesService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       goodsController.goodsLoading.value = 2;
 

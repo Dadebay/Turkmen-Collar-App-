@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/modules/home/controllers/collar_controller.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
-import '../../../constants/constants.dart';
-
 class ListViewGoods extends GetView {
   final GoodsController goodsController = Get.put(GoodsController());
 
-  final RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController1 = RefreshController();
 
   void _onLoading() async {
     print('i loaded');
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
+    _refreshController1.loadComplete();
     goodsController.goodsPage.value += 1;
     goodsController.goodsLimit.value = 10;
     goodsController.getDataGoods();
-    _refreshController.refreshCompleted();
+    _refreshController1.refreshCompleted();
   }
 
   @override
@@ -37,7 +35,7 @@ class ListViewGoods extends GetView {
           Expanded(
             child: SmartRefresher(
               footer: footer(),
-              controller: _refreshController,
+              controller: _refreshController1,
               onLoading: _onLoading,
               enablePullDown: false,
               enablePullUp: true,
@@ -63,7 +61,11 @@ class ListViewGoods extends GetView {
                       child: emptryPageText(),
                     );
                   }
+                  print(goodsController.goodsList.length);
+
                   return ListView.builder(
+                    shrinkWrap: true,
+                    addAutomaticKeepAlives: true,
                     itemCount: goodsController.goodsList.length,
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,

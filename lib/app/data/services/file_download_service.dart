@@ -25,7 +25,7 @@ class FileDownloadService {
   Future getAvailabePhoneNumber() async {
     final token = await Auth().getToken();
     final response = await http.get(
-      Uri.parse('$serverURL/api/v1/config'),
+      Uri.parse('$serverURL/api/v1/phone'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',

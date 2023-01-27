@@ -329,7 +329,7 @@ dynamic errorPage({required Function() onTap}) {
             ),
             child: Text(
               'noConnection3'.tr,
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              style: TextStyle(color: Colors.black, fontSize: 18),
             ),
           ),
         )
@@ -359,7 +359,7 @@ dynamic emptyPageImage({required Function() onTap, String? name}) {
       children: [
         Lottie.asset(noData, width: 350, height: 350),
         Text(
-          name ?? 'noData1'.tr,
+          name?.tr ?? 'noData1'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
         ),

@@ -96,6 +96,8 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
     _controller.clear();
     _controller1.clear();
     value = 0;
+    homeController.loading.value = 0;
+
     getData();
   }
 
@@ -105,7 +107,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
     homeController.page.value += 1;
     homeController.limit.value = 10;
     getData();
-    setState(() {});
+    // setState(() {});
   }
 
   @override
@@ -405,6 +407,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         child: AgreeButton(
                           onTap: () {
                             homeController.showAllList.clear();
+                            homeController.page.value = 1;
 
                             getData();
                             homeController.sortName.value = '';

@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -24,6 +25,7 @@ import 'package:yaka2/app/modules/user_profil/views/downloaded_view.dart';
 import 'package:yaka2/app/modules/user_profil/views/user_profil_view.dart';
 import 'package:yaka2/app/others/buttons/profile_button.dart';
 
+import '../../user_profil/views/history_order.dart';
 import '../controllers/home_controller.dart';
 import 'banners_view.dart';
 import 'category_view.dart';
@@ -290,6 +292,16 @@ class _HomeViewState extends State<HomeView> {
             icon: IconlyBold.download,
             langIconStatus: false,
           ),
+          userProfilController.userLogin.value
+              ? ProfilButton(
+                  name: 'orders',
+                  onTap: () {
+                    Get.to(() => const HistoryOrders());
+                  },
+                  icon: CupertinoIcons.cube_box_fill,
+                  langIconStatus: false,
+                )
+              : SizedBox.shrink(),
           divider(),
           ProfilButton(
             name: 'transferUSB',

@@ -36,10 +36,7 @@ class ClothesController extends GetxController {
   RxList clothesList = [].obs;
   getDataClothes() async {
     await DressesService().getDresses(
-      parametrs: {
-        'page': '${clothesPage.value}',
-        'limit': '${clothesLimit.value}',
-      },
+      parametrs: {'page': '${clothesPage.value}', 'limit': '${clothesLimit.value}', 'home': '1'},
     ).then((value) {
       value.forEach((element) {
         clothesList.add({

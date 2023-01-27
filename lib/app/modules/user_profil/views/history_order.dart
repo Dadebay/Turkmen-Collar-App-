@@ -39,6 +39,7 @@ class HistoryOrders extends StatelessWidget {
       body: FutureBuilder<List<HistoryOrderModel>>(
         future: HistoryOrderService().getHistoryOrders(),
         builder: (context, snapshot) {
+          print(snapshot.data);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
@@ -47,8 +48,9 @@ class HistoryOrders extends StatelessWidget {
                 HistoryOrderService().getHistoryOrders();
               },
             );
-          } else if (snapshot.data == null) {
+          } else if (snapshot.data!.isEmpty) {
             return emptyPageImage(
+              name: 'noOrder',
               onTap: () {
                 HistoryOrderService().getHistoryOrders();
               },

@@ -68,6 +68,8 @@ class ListviewClothesView extends GetView {
                     itemCount: clothesController.clothesList.length,
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    addAutomaticKeepAlives: true,
                     itemBuilder: (BuildContext context, int index) {
                       return ProductCard(
                         image: clothesController.clothesList[index]['images'],

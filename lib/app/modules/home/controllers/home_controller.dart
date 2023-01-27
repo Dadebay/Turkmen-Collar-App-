@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/data/services/about_us_service.dart';
@@ -18,6 +19,7 @@ class HomeController extends GetxController {
   RxString sortName = ''.obs;
   RxInt sortMachineID = 0.obs;
   RxString sortMachineName = 'Yaka'.obs;
+  final storage = GetStorage();
   final CollarController collarController = Get.put(CollarController());
   final ClothesController clothesController = Get.put(ClothesController());
   final GoodsController goodsController = Get.put(GoodsController());
@@ -31,6 +33,30 @@ class HomeController extends GetxController {
     collarController.getData();
     clothesController.getDataClothes();
     goodsController.getDataGoods();
+  }
+
+  savePhoneNumber(String number) {
+    storage.write('phoneNumber', number);
+  }
+
+  Future<String> returnPhoneNumber() async {
+    String number = '';
+    print(await storage.read('phoneNumber'));
+    if (await storage.read('phoneNumber') == null) {
+      number = 'belginiz yok';
+    } else {
+      number = await storage.read('phoneNumber');
+    }
+    print(number);
+    print(number);
+    print('ASddddddddddda');
+    print(number);
+    print(number);
+    print('ASddddddddddda');
+
+    print(number);
+    print(number);
+    return number;
   }
 
   //

@@ -10,6 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/services/file_download_service.dart';
 
+import '../../home/controllers/home_controller.dart';
+
 class AddCash extends StatefulWidget {
   AddCash({Key? key}) : super(key: key);
 
@@ -19,6 +21,18 @@ class AddCash extends StatefulWidget {
 
 class _AddCashState extends State<AddCash> {
   int value = 0;
+  String number = '';
+
+  final HomeController controller = Get.put(HomeController());
+  @override
+  void initState() {
+    super.initState();
+    controller.returnPhoneNumber().then((value) {
+      number = value;
+      setState(() {});
+    });
+  }
+
   List moneyList = [
     10,
     20,
@@ -45,7 +59,9 @@ class _AddCashState extends State<AddCash> {
         ),
         title: Text(
           'addCash'.tr,
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(
+            color: Colors.black,
+          ),
         ),
         actions: [
           IconButton(
@@ -66,6 +82,23 @@ class _AddCashState extends State<AddCash> {
           children: [
             Padding(
               padding: const EdgeInsets.all(15.0),
+              child: Row(
+                children: [
+                  Text(
+                    'myNumber'.tr,
+                    style: TextStyle(fontFamily: normsProMedium, fontSize: 18),
+                  ),
+                  Expanded(
+                    child: Text(
+                      number,
+                      style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
               child: Text(
                 'addMoneyTitle'.tr,
                 style: TextStyle(fontFamily: normsProRegular, fontSize: 20),
@@ -75,7 +108,7 @@ class _AddCashState extends State<AddCash> {
               padding: const EdgeInsets.all(15.0),
               child: Text(
                 'addMoneySubTitle'.tr,
-                style: TextStyle(fontFamily: normProBold, color: Colors.red, fontSize: 20),
+                style: TextStyle(fontFamily: normProBold, color: Colors.red, fontSize: 18),
               ),
             ),
             Container(
@@ -97,25 +130,6 @@ class _AddCashState extends State<AddCash> {
                 itemCount: 5,
               ),
             ),
-            // GestureDetector(
-            //   onTap: () {
-
-            //   },
-            //   child: Container(
-            //     width: Get.size.width,
-            //     margin: EdgeInsets.symmetric(horizontal: 10),
-            //     padding: EdgeInsets.all(8),
-            //     decoration: BoxDecoration(
-            //       color: kPrimaryColor.withOpacity(0.8),
-            //       borderRadius: borderRadius10,
-            //     ),
-            //     child: Text(
-            //       'addMoneyButton'.tr,
-            //       textAlign: TextAlign.center,
-            //       style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: normProBold),
-            //     ),
-            //   ),
-            // ),
             Spacer(),
             sendMoneyButton(false),
           ],
@@ -131,11 +145,12 @@ class _AddCashState extends State<AddCash> {
       child: ElevatedButton(
         onPressed: () async {
           await FileDownloadService().getAvailabePhoneNumber().then((element) async {
+            final String phoneNumber = element['data'][0];
             if (Platform.isAndroid) {
-              final uri = 'sms:0804?body=${element['phone']}   ${moneyList[value]} ';
+              final uri = 'sms:0804?body=${phoneNumber}   ${moneyList[value]} ';
               await launch(uri);
             } else if (Platform.isIOS) {
-              final uri = 'sms:0804&body=${element['phone']}   ${moneyList[value]} ';
+              final uri = 'sms:0804&body=${phoneNumber}   ${moneyList[value]} ';
               await launch(uri);
             }
           });

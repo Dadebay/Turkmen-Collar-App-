@@ -39,7 +39,6 @@ class CategoryService {
   Future<List<dynamic>> getCategoryByID(int id, {required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
     final HomeController homeController = Get.put(HomeController());
-    homeController.loading.value = 0;
     print(parametrs);
     print(id);
 

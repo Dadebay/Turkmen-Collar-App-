@@ -8,6 +8,7 @@ import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'auth_service.dart';
 
 class SignInService {
+  final HomeController homeController = Get.put(HomeController());
   Future otpCheck({
     String? otp,
     String? phoneNumber,
@@ -25,7 +26,8 @@ class SignInService {
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['data']['api_token']);
-      Get.find<HomeController>().balance.value = "${responseJson['data']['balance']}";
+      homeController.savePhoneNumber(phoneNumber!);
+      homeController.balance.value = "${responseJson['data']['balance']}";
       return true;
     } else {
       return response.statusCode;

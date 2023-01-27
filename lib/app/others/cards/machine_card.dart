@@ -37,7 +37,7 @@ class MachineCard extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           elevation: 0.3,
-          primary: kPrimaryColorCard,
+          backgroundColor: kPrimaryColorCard,
           padding: EdgeInsets.zero,
           shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
         ),
@@ -142,13 +142,16 @@ class MachineCard extends StatelessWidget {
                         fontFamily: normsProRegular,
                       ),
                     ),
-                    AddCartButton(
-                      id: model.id!,
-                      price: '${model.price!}',
-                      productProfil: false,
-                      createdAt: model.createdAt!,
-                      image: model.images![0],
-                      name: model.name!,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: AddCartButton(
+                        id: model.id!,
+                        price: '${model.price!}',
+                        productProfil: false,
+                        createdAt: model.createdAt!,
+                        image: model.images![0],
+                        name: model.name!,
+                      ),
                     )
                   ],
                 ),
