@@ -160,6 +160,9 @@ class _OrderPageState extends State<OrderPage> {
                     TextButton(
                       onPressed: () {
                         name = cities[index];
+                          if (!mounted) {
+        return;
+      }
                         setState(() {});
                         Get.back();
                       },

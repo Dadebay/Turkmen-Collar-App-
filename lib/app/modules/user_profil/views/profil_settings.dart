@@ -53,6 +53,9 @@ class _ProfilSettingsState extends State<ProfilSettings> {
     if (storage.read('userName') != null) {
       userNameController.text = storage.read('userName') ?? 'Yok';
       userSurnameController.text = storage.read('sureName') ?? 'Yok';
+        if (!mounted) {
+        return;
+      }
       setState(() {});
     } else {
       userNameController.text = 'Yok';

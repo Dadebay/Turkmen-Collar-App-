@@ -264,11 +264,13 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     final Random rand = Random();
     final String name = findName(index);
     List<dynamic> downloadFileList = [];
-
     checkStatus();
     if (list[index].purchased == false) {
       if (balance >= list[index].price! / 100) {
         wait = true;
+        if (!mounted) {
+          return;
+        }
         setState(() {});
         await FileDownloadService().downloadFile(id: list[index].id!).then(
           (value) async {
@@ -306,7 +308,6 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
         showSnackBar('noMoney', 'noMoneySubtitle', Colors.red);
       }
     } else {
-      // yakany satyn alan bolsa Pula Seretmeli dal skacat etmeli goni
       wait = true;
       setState(() {});
       await FileDownloadService().downloadFile(id: list[index].id!).then(
@@ -314,13 +315,9 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
           downloadFileList = value;
           await createFolder();
           await createFolderMachineNames(list[index].machineName!.toUpperCase());
-
           await createFolderProductName(name);
-
-          //     ///
           for (int i = 0; i < downloadFileList.length; i++) {
             final int a = rand.nextInt(100);
-
             final String fileFormat = findFileFormat(downloadFileList[i]);
             final String fileName = findFileName(downloadFileList[i]);
             await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/$fileName  -$a-$fileFormat').then((value) {
@@ -332,7 +329,6 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                 if (wait) {
                   Future.delayed(const Duration(minutes: 1), () {
                     wait = false;
-
                     showSnackBar('noConnection3', 'error', kPrimaryColor);
                     setState(() {});
                   });
@@ -340,8 +336,6 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
               }
             });
           }
-
-          //     ///
         },
       );
       homeController.userMoney();

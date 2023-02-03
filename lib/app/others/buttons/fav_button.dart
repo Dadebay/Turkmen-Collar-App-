@@ -56,12 +56,18 @@ class _FavButtonState extends State<FavButton> {
             await Get.to(() => const TabbarView());
           } else {
             if (widget.isCollar) {
+                if (!mounted) {
+        return;
+      }
               setState(() {
                 value = !value;
                 favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);
               });
             }
             if (widget.isCollar) {
+                if (!mounted) {
+        return;
+      }
               setState(() {
                 value = !value;
                 favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);

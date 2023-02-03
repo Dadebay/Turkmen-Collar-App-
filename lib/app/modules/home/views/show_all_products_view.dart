@@ -23,14 +23,12 @@ class ShowAllProductsView extends StatefulWidget {
   final int id;
   final bool isCollar;
   final String name;
-
   const ShowAllProductsView({
     required this.name,
     required this.isCollar,
     required this.id,
     Key? key,
   }) : super(key: key);
-
   @override
   State<ShowAllProductsView> createState() => _ShowAllProductsViewState();
 }
@@ -113,10 +111,9 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
     homeController.page.value += 1;
     homeController.limit.value = 10;
     getData();
-    // setState(() {});
   }
 
-  AppBar _appbar() {
+  AppBar _appbar(BuildContext context) {
     return AppBar(
       title: Text(
         widget.name.tr,
@@ -128,7 +125,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
       systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
       leading: IconButton(
         onPressed: () {
-          Get.back();
+          Navigator.pop(context);
         },
         icon: const Icon(
           IconlyLight.arrowLeftCircle,
@@ -251,6 +248,9 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         homeController.showAllList.clear();
 
                         getData();
+                        if (!mounted) {
+                          return;
+                        }
                         setState(() {});
                         Get.back();
                       },
@@ -297,6 +297,9 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
 
                             getData();
                             homeController.sortName.value = '';
+                            if (!mounted) {
+                              return;
+                            }
                             setState(() {});
                             Get.back();
                           },
@@ -321,7 +324,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appbar(),
+      appBar: _appbar(context),
       body: SmartRefresher(
         footer: footer(),
         controller: refreshController,

@@ -27,6 +27,9 @@ class _AddCashState extends State<AddCash> {
     super.initState();
     controller.returnPhoneNumber().then((value) {
       number = value;
+        if (!mounted) {
+        return;
+      }
       setState(() {});
     });
   }

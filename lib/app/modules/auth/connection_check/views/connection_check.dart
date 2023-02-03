@@ -36,6 +36,9 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
 
     checkConnection();
     Timer(const Duration(seconds: 2), () {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _containerSize = 2;
         _containerOpacity = 1;

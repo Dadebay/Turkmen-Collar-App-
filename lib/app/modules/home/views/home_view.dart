@@ -64,6 +64,9 @@ class _HomeViewState extends State<HomeView> {
     homeController.getAllProducts();
 
     homeController.userMoney();
+      if (!mounted) {
+        return;
+      }
     setState(() {});
   }
 

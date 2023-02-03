@@ -14,7 +14,11 @@ class _DownloadButtonState extends State<DownloadButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+          if (!mounted) {
+        return;
+      }
         setState(() {
+          
           value = !value;
         });
       },

@@ -78,6 +78,9 @@ class _AddCartButtonState extends State<AddCartButton> {
                             addCartBool = false;
                           }
                           cartController.minusCardElement(widget.id);
+                            if (!mounted) {
+        return;
+      }
                           setState(() {});
                         },
                         child: Container(
@@ -108,6 +111,9 @@ class _AddCartButtonState extends State<AddCartButton> {
                         onTap: () {
                           quantity++;
                           cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
+                          if (!mounted) {
+        return;
+      }
                           setState(() {});
                         },
                         child: Container(
@@ -130,6 +136,9 @@ class _AddCartButtonState extends State<AddCartButton> {
                   addCartBool = !addCartBool;
                   cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
                   showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+             if (!mounted) {
+        return;
+      }
                   setState(() {});
                 },
                 child: Container(
