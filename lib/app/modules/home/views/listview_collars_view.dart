@@ -7,22 +7,21 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
 import '../../../constants/constants.dart';
-import '../controllers/collar_controller.dart';
+import '../controllers/home_controller.dart';
 
 class ListviewCollarsView extends StatelessWidget {
-  final CollarController collarController = Get.put(CollarController());
+  final RefreshController refreshController = RefreshController();
+  final HomeController collarController = Get.put(HomeController());
   ListviewCollarsView({Key? key}) : super(key: key);
 
-  final RefreshController _refreshController = RefreshController();
 
   void _onLoading() async {
-    print('i loaded');
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
+    refreshController.loadComplete();
     collarController.collarPage.value += 1;
     collarController.collarLimit.value = 10;
     collarController.getData();
-    _refreshController.refreshCompleted();
+    refreshController.refreshCompleted();
   }
 
   @override
@@ -42,12 +41,12 @@ class ListviewCollarsView extends StatelessWidget {
           Expanded(
             child: SmartRefresher(
               footer: footer(),
-              controller: _refreshController,
+              controller: refreshController,
               onLoading: _onLoading,
               enablePullDown: false,
               enablePullUp: true,
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               header: const MaterialClassicHeader(
                 color: kPrimaryColor,
               ),

@@ -15,12 +15,15 @@ import 'package:yaka2/app/others/buttons/agree_button.dart';
 
 class OtpCheck extends StatelessWidget {
   final String phoneNumber;
+  final otpCheck = GlobalKey<FormState>();
+
   OtpCheck({
     required this.phoneNumber,
+    super.key,
   });
-  FocusNode otpFocusNode = FocusNode();
-  final otpCheck = GlobalKey<FormState>();
+
   TextEditingController otpController = TextEditingController();
+  FocusNode otpFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class OtpCheck extends StatelessWidget {
         centerTitle: true,
         title: Text(
           'otpCheck'.tr,
-          style: TextStyle(fontFamily: normProBold, color: Colors.black),
+          style: const TextStyle(fontFamily: normProBold, color: Colors.black),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -75,12 +78,12 @@ class OtpCheck extends StatelessWidget {
                 onTap: () {
                   if (otpCheck.currentState!.validate()) {
                     Get.find<SignInPageController>().agreeButton.value = !Get.find<SignInPageController>().agreeButton.value;
-                    SignInService().otpCheck(otp: otpController.text, phoneNumber: '+993${phoneNumber}').then((value) {
+                    SignInService().otpCheck(otp: otpController.text, phoneNumber: '+993$phoneNumber').then((value) {
                       if (value == true) {
                         Get.find<UserProfilController>().userLogin.value = true;
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => ConnectionCheckpage(),
+                            builder: (context) => const ConnectionCheckpage(),
                           ),
                           (Route<dynamic> route) => false,
                         );

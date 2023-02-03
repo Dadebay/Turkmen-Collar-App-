@@ -12,7 +12,7 @@ class BannerProfileView extends GetView {
   final String pageName;
   final String image;
 
-  const BannerProfileView(this.pageName, this.image, this.description);
+  const BannerProfileView(this.pageName, this.image, this.description, {super.key});
 
   @override
   Widget build(BuildContext context) {

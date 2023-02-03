@@ -18,7 +18,6 @@ class BannerCard extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print(image);
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {

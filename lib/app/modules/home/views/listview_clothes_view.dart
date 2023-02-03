@@ -4,25 +4,23 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/loaders.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/modules/home/controllers/collar_controller.dart';
+import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
 import '../../../constants/constants.dart';
 
 class ListviewClothesView extends GetView {
+  final HomeController clothesController = Get.put(HomeController());
+  final RefreshController refreshController = RefreshController();
   ListviewClothesView({Key? key}) : super(key: key);
-  final ClothesController clothesController = Get.put(ClothesController());
-
-  final RefreshController _refreshController = RefreshController();
 
   void _onLoading() async {
-    print('i loaded');
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
+    refreshController.loadComplete();
     clothesController.clothesPage.value += 1;
     clothesController.clothesLimit.value = 10;
     clothesController.getDataClothes();
-    _refreshController.refreshCompleted();
+    refreshController.refreshCompleted();
   }
 
   @override
@@ -38,12 +36,12 @@ class ListviewClothesView extends GetView {
           Expanded(
             child: SmartRefresher(
               footer: footer(),
-              controller: _refreshController,
+              controller: refreshController,
               onLoading: _onLoading,
               enablePullDown: false,
               enablePullUp: true,
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               header: const MaterialClassicHeader(
                 color: kPrimaryColor,
               ),
@@ -77,7 +75,7 @@ class ListviewClothesView extends GetView {
                         price: clothesController.clothesList[index]['price'].toString(),
                         id: int.parse(clothesController.clothesList[index]['id'].toString()),
                         downloadable: false,
-                        files: [],
+                        files: const [],
                         removeAddCard: false,
                         createdAt: clothesController.clothesList[index]['createdAt'],
                       );

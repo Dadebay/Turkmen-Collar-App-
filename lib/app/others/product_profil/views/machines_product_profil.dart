@@ -23,12 +23,13 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
   final List image;
   double a = 0.0;
   double b = 0.0;
-  MachinesProductProfil({
+  MachinesProductProfil({ 
     required this.name,
     required this.createdAt,
     required this.price,
     required this.id,
     required this.image,
+    super.key,
   });
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
             productProfil: true,
             createdAt: createdAt,
             name: name,
-            image: image[0],
+            image: image.first,
           ),
         ],
       ),
@@ -80,7 +81,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                       Row(
                         children: [
                           Text(
-                            '${b}',
+                            '$b',
                             style: const TextStyle(
                               color: Colors.red,
                               fontSize: 22,
@@ -110,7 +111,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8, top: 8),
+                    padding: const EdgeInsets.only(bottom: 8, top: 8),
                     child: twoText(name1: 'data3', name2: '${snapshot.data!.views}'),
                   ),
                   Divider(
@@ -118,7 +119,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                     color: Colors.grey.shade300,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8, top: 8),
+                    padding: const EdgeInsets.only(bottom: 8, top: 8),
                     child: twoText(name1: 'createdAt'.tr, name2: '${snapshot.data!.createdAt}'),
                   ),
                   Divider(
@@ -136,7 +137,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                     snapshot.data!.description!,
                     style: const TextStyle(fontFamily: normsProLight, fontSize: 18, color: Colors.black54),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 200,
                   )
                 ],
@@ -226,7 +227,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
       actions: [
         GestureDetector(
           onTap: () {
-            Share.share(image[0], subject: appName);
+            Share.share(image.first, subject: appName);
           },
           child: Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4, right: 8),

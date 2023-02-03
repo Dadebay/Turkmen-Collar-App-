@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -18,19 +20,27 @@ import 'package:yaka2/app/others/cards/product_card.dart';
 import '../../../constants/widgets.dart';
 
 class ShowAllProductsView extends StatefulWidget {
-  // ignore: always_put_required_named_parameters_first
-  const ShowAllProductsView({Key? key, required this.name, required this.isCollar, required this.id}) : super(key: key);
-
   final int id;
-  final String name;
   final bool isCollar;
+  final String name;
+
+  const ShowAllProductsView({
+    required this.name,
+    required this.isCollar,
+    required this.id,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ShowAllProductsView> createState() => _ShowAllProductsViewState();
 }
 
 class _ShowAllProductsViewState extends State<ShowAllProductsView> {
+  final TextEditingController controller = TextEditingController();
+  final TextEditingController controller1 = TextEditingController();
   final HomeController homeController = Get.put(HomeController());
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+  int value = 0;
 
   @override
   void initState() {
@@ -39,30 +49,26 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
     homeController.sortName.value = '';
     homeController.page.value = 1;
     homeController.sortMachineID.value = 0;
-    _controller.clear();
-    _controller1.clear();
+    controller.clear();
+    controller1.clear();
     homeController.showAllList.clear();
     getData();
   }
 
-  getData() {
-    print(homeController.showAllList.length);
-    print(
-      '${homeController.page.value}',
-    );
+  dynamic getData() {
     CategoryService().getCategoryByID(
       widget.id,
       parametrs: {
         'sort_by': '${homeController.sortName}',
-        'min': _controller.text,
-        'max': _controller1.text,
+        'min': controller.text,
+        'max': controller1.text,
         'tag': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
         'page': '${homeController.page.value}',
         'limit': '${homeController.limit.value}',
       },
     ).then((value) {
-      value.forEach((element) {
-        if (widget.isCollar == true) {
+      for (var element in value) {
+        if (widget.isCollar) {
           homeController.showAllList.add({
             'id': element.id,
             'name': element.name,
@@ -81,20 +87,20 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             'files': [],
           });
         }
-      });
+      }
     });
   }
 
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
+    refreshController.refreshCompleted();
     homeController.showAllList.clear();
     homeController.page.value = 1;
     homeController.limit.value = 10;
     homeController.sortMachineID.value = 0;
     homeController.sortName.value = '';
-    _controller.clear();
-    _controller1.clear();
+    controller.clear();
+    controller1.clear();
     value = 0;
     homeController.loading.value = 0;
 
@@ -103,132 +109,18 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
 
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
+    refreshController.loadComplete();
     homeController.page.value += 1;
     homeController.limit.value = 10;
     getData();
     // setState(() {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appbar(context),
-      body: SmartRefresher(
-        footer: footer(),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        enablePullDown: true,
-        enablePullUp: true,
-        physics: BouncingScrollPhysics(),
-        header: const MaterialClassicHeader(
-          color: kPrimaryColor,
-        ),
-        child: Obx(
-          () {
-            if (homeController.loading.value == 0) {
-              return Center(child: spinKit());
-            } else if (homeController.loading.value == 1) {
-              return Center(
-                child: errorPage(
-                  onTap: () {
-                    CategoryService().getCategoryByID(
-                      widget.id,
-                      parametrs: {
-                        'sort_by': '${homeController.sortName}',
-                        'min': _controller.text,
-                        'max': _controller1.text,
-                        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
-                        'page': homeController.page.value,
-                        'limit': homeController.limit.value,
-                      },
-                    );
-                  },
-                ),
-              );
-            } else if (homeController.loading.value == 2) {
-              return Center(
-                child: emptyPageImage(
-                  onTap: () {
-                    CategoryService().getCategoryByID(
-                      widget.id,
-                      parametrs: {
-                        'sort_by': '${homeController.sortName}',
-                        'min': _controller.text,
-                        'max': _controller1.text,
-                        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
-                        'page': homeController.page.value,
-                        'limit': homeController.limit.value,
-                      },
-                    );
-                  },
-                ),
-              );
-            }
-            return homeController.showAllList.length == 0
-                ? Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Lottie.asset(noData, width: 350, height: 350),
-                        Text(
-                          'noProductFound'.tr,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        )
-                      ],
-                    ),
-                  )
-                : StaggeredGridView.countBuilder(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    addAutomaticKeepAlives: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: homeController.showAllList.length,
-                    itemBuilder: (context, index) {
-                      return widget.isCollar
-                          ? ProductCard(
-                              image: homeController.showAllList[index]['images'] ?? [],
-                              name: '${homeController.showAllList[index]['name']}',
-                              price: '${homeController.showAllList[index]['price']}',
-                              id: homeController.showAllList[index]['id'],
-                              files: homeController.showAllList[index]['files'],
-                              downloadable: true,
-                              removeAddCard: false,
-                              createdAt: homeController.showAllList[index]['createdAt'],
-                            )
-                          : ProductCard(
-                              image: homeController.showAllList[index]['images'] ?? [],
-                              name: '${homeController.showAllList[index]['name']}',
-                              price: '${homeController.showAllList[index]['price']}',
-                              id: homeController.showAllList[index]['id'],
-                              downloadable: false,
-                              removeAddCard: false,
-                              files: [],
-                              createdAt: homeController.showAllList[index]['createdAt'],
-                            );
-                    },
-                    staggeredTileBuilder: (index) => StaggeredTile.count(
-                      1,
-                      1.8,
-                    ),
-                  );
-          },
-        ),
-      ),
-    );
-  }
-
-  AppBar appbar(BuildContext context) {
+  AppBar _appbar() {
     return AppBar(
       title: Text(
         widget.name.tr,
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
       ),
       backgroundColor: kPrimaryColor,
       elevation: 0,
@@ -243,15 +135,11 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
           color: Colors.black,
         ),
       ),
-      actions: [leftSideAppBar(context)],
+      actions: [_leftSideAppBar()],
     );
   }
 
-  final TextEditingController _controller = TextEditingController();
-  final TextEditingController _controller1 = TextEditingController();
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
-
-  Padding selectMachineType(BuildContext context) {
+  Padding _selectMachineType() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
@@ -306,7 +194,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       alignment: WrapAlignment.center,
                       children: [
-                        index == 0 ? divider() : SizedBox.shrink(),
+                        index == 0 ? divider() : const SizedBox.shrink(),
                         TextButton(
                           onPressed: () {
                             homeController.sortMachineName.value = snapshot.data![index].name!;
@@ -332,9 +220,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
     );
   }
 
-  int value = 0;
-
-  Padding leftSideAppBar(BuildContext context) {
+  Padding _leftSideAppBar() {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: Row(
@@ -360,8 +246,8 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                         value = a;
                         homeController.sortName.value = sortData[index]['sort_column'];
                         homeController.sortMachineID.value = 0;
-                        _controller.clear();
-                        _controller1.clear();
+                        controller.clear();
+                        controller1.clear();
                         homeController.showAllList.clear();
 
                         getData();
@@ -394,14 +280,14 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      widget.isCollar ? selectMachineType(context) : SizedBox.shrink(),
+                      widget.isCollar ? _selectMachineType() : const SizedBox.shrink(),
                       widget.isCollar
                           ? Divider(
                               color: kPrimaryColor.withOpacity(0.4),
                               thickness: 2,
                             )
-                          : SizedBox.shrink(),
-                      twoTextEditingField(controller1: _controller, controller2: _controller1),
+                          : const SizedBox.shrink(),
+                      twoTextEditingField(controller1: controller, controller2: controller1),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: AgreeButton(
@@ -428,6 +314,120 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _appbar(),
+      body: SmartRefresher(
+        footer: footer(),
+        controller: refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        enablePullDown: true,
+        enablePullUp: true,
+        physics: const BouncingScrollPhysics(),
+        header: const MaterialClassicHeader(
+          color: kPrimaryColor,
+        ),
+        child: Obx(
+          () {
+            if (homeController.loading.value == 0) {
+              return Center(child: spinKit());
+            } else if (homeController.loading.value == 1) {
+              return Center(
+                child: errorPage(
+                  onTap: () {
+                    CategoryService().getCategoryByID(
+                      widget.id,
+                      parametrs: {
+                        'sort_by': '${homeController.sortName}',
+                        'min': controller.text,
+                        'max': controller1.text,
+                        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
+                        'page': homeController.page.value,
+                        'limit': homeController.limit.value,
+                      },
+                    );
+                  },
+                ),
+              );
+            } else if (homeController.loading.value == 2) {
+              return Center(
+                child: emptyPageImage(
+                  onTap: () {
+                    CategoryService().getCategoryByID(
+                      widget.id,
+                      parametrs: {
+                        'sort_by': '${homeController.sortName}',
+                        'min': controller.text,
+                        'max': controller1.text,
+                        'machine_id': '${homeController.sortMachineID.value == 0 ? '' : homeController.sortMachineID.value}',
+                        'page': homeController.page.value,
+                        'limit': homeController.limit.value,
+                      },
+                    );
+                  },
+                ),
+              );
+            }
+            return homeController.showAllList.isEmpty
+                ? Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(noData, width: 350, height: 350),
+                        Text(
+                          'noProductFound'.tr,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        )
+                      ],
+                    ),
+                  )
+                : StaggeredGridView.countBuilder(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    addAutomaticKeepAlives: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: homeController.showAllList.length,
+                    itemBuilder: (context, index) {
+                      return widget.isCollar
+                          ? ProductCard(
+                              image: homeController.showAllList[index]['images'] ?? [],
+                              name: '${homeController.showAllList[index]['name']}',
+                              price: '${homeController.showAllList[index]['price']}',
+                              id: homeController.showAllList[index]['id'],
+                              files: homeController.showAllList[index]['files'],
+                              downloadable: true,
+                              removeAddCard: false,
+                              createdAt: homeController.showAllList[index]['createdAt'],
+                            )
+                          : ProductCard(
+                              image: homeController.showAllList[index]['images'] ?? [],
+                              name: '${homeController.showAllList[index]['name']}',
+                              price: '${homeController.showAllList[index]['price']}',
+                              id: homeController.showAllList[index]['id'],
+                              downloadable: false,
+                              removeAddCard: false,
+                              files: const [],
+                              createdAt: homeController.showAllList[index]['createdAt'],
+                            );
+                    },
+                    staggeredTileBuilder: (index) => const StaggeredTile.count(
+                      1,
+                      1.8,
+                    ),
+                  );
+          },
+        ),
       ),
     );
   }

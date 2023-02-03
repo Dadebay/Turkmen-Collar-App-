@@ -23,10 +23,12 @@ class LogInView extends GetView {
   final login = GlobalKey<FormState>();
   final SignInPageController signInPageController = Get.put(SignInPageController());
 
+  LogInView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         color: Colors.white,
       ),
@@ -60,7 +62,7 @@ class LogInView extends GetView {
                 onTap: () {
                   signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
                   if (login.currentState!.validate()) {
-                    if (signInPageController.agreeButton.value == true) {
+                    if (signInPageController.agreeButton.value) {
                       SignInService().login(phone: '+993${phoneNumberController.text}').then((value) {
                         if (value == 200) {
                           Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text));

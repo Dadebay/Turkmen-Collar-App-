@@ -14,8 +14,10 @@ import 'package:yaka2/app/others/cards/product_card.dart';
 import '../controllers/favorites_controller.dart';
 
 class FavoritesView extends GetView<FavoritesController> {
-  FavoritesView({Key? key}) : super(key: key);
+  @override
   final FavoritesController controller = Get.put(FavoritesController());
+
+  FavoritesView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -24,7 +26,7 @@ class FavoritesView extends GetView<FavoritesController> {
         appBar: AppBar(
           title: Text(
             'favorites'.tr,
-            style: TextStyle(fontFamily: normProBold, color: Colors.black),
+            style: const TextStyle(fontFamily: normProBold, color: Colors.black),
           ),
           backgroundColor: kPrimaryColor,
           elevation: 0,
@@ -130,11 +132,11 @@ class FavoritesView extends GetView<FavoritesController> {
                   itemBuilder: (context, index) {
                     return ProductCard(
                       image: snapshot.data![index].images ?? [],
-                      name: '${snapshot.data![index].name ?? 'asd'}',
+                      name: snapshot.data![index].name ?? 'asd',
                       price: '${snapshot.data![index].price ?? 00}',
                       id: snapshot.data![index].id!,
                       downloadable: false,
-                      files: [],
+                      files: const [],
                       removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt ?? 'asd',
                     );

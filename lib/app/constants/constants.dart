@@ -4,7 +4,7 @@ const String serverURL = 'http://216.250.8.54';
 
 const Color kPrimaryColor = Color(0xfffd7e15);
 const Color kPrimaryColorCard = Colors.white;
-const Color kBlackColor = Color(0xff000000);
+const Color kBlackColor = Color.fromARGB(255, 0, 48, 115);
 const Color kGreyColor = Color.fromARGB(255, 234, 234, 234);
 
 ///BorderRadius

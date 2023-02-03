@@ -18,11 +18,17 @@ import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 import '../../../modules/home/controllers/home_controller.dart';
 
 class DownloadYakaPage extends StatefulWidget {
-  DownloadYakaPage({Key? key, required this.image, required this.list, required this.pageName, required this.id}) : super(key: key);
   final int id;
   final String image;
   final List<FilesModel> list;
   final String pageName;
+  const DownloadYakaPage({
+    required this.image,
+    required this.list,
+    required this.pageName,
+    required this.id,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DownloadYakaPage> createState() => _DownloadYakaPageState();
@@ -72,7 +78,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
   dynamic createFolderMachineNames(String name) async {
     if (name == 'JANOME 4 IŇŇE') {
       final path1 = Directory('storage/emulated/0/Download/YAKA/JANOME 4 IŇŇE');
-      if (await path1.existsSync()) {
+      if (path1.existsSync()) {
         return path1.path;
       } else {
         await path1.create(recursive: true);
@@ -82,7 +88,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
       }
     } else if (name == 'JANOME 450E - 500E') {
       final path3 = Directory('storage/emulated/0/Download/YAKA/JANOME 450E - 500E');
-      if (await path3.existsSync()) {
+      if (path3.existsSync()) {
         return path3.path;
       } else {
         await path3.create(recursive: true);
@@ -92,7 +98,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
       }
     } else if (name == 'JANOME 350E - 370E') {
       final path3 = Directory('storage/emulated/0/Download/YAKA/JANOME 350E - 370E');
-      if (await path3.existsSync()) {
+      if (path3.existsSync()) {
         return path3.path;
       } else {
         await path3.create(recursive: true);
@@ -102,7 +108,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
       }
     } else if (name == 'JANOME 200E - 230E') {
       final path3 = Directory('storage/emulated/0/Download/YAKA/JANOME 200E - 230E');
-      if (await path3.existsSync()) {
+      if (path3.existsSync()) {
         return path3.path;
       } else {
         await path3.create(recursive: true);
@@ -112,7 +118,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
       }
     } else if (name == 'BERNETTE 340') {
       final path3 = Directory('storage/emulated/0/Download/YAKA/BERNETTE 340');
-      if (await path3.existsSync()) {
+      if (path3.existsSync()) {
         return path3.path;
       } else {
         await path3.create(recursive: true);
@@ -122,7 +128,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
       }
     } else if (name == 'BROTHER V3') {
       final path3 = Directory('storage/emulated/0/Download/YAKA/BROTHER V3');
-      if (await path3.existsSync()) {
+      if (path3.existsSync()) {
         return path3.path;
       } else {
         await path3.create(recursive: true);
@@ -139,7 +145,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     if (!status.isGranted) {
       await Permission.storage.request();
     }
-    if (await path1.existsSync()) {
+    if (path1.existsSync()) {
       return path1.path;
     } else {
       await path1.create(recursive: true);
@@ -163,14 +169,14 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                 final double a = double.parse(homeController.balance.toString());
                 return Text(
                   '$a',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontFamily: normsProMedium,
                   ),
                 );
               }),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(right: 6, top: 4),
                 child: Text(
                   ' TMT',
@@ -187,7 +193,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
       ],
       title: Text(
         widget.pageName.tr,
-        style: TextStyle(fontFamily: normProBold, color: Colors.black),
+        style: const TextStyle(fontFamily: normProBold, color: Colors.black),
       ),
       leading: IconButton(
         icon: const Icon(
@@ -203,7 +209,6 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
 
   dynamic findName(int index) {
     String name = '';
-    String returnName = '';
 
     if (list[index].machineName!.toUpperCase() == 'BROTHER V3') {
       name = 'Emb';
@@ -212,8 +217,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     } else {
       name = 'EmbF5';
     }
-    returnName = '${list[index].machineName!.toUpperCase()}/$name';
-    return returnName;
+    return '${list[index].machineName!.toUpperCase()}/$name';
   }
 
   dynamic checkStatus() async {
@@ -229,7 +233,9 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     String aa = '';
     for (int i = text.length - 1; i > 0; i--) {
       aa += text[i];
-      if (text[i] == '.') break;
+      if (text[i] == '.') {
+        break;
+      }
     }
     return aa.split('').reversed.join();
   }
@@ -238,11 +244,15 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     String bb = '';
     String cc = '';
     for (int i = text.length - 1; i > 0; i--) {
-      if (text[i] == '/') break;
+      if (text[i] == '/') {
+        break;
+      }
       bb += text[i];
     }
     for (int i = bb.length - 1; i > 0; i--) {
-      if (bb[i] == '.') break;
+      if (bb[i] == '.') {
+        break;
+      }
       cc += bb[i];
     }
     return cc;
@@ -254,7 +264,6 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     final Random rand = Random();
     final String name = findName(index);
     List<dynamic> downloadFileList = [];
-    final int b = 0;
 
     checkStatus();
     if (list[index].purchased == false) {
@@ -267,27 +276,22 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
             await createFolder();
             await createFolderMachineNames(list[index].machineName!.toUpperCase());
             await createFolderProductName(name);
-
-            ///
             for (int i = 0; i < downloadFileList.length; i++) {
               final int a = rand.nextInt(100);
-
               final String fileFormat = findFileFormat(downloadFileList[i]);
               final String fileName = findFileName(downloadFileList[i]);
-              await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/' + '$fileName' + '  -$a-' + '${fileFormat}').then((value) async {
+              await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/$fileName  -$a-$fileFormat').then((value) async {
                 if (i == downloadFileList.length - 1) {
                   wait = false;
                   await CollarService().getCollarsByID(widget.id).then((value) {
                     list = value.files!;
                   });
-                  // await CollarService().getCollars();
                   setState(() {
                     showSnackBar('downloadTitle', 'downloadSubtitle', kPrimaryColor);
                   });
-                  if (wait == true) {
-                    Future.delayed(Duration(minutes: 1), () {
+                  if (wait) {
+                    Future.delayed(const Duration(minutes: 1), () {
                       wait = false;
-
                       showSnackBar('noConnection3', 'error', kPrimaryColor);
                       setState(() {});
                     });
@@ -295,8 +299,6 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                 }
               });
             }
-
-            ///
           },
         );
         homeController.userMoney();
@@ -321,14 +323,14 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
 
             final String fileFormat = findFileFormat(downloadFileList[i]);
             final String fileName = findFileName(downloadFileList[i]);
-            await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/' + '$fileName' + '  -$a-' + '${fileFormat}').then((value) {
+            await dio.download(downloadFileList[i], 'storage/emulated/0/Download/YAKA/$name/${widget.pageName}/$fileName  -$a-$fileFormat').then((value) {
               if (i == downloadFileList.length - 1) {
                 wait = false;
                 setState(() {
                   showSnackBar('downloadTitle', 'downloadSubtitle', kPrimaryColor);
                 });
-                if (wait == true) {
-                  Future.delayed(Duration(minutes: 1), () {
+                if (wait) {
+                  Future.delayed(const Duration(minutes: 1), () {
                     wait = false;
 
                     showSnackBar('noConnection3', 'error', kPrimaryColor);
@@ -356,7 +358,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
             children: [
               Container(
                 height: Get.size.height / 2.5,
-                margin: EdgeInsets.all(15),
+                margin: const EdgeInsets.all(15),
                 child: GestureDetector(
                   onTap: () async {
                     await Get.to(
@@ -408,9 +410,9 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                             ),
                             child: CachedNetworkImage(
                               fadeInCurve: Curves.ease,
-                              imageUrl: list[index].machineImage![0],
+                              imageUrl: list[index].machineImage!.first,
                               imageBuilder: (context, imageProvider) => Container(
-                                margin: EdgeInsets.all(8),
+                                margin: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   borderRadius: borderRadius5,
                                   image: DecorationImage(
@@ -427,7 +429,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                         Expanded(
                           flex: 5,
                           child: Padding(
-                            padding: EdgeInsets.only(right: 10, left: 6),
+                            padding: const EdgeInsets.only(right: 10, left: 6),
                             child: Text(
                               list[index].machineName ?? 'Yaka',
                               style: TextStyle(
@@ -453,7 +455,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 6),
+                                padding: const EdgeInsets.only(top: 6),
                                 child: Text(
                                   ' TMT',
                                   style: TextStyle(
@@ -467,14 +469,14 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                           ),
                         ),
                         Expanded(
-                          flex: purchased ? 2 : 2,
+                          flex: 2,
                           child: GestureDetector(
                             onTap: () {
                               askToDownloadYaka(index);
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 8, left: 8),
-                              padding: EdgeInsets.all(8),
+                              margin: const EdgeInsets.only(right: 8, left: 8),
+                              padding: const EdgeInsets.all(8),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(color: purchased ? Colors.green.withOpacity(0.4) : kPrimaryColor, borderRadius: borderRadius10),
                               child: purchased
@@ -508,14 +510,14 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                   height: Get.size.height,
                   color: Colors.grey.withOpacity(0.6),
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
           wait
               ? Center(
                   child: Container(
                     width: 200,
                     height: 200,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: borderRadius20,
                     ),
@@ -524,24 +526,24 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(
+                          const CircularProgressIndicator(
                             color: kPrimaryColor,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                           Text(
                             'downloadedYakalar'.tr,
                             textAlign: TextAlign.center,
                             maxLines: 4,
-                            style: TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 18),
+                            style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 18),
                           )
                         ],
                       ),
                     ),
                   ),
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
         ],
       ),
     );
@@ -550,9 +552,9 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
   Future<dynamic> askToDownloadYaka(int index) {
     return Get.defaultDialog(
       title: 'Üns ber',
-      contentPadding: EdgeInsets.symmetric(horizontal: 8),
-      titlePadding: EdgeInsets.only(top: 15),
-      titleStyle: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 22),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+      titlePadding: const EdgeInsets.only(top: 15),
+      titleStyle: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 22),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -562,7 +564,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
             child: Text(
               'wantToBuyCollar'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: const TextStyle(color: Colors.black, fontSize: 20),
             ),
           ),
           Row(
@@ -576,14 +578,14 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                       downloadYaka(index);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: kPrimaryColor,
+                      backgroundColor: kPrimaryColor,
                       elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-                      padding: EdgeInsets.all(10),
+                      shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
+                      padding: const EdgeInsets.all(10),
                     ),
                     child: Text(
                       'agree'.tr,
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: normProBold),
+                      style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: normProBold),
                     ),
                   ),
                 ),
@@ -596,14 +598,14 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                       Get.back();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.grey.withOpacity(0.6),
+                      backgroundColor: Colors.grey.withOpacity(0.6),
                       elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-                      padding: EdgeInsets.all(10),
+                      shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
+                      padding: const EdgeInsets.all(10),
                     ),
                     child: Text(
                       'no'.tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
                       ),

@@ -12,7 +12,7 @@ import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 import 'package:yaka2/app/others/buttons/agree_button.dart';
 
 class OrderPage extends StatefulWidget {
-  OrderPage({Key? key}) : super(key: key);
+  const OrderPage({Key? key}) : super(key: key);
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -30,7 +30,7 @@ class _OrderPageState extends State<OrderPage> {
   final FocusNode orderUserName = FocusNode();
   final FocusNode orderPhoneNumber = FocusNode();
   final FocusNode orderNote = FocusNode();
-  final _orderPage = GlobalKey<FormState>();
+  final orderPage = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _OrderPageState extends State<OrderPage> {
         centerTitle: true,
         title: Text(
           'orderProducts'.tr,
-          style: TextStyle(fontFamily: normProBold, color: Colors.black),
+          style: const TextStyle(fontFamily: normProBold, color: Colors.black),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -55,7 +55,7 @@ class _OrderPageState extends State<OrderPage> {
         ),
       ),
       body: Form(
-        key: _orderPage,
+        key: orderPage,
         child: ListView(
           padding: const EdgeInsets.all(15.0),
           children: [
@@ -96,19 +96,19 @@ class _OrderPageState extends State<OrderPage> {
               maxline: 4,
               borderRadius: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             AgreeButton(
               onTap: () {
                 final List list = [];
-                if (_orderPage.currentState!.validate()) {
-                  cartController.list.forEach((element) {
+                if (orderPage.currentState!.validate()) {
+                  for (var element in cartController.list) {
                     list.add({'id': element['id'], 'quantity': element['quantity']});
-                  });
+                  }
                   signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
 
-                  OrderService().createOrder(products: list, note: noteController.text, customer_name: userNameController.text, address: addressController.text, province: name, phone: phoneController.text).then((value) {
+                  OrderService().createOrder(products: list, note: noteController.text, customerName: userNameController.text, address: addressController.text, province: name, phone: phoneController.text).then((value) {
                     if (value == true) {
                       showSnackBar('copySucces', 'orderSubtitle', Colors.green);
 
@@ -137,9 +137,9 @@ class _OrderPageState extends State<OrderPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 14),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
         title: Text(name.tr, style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 18)),
-        shape: RoundedRectangleBorder(borderRadius: borderRadius15),
+        shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
         tileColor: kGreyColor.withOpacity(0.4),
         trailing: const Icon(IconlyLight.arrowRightCircle),
         onTap: () {

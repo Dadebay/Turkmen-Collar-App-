@@ -12,7 +12,7 @@ class FavoritesController extends GetxController {
   dynamic toggleFav(int id, String name, bool isCollar) async {
     if (favList.isEmpty) {
       favList.add({'id': id, 'name': name});
-      if (isCollar == true) {
+      if (isCollar) {
         await FavService().addCollarToFav(id: id).then((value) {
           if (value == true) {
             showSnackBar('copySucces', 'collarAddToFav', Colors.green);
@@ -38,7 +38,7 @@ class FavoritesController extends GetxController {
       }
       if (value) {
         favList.removeWhere((element) => element['id'] == id);
-        if (isCollar == true) {
+        if (isCollar) {
           await FavService().deleteCollarToFav(id: id).then((value) {
             if (value == true) {
               showSnackBar('copySucces', 'deleteCollar', Colors.red);
@@ -57,7 +57,7 @@ class FavoritesController extends GetxController {
         }
       } else if (!value) {
         favList.add({'id': id, 'name': name});
-        if (isCollar == true) {
+        if (isCollar) {
           await FavService().addCollarToFav(id: id).then((value) {
             if (value == true) {
               showSnackBar('copySucces', 'collarAddToFav', Colors.green);
@@ -88,7 +88,7 @@ class FavoritesController extends GetxController {
         value = true;
       }
     }
-    if (value == true) {
+    if (value) {
     } else {
       favList.add({'id': id, 'name': name});
     }

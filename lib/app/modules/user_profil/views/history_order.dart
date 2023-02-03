@@ -39,7 +39,6 @@ class HistoryOrders extends StatelessWidget {
       body: FutureBuilder<List<HistoryOrderModel>>(
         future: HistoryOrderService().getHistoryOrders(),
         builder: (context, snapshot) {
-          print(snapshot.data);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
@@ -58,7 +57,7 @@ class HistoryOrders extends StatelessWidget {
           }
           return ListView.separated(
             itemCount: snapshot.data!.length,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 onTap: () {
@@ -74,7 +73,7 @@ class HistoryOrders extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'order'.tr + ' ${snapshot.data!.length - index}',
+                      '${'order'.tr} ${snapshot.data!.length - index}',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
@@ -120,8 +119,8 @@ class HistoryOrders extends StatelessWidget {
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Divider(
                   color: Colors.grey,
                 ),
@@ -178,7 +177,6 @@ class HistoryOrderProductID extends StatelessWidget {
             return emptyPageImage(
               onTap: () {
                 HistoryOrderService().getHistoryOrderByID(id);
-                ;
               },
             );
           }
@@ -192,7 +190,7 @@ class HistoryOrderProductID extends StatelessWidget {
                 price: '${snapshot.data![index].price}',
                 id: snapshot.data![index].id!,
                 downloadable: false,
-                files: [],
+                files: const [],
                 removeAddCard: true,
                 createdAt: '',
               );

@@ -14,10 +14,12 @@ Future<void> main() async {
   mainDartImports();
   await Firebase.initializeApp();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -28,7 +30,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     FirebaseMessaging.instance.getToken().then((value) {
-      print(value);
     });
     myAppOnInit();
   }
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: normsProRegular,
         colorSchemeSeed: kPrimaryColor,
         useMaterial3: true,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           shadowColor: kPrimaryColor,
         ),
         bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
             ),
       translations: MyTranslations(),
       defaultTransition: Transition.fade,
-      home: ConnectionCheckpage(),
+      home: const ConnectionCheckpage(),
     );
   }
 }

@@ -8,7 +8,11 @@ import 'package:yaka2/app/constants/widgets.dart';
 class PhotoViewPage extends StatefulWidget {
   final String? image;
   final bool networkImage;
-  const PhotoViewPage({this.image, required this.networkImage});
+  const PhotoViewPage({
+    required this.networkImage,
+    this.image,
+    super.key,
+  });
 
   @override
   State<PhotoViewPage> createState() => _PhotoViewPageState();

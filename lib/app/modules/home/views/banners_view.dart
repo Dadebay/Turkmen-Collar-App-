@@ -28,7 +28,7 @@ class BannersView extends GetView {
             },
           );
         } else if (snapshot.data!.isEmpty) {
-          return Container(
+          return SizedBox(
             height: 220,
             child: emptryPageText(),
           );

@@ -6,6 +6,11 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 
 class CardCart extends StatelessWidget {
+  final int id;
+  final String name;
+  final String image;
+  final String price;
+  final String createdAt;
   const CardCart({
     required this.name,
     required this.price,
@@ -14,11 +19,7 @@ class CardCart extends StatelessWidget {
     required this.id,
     Key? key,
   }) : super(key: key);
-  final int id;
-  final String name;
-  final String image;
-  final String price;
-  final String createdAt;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +30,7 @@ class CardCart extends StatelessWidget {
         onPressed: () {},
         style: ElevatedButton.styleFrom(
           elevation: 0.3,
-          primary: kGreyColor,
+          backgroundColor: kGreyColor,
           padding: EdgeInsets.zero,
           shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
         ),

@@ -7,6 +7,8 @@ import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/login_view.dart';
 
 class TabbarView extends StatelessWidget {
+  const TabbarView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -38,7 +40,7 @@ class TabbarView extends StatelessWidget {
                   child: Container(
                     width: 150,
                     height: 150,
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: borderRadius30,

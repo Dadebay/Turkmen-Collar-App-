@@ -24,7 +24,7 @@ class ProductCard extends StatefulWidget {
   final List<FilesModel> files;
   final bool downloadable;
   final bool? removeAddCard;
-  const ProductCard({required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable, this.removeAddCard});
+  const ProductCard({super.key, required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable, this.removeAddCard});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -109,7 +109,7 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
                     )
                   : CachedNetworkImage(
                       fadeInCurve: Curves.ease,
-                      imageUrl: widget.image[0],
+                      imageUrl: widget.image.first,
                       imageBuilder: (context, imageProvider) => Container(
                         margin: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
@@ -135,7 +135,7 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
             ),
           ),
           widget.removeAddCard!
-              ? SizedBox.shrink()
+              ? const SizedBox.shrink()
               : Positioned(
                   top: 12,
                   right: 12,
@@ -156,7 +156,7 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
     final double b = a / 100.0;
     return Container(
       width: double.infinity,
-      padding: widget.removeAddCard! ? EdgeInsets.only(top: 8, bottom: 8, left: 5) : EdgeInsets.only(top: 4, left: 5),
+      padding: widget.removeAddCard! ? const EdgeInsets.only(top: 8, bottom: 8, left: 5) : const EdgeInsets.only(top: 4, left: 5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -168,7 +168,7 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '${b.toStringAsFixed(b > 1000 ? 0 : 2)}',
+                b.toStringAsFixed(b > 1000 ? 0 : 2),
                 style: const TextStyle(
                   color: Colors.red,
                   fontSize: 18,
@@ -196,7 +196,7 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
             style: const TextStyle(color: Colors.black, fontFamily: normsProLight, fontSize: 14),
           ),
           widget.removeAddCard!
-              ? SizedBox.shrink()
+              ? const SizedBox.shrink()
               : widget.downloadable
                   ? downloadButton()
                   : AddCartButton(
@@ -204,7 +204,7 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
                       price: widget.price,
                       productProfil: false,
                       createdAt: widget.createdAt,
-                      image: widget.image[0],
+                      image: widget.image.first,
                       name: widget.name,
                     )
         ],
@@ -218,13 +218,13 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
         final token = await Auth().getToken();
         if (token == null) {
           showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
-          await Get.to(() => TabbarView());
+          await Get.to(() => const TabbarView());
         } else {
-          widget.files.length == 0
+          widget.files.isEmpty
               ? showSnackBar('errorTitle', 'noFile', Colors.red)
               : Get.to(
                   () => DownloadYakaPage(
-                    image: widget.image[0],
+                    image: widget.image.first,
                     id: widget.id,
                     list: widget.files,
                     pageName: widget.name,
@@ -250,6 +250,5 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

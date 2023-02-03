@@ -7,13 +7,13 @@ import 'package:yaka2/app/modules/auth/sign_in_page/controllers/sign_in_page_con
 
 class AgreeButton extends StatelessWidget {
   final Function() onTap;
+  final SignInPageController signInPageController = Get.put(SignInPageController());
 
   AgreeButton({
     required this.onTap,
     Key? key,
   }) : super(key: key);
 
-  final SignInPageController signInPageController = Get.put(SignInPageController());
 
   @override
   Widget build(BuildContext context) {

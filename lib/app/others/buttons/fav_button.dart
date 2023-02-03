@@ -9,18 +9,26 @@ import 'package:yaka2/app/modules/favorites/controllers/favorites_controller.dar
 import '../../modules/auth/sign_in_page/views/tabbar_view.dart';
 
 class FavButton extends StatefulWidget {
-  const FavButton({required this.whcihPage, required this.isCollar, required this.id, required this.name});
-  final bool isCollar;
-  final bool whcihPage;
   final int id;
+  final bool isCollar;
   final String name;
+  final bool whcihPage;
+  const FavButton({
+    required this.whcihPage,
+    required this.isCollar,
+    required this.id,
+    required this.name,
+    super.key,
+  });
+
   @override
   State<FavButton> createState() => _FavButtonState();
 }
 
 class _FavButtonState extends State<FavButton> {
-  bool value = false;
   final FavoritesController favoritesController = Get.put(FavoritesController());
+  bool value = false;
+
   @override
   void initState() {
     super.initState();
@@ -45,15 +53,15 @@ class _FavButtonState extends State<FavButton> {
           final token = await Auth().getToken();
           if (token == null || token == '') {
             showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
-            await Get.to(() => TabbarView());
+            await Get.to(() => const TabbarView());
           } else {
-            if (widget.isCollar == true) {
+            if (widget.isCollar) {
               setState(() {
                 value = !value;
                 favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);
               });
             }
-            if (widget.isCollar == false) {
+            if (widget.isCollar) {
               setState(() {
                 value = !value;
                 favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);

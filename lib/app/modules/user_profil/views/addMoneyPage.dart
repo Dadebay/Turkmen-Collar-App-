@@ -1,19 +1,17 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/services/file_download_service.dart';
 
 import '../../home/controllers/home_controller.dart';
 
 class AddCash extends StatefulWidget {
-  AddCash({Key? key}) : super(key: key);
+  const AddCash({Key? key}) : super(key: key);
 
   @override
   State<AddCash> createState() => _AddCashState();
@@ -66,9 +64,9 @@ class _AddCashState extends State<AddCash> {
         actions: [
           IconButton(
             onPressed: () async {
-              await launch('tel://++99364030911');
+              await launchUrlString('tel://++99364030911');
             },
-            icon: Icon(
+            icon: const Icon(
               IconlyLight.call,
               color: Colors.black,
             ),
@@ -86,12 +84,12 @@ class _AddCashState extends State<AddCash> {
                 children: [
                   Text(
                     'myNumber'.tr,
-                    style: TextStyle(fontFamily: normsProMedium, fontSize: 18),
+                    style: const TextStyle(fontFamily: normsProMedium, fontSize: 18),
                   ),
                   Expanded(
                     child: Text(
                       number,
-                      style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
+                      style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
                     ),
                   )
                 ],
@@ -101,17 +99,17 @@ class _AddCashState extends State<AddCash> {
               padding: const EdgeInsets.all(15.0),
               child: Text(
                 'addMoneyTitle'.tr,
-                style: TextStyle(fontFamily: normsProRegular, fontSize: 20),
+                style: const TextStyle(fontFamily: normsProRegular, fontSize: 20),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
                 'addMoneySubTitle'.tr,
-                style: TextStyle(fontFamily: normProBold, color: Colors.red, fontSize: 18),
+                style: const TextStyle(fontFamily: normProBold, color: Colors.red, fontSize: 18),
               ),
             ),
-            Container(
+            SizedBox(
               height: 300,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -123,14 +121,14 @@ class _AddCashState extends State<AddCash> {
                     onChanged: (int? ind) => setState(() => value = ind!),
                     title: Text(
                       '${moneyList[index]} TMT',
-                      style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 18),
+                      style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 18),
                     ),
                   );
                 },
                 itemCount: 5,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             sendMoneyButton(false),
           ],
         ),
@@ -141,22 +139,22 @@ class _AddCashState extends State<AddCash> {
   Container sendMoneyButton(bool margin) {
     return Container(
       width: Get.size.width,
-      margin: margin ? EdgeInsets.only(left: 15, right: 15, top: 10) : EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      margin: margin ? const EdgeInsets.only(left: 15, right: 15, top: 10) : const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: ElevatedButton(
         onPressed: () async {
           await FileDownloadService().getAvailabePhoneNumber().then((element) async {
             final String phoneNumber = element['data'][0];
             if (Platform.isAndroid) {
-              final uri = 'sms:0804?body=${phoneNumber}   ${moneyList[value]} ';
-              await launch(uri);
+              final uri = 'sms:0804?body=$phoneNumber   ${moneyList[value]} ';
+              await launchUrlString(uri);
             } else if (Platform.isIOS) {
-              final uri = 'sms:0804&body=${phoneNumber}   ${moneyList[value]} ';
-              await launch(uri);
+              final uri = 'sms:0804&body=$phoneNumber   ${moneyList[value]} ';
+              await launchUrlString(uri);
             }
           });
         },
         style: ElevatedButton.styleFrom(
-          primary: kPrimaryColor,
+          backgroundColor: kPrimaryColor,
           elevation: margin ? 0 : 1,
           padding: const EdgeInsets.symmetric(vertical: 10),
           shape: const RoundedRectangleBorder(borderRadius: borderRadius15),

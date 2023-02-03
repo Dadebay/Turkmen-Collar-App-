@@ -17,7 +17,7 @@ class CartController extends GetxController {
           value = true;
         }
       }
-      if (value == false) {
+      if (!value) {
         list.add({'id': id, 'name': name, 'image': image, 'price': price, 'createdAt': createdAT, 'quantity': 1});
       }
       list.refresh();

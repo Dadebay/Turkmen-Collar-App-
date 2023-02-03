@@ -9,8 +9,9 @@ import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/machine_card.dart';
 
 class ListviewMachinesView extends GetView {
-  ListviewMachinesView({Key? key}) : super(key: key);
   final HomeController homeController = Get.put(HomeController());
+
+  ListviewMachinesView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

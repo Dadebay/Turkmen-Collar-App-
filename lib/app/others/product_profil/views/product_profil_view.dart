@@ -28,7 +28,7 @@ class ProductProfilView extends StatefulWidget {
   final String createdAt;
   final List image;
   final List<FilesModel> files;
-  ProductProfilView({
+  const ProductProfilView({
     required this.id,
     required this.price,
     required this.name,
@@ -36,6 +36,7 @@ class ProductProfilView extends StatefulWidget {
     required this.downloadable,
     required this.image,
     required this.files,
+    super.key, 
   });
 
   @override
@@ -84,7 +85,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             machineName: '',
             barcode: snapshot.data!.barcode!,
             category: snapshot.data!.category!,
-            downloads: '${snapshot.data!.createdAt!}',
+            downloads: snapshot.data!.createdAt!,
             views: '${snapshot.data!.views!}',
             desc: snapshot.data!.description!,
           ),
@@ -130,7 +131,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
 
   Widget testPart({required String name, required double price, required String machineName, required String barcode, required String category, required String views, required String downloads, required String desc}) {
     return ListView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
       shrinkWrap: true,
       children: [
@@ -149,7 +150,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '${price.toStringAsFixed(price > 1000 ? 0 : 2)}',
+                  price.toStringAsFixed(price > 1000 ? 0 : 2),
                   style: const TextStyle(
                     color: Colors.red,
                     fontSize: 22,
@@ -178,13 +179,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
           ),
         ),
-        widget.downloadable ? twoText(name1: 'data1', name2: machineName) : SizedBox.shrink(),
+        widget.downloadable ? twoText(name1: 'data1', name2: machineName) : const SizedBox.shrink(),
         widget.downloadable
             ? Divider(
                 thickness: 1,
                 color: Colors.grey.shade300,
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
         twoText(name1: 'data2', name2: category),
         Divider(
           thickness: 1,
@@ -195,16 +196,16 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           thickness: 1,
           color: Colors.grey.shade300,
         ),
-        widget.downloadable ? SizedBox.shrink() : twoText(name1: 'data6', name2: barcode),
+        widget.downloadable ? const SizedBox.shrink() : twoText(name1: 'data6', name2: barcode),
         widget.downloadable
-            ? SizedBox.shrink()
+            ? const SizedBox.shrink()
             : Divider(
                 thickness: 1,
                 color: Colors.grey.shade300,
               ),
-        widget.downloadable ? SizedBox.shrink() : twoText(name1: 'createdAt', name2: downloads),
+        widget.downloadable ? const SizedBox.shrink() : twoText(name1: 'createdAt', name2: downloads),
         widget.downloadable
-            ? SizedBox.shrink()
+            ? const SizedBox.shrink()
             : Divider(
                 thickness: 1,
                 color: Colors.grey.shade300,
@@ -220,7 +221,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           desc,
           style: const TextStyle(fontFamily: normsProLight, fontSize: 18, color: Colors.black54),
         ),
-        SizedBox(
+        const SizedBox(
           height: 200,
         )
       ],
@@ -234,13 +235,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               final token = await Auth().getToken();
               if (token == null) {
                 showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
-                await Get.to(() => TabbarView());
+                await Get.to(() => const TabbarView());
               } else {
-                widget.files.length == 0
+                widget.files.isEmpty
                     ? showSnackBar('errorTitle', 'noFile', Colors.red)
                     : Get.to(
                         () => DownloadYakaPage(
-                          image: widget.image[0],
+                          image: widget.image.first,
                           id: widget.id,
                           list: widget.files,
                           pageName: widget.name,
@@ -269,7 +270,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             productProfil: true,
             createdAt: widget.createdAt,
             name: widget.name,
-            image: widget.image[0],
+            image: widget.image.first,
           );
   }
 
@@ -346,7 +347,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         ),
         GestureDetector(
           onTap: () {
-            Share.share(widget.image[0], subject: appName);
+            Share.share(widget.image.first, subject: appName);
           },
           child: Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4, right: 8),

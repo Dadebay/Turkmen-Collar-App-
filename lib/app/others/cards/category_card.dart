@@ -7,6 +7,10 @@ import 'package:yaka2/app/modules/home/views/show_all_products_view.dart';
 import '../../constants/constants.dart';
 
 class CategoryCard extends StatelessWidget {
+    final int id;
+  final String name;
+  final String image;
+  final bool isCollar;
   const CategoryCard({
     required this.id,
     required this.name,
@@ -15,15 +19,13 @@ class CategoryCard extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final int id;
-  final String name;
-  final String image;
-  final bool isCollar;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Get.to(() => ShowAllProductsView(name: name, id: id, isCollar: isCollar));
+        // Get.deleteAll();
       },
       child: Stack(
         children: [

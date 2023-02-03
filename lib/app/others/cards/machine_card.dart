@@ -9,11 +9,13 @@ import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import '../product_profil/views/machines_product_profil.dart';
 
 class MachineCard extends StatelessWidget {
-  MachineCard({
-    Key? key,
-    required this.model,
-  }) : super(key: key);
   final MachineModel model;
+
+  MachineCard({
+    required this.model,
+    Key? key,
+
+  }) : super(key: key);
   double a = 0.0;
   double b = 0.0;
   @override
@@ -31,7 +33,7 @@ class MachineCard extends StatelessWidget {
               image: model.images!,
               name: model.name!,
               createdAt: model.createdAt!,
-              price: '${b}',
+              price: '$b',
             ),
           );
         },
@@ -61,7 +63,7 @@ class MachineCard extends StatelessWidget {
                         borderRadius: borderRadius10,
                         child: CachedNetworkImage(
                           fadeInCurve: Curves.ease,
-                          imageUrl: model.images![0],
+                          imageUrl: model.images!.first,
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               borderRadius: borderRadius10,
@@ -111,7 +113,7 @@ class MachineCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            '${b}',
+                            '$b',
                             style: const TextStyle(
                               color: Colors.red,
                               fontSize: 21,
@@ -149,7 +151,7 @@ class MachineCard extends StatelessWidget {
                         price: '${model.price!}',
                         productProfil: false,
                         createdAt: model.createdAt!,
-                        image: model.images![0],
+                        image: model.images!.first,
                         name: model.name!,
                       ),
                     )

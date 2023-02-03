@@ -22,7 +22,7 @@ class Auth {
   }
 
   Future<String?> getToken() async {
-    return storage.read('AccessToken') ?? null;
+    return storage.read('AccessToken');
   }
 
   Future<bool> removeToken() async {

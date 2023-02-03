@@ -111,7 +111,6 @@ dart_code_metrics:
           - setters
 
           - overriden-public-methods
-          - public-methods
           - protected-public-methods
           - private-methods
 
@@ -124,5 +123,3 @@ dart_code_metrics:
     - prefer-first
     - prefer-immediate-return
     - prefer-last
-    - prefer-extracting-callbacks:
-        allowed-line-count: 5

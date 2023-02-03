@@ -1,6 +1,19 @@
 // ignore_for_file: unnecessary_null_comparison
 
 class HistoryOrderModel {
+  final int? id;
+  final String? orderCode;
+  final String? status;
+  final String? customerName;
+  final String? phone;
+  final String? address;
+  final String? province;
+  final String? note;
+  final int? totalCost;
+  final int? quantity;
+  final int? deliveryPrice;
+  final String? createdAt;
+  final List<ProductsModelMini>? products;
   HistoryOrderModel({
     this.id,
     this.orderCode,
@@ -34,19 +47,6 @@ class HistoryOrderModel {
       products: (json['products'] as List).map((json) => ProductsModelMini.fromJson(json)).toList(),
     );
   }
-  final int? id;
-  final String? orderCode;
-  final String? status;
-  final String? customerName;
-  final String? phone;
-  final String? address;
-  final String? province;
-  final String? note;
-  final int? totalCost;
-  final int? quantity;
-  final int? deliveryPrice;
-  final String? createdAt;
-  final List<ProductsModelMini>? products;
 }
 
 class ProductsModelMini {

@@ -39,9 +39,6 @@ class CategoryService {
   Future<List<dynamic>> getCategoryByID(int id, {required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
     final HomeController homeController = Get.put(HomeController());
-    print(parametrs);
-    print(id);
-
     final List<dynamic> categoryList = [];
     final response = await http.get(
       Uri.parse(

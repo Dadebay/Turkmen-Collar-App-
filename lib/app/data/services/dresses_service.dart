@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
-import 'package:yaka2/app/modules/home/controllers/collar_controller.dart';
+import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 
 import 'auth_service.dart';
 
 class DressesService {
-  final ClothesController clothesController = Get.put(ClothesController());
+  final HomeController clothesController = Get.put(HomeController());
 
   Future<List<DressesModel>> getDresses({required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
@@ -42,7 +42,6 @@ class DressesService {
     }
   }
 
-  final GoodsController goodsController = Get.put(GoodsController());
 
   Future<List<DressesModel>> getGoods({required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
@@ -57,20 +56,18 @@ class DressesService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
-      goodsController.goodsLoading.value = 2;
+      clothesController.goodsLoading.value = 2;
 
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson['data']) {
         collarList.add(DressesModel.fromJson(product));
       }
-      goodsController.goodsLoading.value = 3;
+      clothesController.goodsLoading.value = 3;
       return collarList;
     } else {
-      goodsController.goodsLoading.value = 1;
-
+      clothesController.goodsLoading.value = 1;
       return [];
     }
   }

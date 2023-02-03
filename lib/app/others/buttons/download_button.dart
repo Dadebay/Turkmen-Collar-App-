@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yaka2/app/constants/constants.dart';
 
 class DownloadButton extends StatefulWidget {
+  const DownloadButton({super.key});
+
   @override
   State<DownloadButton> createState() => _DownloadButtonState();
 }

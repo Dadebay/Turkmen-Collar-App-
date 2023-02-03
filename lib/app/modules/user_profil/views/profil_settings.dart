@@ -14,7 +14,7 @@ import 'package:yaka2/app/data/services/about_us_service.dart';
 import 'package:yaka2/app/others/buttons/agree_button.dart';
 
 class ProfilSettings extends StatefulWidget {
-  ProfilSettings({Key? key}) : super(key: key);
+  const ProfilSettings({Key? key}) : super(key: key);
 
   @override
   State<ProfilSettings> createState() => _ProfilSettingsState();
@@ -51,8 +51,8 @@ class _ProfilSettingsState extends State<ProfilSettings> {
 
   changeUserName() async {
     if (storage.read('userName') != null) {
-      userNameController.text = await storage.read('userName') ?? 'Yok';
-      userSurnameController.text = await storage.read('sureName') ?? 'Yok';
+      userNameController.text = storage.read('userName') ?? 'Yok';
+      userSurnameController.text = storage.read('sureName') ?? 'Yok';
       setState(() {});
     } else {
       userNameController.text = 'Yok';
@@ -142,14 +142,14 @@ class _ProfilSettingsState extends State<ProfilSettings> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'balance'.tr + ' :',
-                      style: TextStyle(fontSize: 18),
+                      '${'balance'.tr} :',
+                      style: const TextStyle(fontSize: 18),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Text(
                         balance,
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
                   ],

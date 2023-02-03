@@ -67,7 +67,7 @@ dynamic mainDartImports() async {
 
   const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  final InitializationSettings initializationSettings = InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     iOS: null,
     macOS: null,
@@ -98,6 +98,6 @@ dynamic myAppOnInit() {
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    Get.to(() => ConnectionCheckpage());
+    Get.to(() => const ConnectionCheckpage());
   });
 }

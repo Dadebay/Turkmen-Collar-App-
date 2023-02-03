@@ -10,6 +10,8 @@ import 'package:yaka2/app/constants/constants.dart';
 import '../../../home/views/home_view.dart';
 
 class ConnectionCheckpage extends StatefulWidget {
+  const ConnectionCheckpage({super.key});
+
   @override
   _ConnectionCheckpageState createState() => _ConnectionCheckpageState();
 }
@@ -49,7 +51,7 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return HomeView();
+                return const HomeView();
               },
             ),
           );
@@ -150,6 +152,7 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
     );
   }
 
+  // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,14 +160,14 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.white),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white),
       ),
       body: Column(
         children: [
           Expanded(
             child: Container(
               height: Get.size.height,
-              margin: EdgeInsets.only(bottom: 100),
+              margin: const EdgeInsets.only(bottom: 100),
               child: Center(
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 2000),
@@ -176,8 +179,8 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
                     height: Get.size.width / _containerSize,
                     width: Get.size.width / _containerSize,
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(15),
+                    decoration: const BoxDecoration(
                       color: kPrimaryColor,
                       borderRadius: borderRadius30,
                     ),
@@ -190,7 +193,7 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
               ),
             ),
           ),
-          LinearProgressIndicator()
+          const LinearProgressIndicator()
         ],
       ),
     );

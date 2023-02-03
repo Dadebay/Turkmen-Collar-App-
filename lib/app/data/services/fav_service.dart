@@ -31,9 +31,9 @@ class FavService {
         favListProducts.add(DressesModel.fromJson(product));
       }
       final FavoritesController controller = Get.put(FavoritesController());
-      favListProducts.forEach((element) {
+      for (var element in favListProducts) {
         controller.addFavList(element.id!, element.name!);
-      });
+      }
       return favListProducts;
     } else {
       return [];
@@ -59,9 +59,9 @@ class FavService {
       for (final Map product in responseJson['data']) {
         favListCollar.add(CollarModel.fromJson(product));
       }
-      favListCollar.forEach((element) {
+      for (var element in favListCollar) {
         Get.find<FavoritesController>().addFavList(element.id!, element.name!);
-      });
+      }
       return favListCollar;
     } else {
       return [];
@@ -74,7 +74,7 @@ class FavService {
       'Authorization': 'Bearer $token',
     };
     final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/v1/users/me/favorite-products'));
-    request.fields.addAll({'product_id': '${id}'});
+    request.fields.addAll({'product_id': '$id'});
 
     request.headers.addAll(headers);
     final http.StreamedResponse response = await request.send();
@@ -92,7 +92,7 @@ class FavService {
       'Authorization': 'Bearer $token',
     };
     final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/v1/users/me/favorites'));
-    request.fields.addAll({'collar_id': '${id}'});
+    request.fields.addAll({'collar_id': '$id'});
 
     request.headers.addAll(headers);
 
@@ -111,11 +111,10 @@ class FavService {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     final request = http.Request('DELETE', Uri.parse('$serverURL/api/v1/users/me/favorite-products'));
-    request.bodyFields = {'product_id': '${id}'};
+    request.bodyFields = {'product_id': '$id'};
     request.headers.addAll(headers);
 
     final http.StreamedResponse response = await request.send();
-    'deleted Product';
     if (response.statusCode == 204) {
       return true;
     } else {
@@ -130,7 +129,7 @@ class FavService {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     final request = http.Request('DELETE', Uri.parse('$serverURL/api/v1/users/me/favorites'));
-    request.bodyFields = {'collar_id': '${id}'};
+    request.bodyFields = {'collar_id': '$id'};
     request.headers.addAll(headers);
 
     final http.StreamedResponse response = await request.send();

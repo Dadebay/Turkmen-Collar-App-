@@ -34,7 +34,7 @@ import 'listview_collars_view.dart';
 import 'listview_goods.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -45,7 +45,7 @@ class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
   final CartController cartController = Get.put(CartController());
 
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _HomeViewState extends State<HomeView> {
 
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
+    refreshController.refreshCompleted();
     await BannerService().getBanners();
     await CategoryService().getCategories();
 
@@ -73,26 +73,26 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color.fromARGB(255, 248, 248, 248),
+      backgroundColor: const Color.fromARGB(255, 248, 248, 248),
       resizeToAvoidBottomInset: false,
-      appBar: appBar(context),
-      drawer: drawer(),
+      appBar: _appBar(),
+      drawer: _drawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() => InstructionPage());
+          Get.to(() => const InstructionPage());
         },
         backgroundColor: kPrimaryColor,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: borderRadius30,
         ),
-        child: Icon(
+        child: const Icon(
           Icons.question_mark_outlined,
           color: Colors.white,
         ),
       ),
       body: SmartRefresher(
         footer: footer(),
-        controller: _refreshController,
+        controller: refreshController,
         onRefresh: _onRefresh,
         enablePullDown: true,
         enablePullUp: false,
@@ -123,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  AppBar appBar(BuildContext context) {
+  AppBar _appBar() {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -136,20 +136,20 @@ class _HomeViewState extends State<HomeView> {
       ),
       leading: Obx(() {
         return IconButton(
-          icon: cartController.list.length >= 1
+          icon: cartController.list.isNotEmpty
               ? Badge(
-                  padding: EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(6),
                   animationType: BadgeAnimationType.fade,
                   badgeContent: Text(
                     Get.find<CartController>().list.length.toString(),
-                    style: TextStyle(color: Colors.white, fontSize: 14),
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   child: const Icon(
                     Icons.menu,
                     color: Colors.black,
                   ),
                 )
-              : Icon(
+              : const Icon(
                   Icons.menu,
                   color: Colors.black,
                 ),
@@ -161,28 +161,28 @@ class _HomeViewState extends State<HomeView> {
       actions: [
         GestureDetector(
           onTap: () {
-            Get.to(() => AddCash());
+            Get.to(() => const AddCash());
           },
           child: Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(right: 6),
                   child: Icon(IconlyLight.wallet),
                 ),
                 Obx(() {
                   return Text(
                     '${homeController.balance}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontFamily: normsProMedium,
                     ),
                   );
                 }),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(right: 6, top: 4),
                   child: Text(
                     ' TMT',
@@ -201,7 +201,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Drawer drawer() {
+  Drawer _drawer() {
     return Drawer(
       backgroundColor: Colors.white,
       child: ListView(
@@ -219,7 +219,7 @@ class _HomeViewState extends State<HomeView> {
           ProfilButton(
             name: 'home',
             onTap: () {
-              Get.to(() => HomeView());
+              Get.to(() => const HomeView());
             },
             icon: IconlyBold.home,
             langIconStatus: false,
@@ -247,18 +247,18 @@ class _HomeViewState extends State<HomeView> {
                   color: kBlackColor,
                 ),
               ),
-              leading: cartController.list.length >= 1
+              leading: cartController.list.isNotEmpty
                   ? Badge(
                       animationType: BadgeAnimationType.fade,
-                      padding: EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
                       badgeContent: Text(
                         Get.find<CartController>().list.length.toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                        style: const TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.8), borderRadius: borderRadius15),
-                        child: Icon(
+                        child: const Icon(
                           IconlyBold.bag2,
                           color: Colors.white,
                         ),
@@ -267,7 +267,7 @@ class _HomeViewState extends State<HomeView> {
                   : Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.8), borderRadius: borderRadius15),
-                      child: Icon(
+                      child: const Icon(
                         IconlyBold.bag2,
                         color: Colors.white,
                       ),
@@ -284,7 +284,7 @@ class _HomeViewState extends State<HomeView> {
               final token = await Auth().getToken();
               if (token == null) {
                 showSnackBar('loginError', 'loginError1', Colors.red);
-                await Get.to(() => TabbarView());
+                await Get.to(() => const TabbarView());
               } else {
                 await Get.to(() => const DownloadedView());
               }
@@ -301,7 +301,7 @@ class _HomeViewState extends State<HomeView> {
                   icon: CupertinoIcons.cube_box_fill,
                   langIconStatus: false,
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
           divider(),
           ProfilButton(
             name: 'transferUSB',
@@ -317,7 +317,7 @@ class _HomeViewState extends State<HomeView> {
           ProfilButton(
             name: 'addMoney',
             onTap: () {
-              Get.to(() => AddCash());
+              Get.to(() => const AddCash());
             },
             icon: IconlyBold.wallet,
             langIconStatus: false,
@@ -336,7 +336,7 @@ class _HomeViewState extends State<HomeView> {
                 : ProfilButton(
                     name: 'signUp',
                     onTap: () {
-                      Get.to(() => TabbarView());
+                      Get.to(() => const TabbarView());
                     },
                     icon: IconlyBold.login,
                     langIconStatus: false,

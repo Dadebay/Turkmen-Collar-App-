@@ -28,7 +28,7 @@ class CategoryView extends GetView {
             },
           );
         } else if (snapshot.data!.isEmpty) {
-          return Container(
+          return SizedBox(
             height: 170,
             child: emptryPageText(),
           );

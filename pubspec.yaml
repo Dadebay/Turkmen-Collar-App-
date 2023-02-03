@@ -31,7 +31,8 @@ dependencies:
   url_launcher: 6.1.6
   vibration: ^1.7.5
   open_file_manager: ^0.0.2
-  change_app_package_name: ^1.1.0
+  dart_code_metrics: ^4.17.1
+  flutter_lints: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

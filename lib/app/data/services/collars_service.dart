@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
-import 'package:yaka2/app/modules/home/controllers/collar_controller.dart';
 
+import '../../modules/home/controllers/home_controller.dart';
 import 'auth_service.dart';
 
 class CollarService {
-  CollarController collarController = Get.put(CollarController());
+  HomeController collarController = Get.put(HomeController());
   Future<List<CollarModel>> getCollars({required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
 

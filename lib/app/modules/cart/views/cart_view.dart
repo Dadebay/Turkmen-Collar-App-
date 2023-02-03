@@ -14,6 +14,8 @@ import 'order_page.dart';
 
 class CartView extends GetView<CartController> {
   final CartController cartController = Get.put(CartController());
+
+   CartView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,7 @@ class CartView extends GetView<CartController> {
             onPressed: () {
               cartController.removeAllCartElements();
             },
-            icon: Icon(
+            icon: const Icon(
               IconlyLight.delete,
               color: Colors.black,
             ),
@@ -35,7 +37,7 @@ class CartView extends GetView<CartController> {
         ],
         title: Text(
           'cart'.tr,
-          style: TextStyle(fontFamily: normProBold, color: Colors.black),
+          style: const TextStyle(fontFamily: normProBold, color: Colors.black),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -79,18 +81,18 @@ class CartView extends GetView<CartController> {
 
   Container orderDetail() {
     double sum = 0;
-    cartController.list.forEach((element) {
+    for (var element in cartController.list) {
       double a = double.parse(element['price']);
       a *= element['quantity'];
       sum += a / 100;
-    });
+    }
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Divider(
+          const Divider(
             color: kPrimaryColor,
             thickness: 1,
           ),
@@ -101,11 +103,11 @@ class CartView extends GetView<CartController> {
               children: [
                 Text(
                   'countProducts'.tr,
-                  style: TextStyle(fontFamily: normsProRegular, fontSize: 18),
+                  style: const TextStyle(fontFamily: normsProRegular, fontSize: 18),
                 ),
                 Text(
                   cartController.list.length.toString(),
-                  style: TextStyle(fontFamily: normProBold, fontSize: 20),
+                  style: const TextStyle(fontFamily: normProBold, fontSize: 20),
                 )
               ],
             ),
@@ -117,11 +119,11 @@ class CartView extends GetView<CartController> {
               children: [
                 Text(
                   'priceProduct'.tr,
-                  style: TextStyle(fontFamily: normsProRegular, fontSize: 18),
+                  style: const TextStyle(fontFamily: normsProRegular, fontSize: 18),
                 ),
                 Text(
-                  '${sum} TMT',
-                  style: TextStyle(fontFamily: normProBold, fontSize: 20),
+                  '$sum TMT',
+                  style: const TextStyle(fontFamily: normProBold, fontSize: 20),
                 )
               ],
             ),
@@ -131,25 +133,25 @@ class CartView extends GetView<CartController> {
               final token = await Auth().getToken();
               if (token == null || token == '') {
                 showSnackBar('loginError', 'loginErrorSubtitle', Colors.red);
-                await Get.to(() => TabbarView());
+                await Get.to(() => const TabbarView());
               } else {
                 if (cartController.list.isNotEmpty) {
-                  await Get.to(() => OrderPage());
+                  await Get.to(() => const OrderPage());
                 } else {
                   showSnackBar('emptyCart', 'emptyCartSubtitle', Colors.red);
                 }
               }
             },
-            style: ElevatedButton.styleFrom(primary: kPrimaryColor, shape: RoundedRectangleBorder(borderRadius: borderRadius15), padding: EdgeInsets.symmetric(vertical: 15)),
+            style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, shape: const RoundedRectangleBorder(borderRadius: borderRadius15), padding: const EdgeInsets.symmetric(vertical: 15)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'orderProducts'.tr,
-                  style: TextStyle(color: Colors.white, fontFamily: normsProMedium, fontSize: 19),
+                  style: const TextStyle(color: Colors.white, fontFamily: normsProMedium, fontSize: 19),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                     left: 10,
                   ),
                   child: Icon(

@@ -15,7 +15,7 @@ dynamic noBannerImage() {
 }
 
 dynamic spinKit() {
-  return CircularProgressIndicator(
+  return const CircularProgressIndicator(
     color: kPrimaryColor,
   );
 }
@@ -63,7 +63,7 @@ Padding namePart({required String text, required bool removeIcon, required Funct
       children: [
         Text(text.tr, style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 22)),
         removeIcon
-            ? SizedBox.shrink()
+            ? const SizedBox.shrink()
             : IconButton(
                 onPressed: onTap,
                 icon: const Icon(
@@ -317,19 +317,19 @@ dynamic errorPage({required Function() onTap}) {
         Text(
           'noConnection2'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+          style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8),
           child: ElevatedButton(
             onPressed: onTap,
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+              shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
               backgroundColor: kPrimaryColor,
             ),
             child: Text(
               'noConnection3'.tr,
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              style: const TextStyle(color: Colors.black, fontSize: 18),
             ),
           ),
         )
@@ -351,39 +351,37 @@ Container customIcon(String iconNmae) {
   );
 }
 
-dynamic emptyPageImage({required Function() onTap, String? name}) {
-  return Center(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Lottie.asset(noData, width: 350, height: 350),
-        Text(
-          name?.tr ?? 'noData1'.tr,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
-        ),
-        SizedBox(
-          height: 50,
-        )
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 8),
-        //   child: ElevatedButton(
-        //     onPressed: onTap,
-        //     style: ElevatedButton.styleFrom(
-        //       shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-        //       primary: kPrimaryColor,
-        //     ),
-        //     child: Text(
-        //       'noConnection3'.tr,
-        //       style: TextStyle(color: Colors.white, fontSize: 18),
-        //     ),
-        //   ),
-        // )
-      ],
-    ),
-  );
-}
+dynamic emptyPageImage({required Function() onTap, String? name}) async => Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(noData, width: 350, height: 350),
+          Text(
+            name?.tr ?? 'noData1'.tr,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+          ),
+          const SizedBox(
+            height: 50,
+          )
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 8),
+          //   child: ElevatedButton(
+          //     onPressed: onTap,
+          //     style: ElevatedButton.styleFrom(
+          //       shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+          //       primary: kPrimaryColor,
+          //     ),
+          //     child: Text(
+          //       'noConnection3'.tr,
+          //       style: TextStyle(color: Colors.white, fontSize: 18),
+          //     ),
+          //   ),
+          // )
+        ],
+      ),
+    );
 
 dynamic emptryPageText() {
   return Center(
@@ -392,7 +390,7 @@ dynamic emptryPageText() {
       child: Text(
         'noData1'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
+        style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
       ),
     ),
   );
@@ -412,12 +410,12 @@ Expanded emptyCart() {
             Text(
               'cartEmpty'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
+              style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
             ),
             Text(
               'cartEmptySubtitle'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 20),
+              style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 20),
             ),
           ],
         ),

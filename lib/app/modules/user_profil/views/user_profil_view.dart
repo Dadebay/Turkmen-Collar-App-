@@ -15,6 +15,8 @@ import 'history_order.dart';
 import 'faq.dart';
 
 class UserProfilView extends StatefulWidget {
+  const UserProfilView({super.key});
+
   @override
   State<UserProfilView> createState() => _UserProfilViewState();
 }
@@ -83,7 +85,7 @@ class _UserProfilViewState extends State<UserProfilView> {
                 icon: CupertinoIcons.cube_box,
                 langIconStatus: false,
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
         ProfilButton(
           name: 'shareUs',
           onTap: () {
@@ -112,7 +114,7 @@ class _UserProfilViewState extends State<UserProfilView> {
         ProfilButton(
           name: userProfilController.userLogin.value ? 'log_out' : 'signUp',
           onTap: () {
-            userProfilController.userLogin.value ? logOut() : Get.to(() => TabbarView());
+            userProfilController.userLogin.value ? logOut() : Get.to(() => const TabbarView());
           },
           icon: IconlyLight.login,
           langIconStatus: false,

@@ -18,11 +18,11 @@ class DownloadedView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 248, 248, 248),
+      backgroundColor: const Color.fromARGB(255, 248, 248, 248),
       appBar: AppBar(
         title: Text(
           'downloaded'.tr,
-          style: TextStyle(fontFamily: normProBold, color: Colors.black),
+          style: const TextStyle(fontFamily: normProBold, color: Colors.black),
         ),
         backgroundColor: kPrimaryColor,
         elevation: 0,
@@ -70,8 +70,8 @@ class DownloadedView extends GetView {
               final double a = double.parse(snapshot.data![index].price!.toString());
               final double b = a / 100.0;
               return Container(
-                margin: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+                decoration: const BoxDecoration(
                   borderRadius: borderRadius15,
                   color: kPrimaryColorCard,
                 ),
@@ -81,7 +81,7 @@ class DownloadedView extends GetView {
                     Expanded(
                       child: CachedNetworkImage(
                         fadeInCurve: Curves.ease,
-                        imageUrl: snapshot.data![index].images![0],
+                        imageUrl: snapshot.data![index].images!.first,
                         imageBuilder: (context, imageProvider) => Container(
                           margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
                           decoration: BoxDecoration(
@@ -137,7 +137,7 @@ class DownloadedView extends GetView {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  '${b.toStringAsFixed(b > 1000 ? 0 : 2)}',
+                  b.toStringAsFixed(b > 1000 ? 0 : 2),
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.red,
@@ -170,13 +170,13 @@ class DownloadedView extends GetView {
         final token = await Auth().getToken();
         if (token == null) {
           showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
-          await Get.to(() => TabbarView());
+          await Get.to(() => const TabbarView());
         } else {
-          snapshot.data![index].files!.length == 0
+          snapshot.data![index].files!.isEmpty
               ? showSnackBar('errorTitle', 'noFile', Colors.red)
               : Get.to(
                   () => DownloadYakaPage(
-                    image: snapshot.data![index].images![0],
+                    image: snapshot.data![index].images!.first,
                     list: snapshot.data![index].files!,
                     pageName: snapshot.data![index].name!,
                     id: snapshot.data![index].id!,
@@ -185,10 +185,10 @@ class DownloadedView extends GetView {
         }
       },
       child: Container(
-        margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         width: Get.size.width,
-        padding: EdgeInsets.symmetric(vertical: 6),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        decoration: const BoxDecoration(
           color: kPrimaryColor,
           boxShadow: [
             BoxShadow(

@@ -23,11 +23,13 @@ class SignInView extends GetView {
   FocusNode phoneNumberFocusNode = FocusNode();
   final _signUp = GlobalKey<FormState>();
   final SignInPageController signInPageController = Get.put(SignInPageController());
+
+  SignInView({super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         color: Colors.white,
       ),
