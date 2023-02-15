@@ -8,7 +8,7 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 
 class AddCartButton extends StatefulWidget {
-    final int id;
+  final int id;
   final String price;
   final String name;
   final String image;
@@ -24,7 +24,6 @@ class AddCartButton extends StatefulWidget {
     required this.image,
     required this.createdAt,
   }) : super(key: key);
-
 
   @override
   State<AddCartButton> createState() => _AddCartButtonState();
@@ -54,13 +53,16 @@ class _AddCartButtonState extends State<AddCartButton> {
   Widget build(BuildContext context) {
     return Obx(() {
       changeCartCount2();
-
-      return Center(
+      return Align(
+        alignment: Alignment.bottomCenter,
         child: addCartBool
             ? Container(
-                color: widget.productProfil ? kPrimaryColorCard : Colors.transparent,
+                decoration: BoxDecoration(
+                  borderRadius: borderRadius20,
+                  color: widget.productProfil ? kPrimaryColorCard : Colors.transparent,
+                ),
                 margin: EdgeInsets.only(
-                  top: 1,
+                  top: 5,
                   left: widget.productProfil ? 30 : 0,
                   right: widget.productProfil ? 30 : 0,
                   bottom: widget.productProfil ? 15 : 0,
@@ -78,18 +80,16 @@ class _AddCartButtonState extends State<AddCartButton> {
                             addCartBool = false;
                           }
                           cartController.minusCardElement(widget.id);
-                            if (!mounted) {
-        return;
-      }
+                          if (!mounted) {
+                            return;
+                          }
                           setState(() {});
                         },
                         child: Container(
                           padding: widget.productProfil ? const EdgeInsets.symmetric(vertical: 10, horizontal: 6) : const EdgeInsets.all(6.0),
                           decoration: BoxDecoration(
                             color: kPrimaryColor,
-                            borderRadius: widget.productProfil
-                                ? const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(10), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(10))
-                                : const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(7), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(7)),
+                            borderRadius: widget.productProfil ? const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(10), bottomLeft: Radius.circular(20), bottomRight: Radius.circular(10)) : const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(7), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(7)),
                           ),
                           child: Icon(CupertinoIcons.minus, color: Colors.white, size: widget.productProfil ? 26 : 20),
                         ),
@@ -112,17 +112,15 @@ class _AddCartButtonState extends State<AddCartButton> {
                           quantity++;
                           cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
                           if (!mounted) {
-        return;
-      }
+                            return;
+                          }
                           setState(() {});
                         },
                         child: Container(
                           padding: widget.productProfil ? const EdgeInsets.symmetric(vertical: 10, horizontal: 6) : const EdgeInsets.all(6.0),
                           decoration: BoxDecoration(
                             color: kPrimaryColor,
-                            borderRadius: widget.productProfil
-                                ? const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(20), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(20))
-                                : const BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(15), bottomLeft: Radius.circular(7), bottomRight: Radius.circular(15)),
+                            borderRadius: widget.productProfil ? const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(20), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(20)) : const BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(15), bottomLeft: Radius.circular(7), bottomRight: Radius.circular(15)),
                           ),
                           child: Icon(CupertinoIcons.add, color: Colors.white, size: widget.productProfil ? 26 : 20),
                         ),
@@ -136,9 +134,9 @@ class _AddCartButtonState extends State<AddCartButton> {
                   addCartBool = !addCartBool;
                   cartController.addToCard(id: widget.id, createdAT: widget.createdAt, image: widget.image, name: widget.name, price: widget.price);
                   showSnackBar('added', 'addedSubtitle', kPrimaryColor);
-             if (!mounted) {
-        return;
-      }
+                  if (!mounted) {
+                    return;
+                  }
                   setState(() {});
                 },
                 child: Container(
@@ -149,7 +147,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                     right: widget.productProfil ? 30 : 0,
                     bottom: widget.productProfil ? 15 : 0,
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.productProfil ? 10 : 4),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.productProfil ? 8 : 4),
                   decoration: BoxDecoration(
                     color: kPrimaryColor,
                     borderRadius: widget.productProfil ? borderRadius20 : borderRadius10,

@@ -79,7 +79,8 @@ class DownloadedView extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: CachedNetworkImage(
+                      child: CachedNetworkImage(  memCacheWidth: 10,
+                 memCacheHeight: 10,
                         fadeInCurve: Curves.ease,
                         imageUrl: snapshot.data![index].images!.first,
                         imageBuilder: (context, imageProvider) => Container(

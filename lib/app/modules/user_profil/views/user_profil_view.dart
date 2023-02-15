@@ -42,7 +42,7 @@ class _UserProfilViewState extends State<UserProfilView> {
           ),
         ),
         title: Text(
-          'profil'.tr,
+          'settings'.tr,
           style: const TextStyle(color: Colors.black),
         ),
       ),

@@ -14,7 +14,6 @@ class MachineCard extends StatelessWidget {
   MachineCard({
     required this.model,
     Key? key,
-
   }) : super(key: key);
   double a = 0.0;
   double b = 0.0;
@@ -38,9 +37,8 @@ class MachineCard extends StatelessWidget {
           );
         },
         style: ElevatedButton.styleFrom(
-          elevation: 0.3,
+          elevation: 0.5,
           backgroundColor: kPrimaryColorCard,
-          padding: EdgeInsets.zero,
           shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
         ),
         child: Row(
@@ -63,6 +61,8 @@ class MachineCard extends StatelessWidget {
                         borderRadius: borderRadius10,
                         child: CachedNetworkImage(
                           fadeInCurve: Curves.ease,
+                          memCacheWidth: 10,
+                          memCacheHeight: 10,
                           imageUrl: model.images!.first,
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(

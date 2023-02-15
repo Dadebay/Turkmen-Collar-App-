@@ -103,7 +103,10 @@ void changeLanguage() {
                   onTap: () {
                     Get.back();
                   },
-                  child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: Icon(CupertinoIcons.xmark_circle, size: 25, color: Colors.black),
+                  ),
                 )
               ],
             ),
@@ -162,7 +165,7 @@ void logOut() {
               right: 15,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const SizedBox.shrink(),
                 Text(
@@ -174,7 +177,7 @@ void logOut() {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
-                )
+                ),
               ],
             ),
           ),
@@ -351,7 +354,7 @@ Container customIcon(String iconNmae) {
   );
 }
 
-dynamic emptyPageImage({required Function() onTap, String? name}) async => Center(
+dynamic emptyPageImage({required Function() onTap, String? name}) => Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

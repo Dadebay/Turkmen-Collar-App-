@@ -44,6 +44,7 @@ class SignInService {
         'phone': phone,
       }),
     );
+    print(response.body);
     return response.statusCode;
   }
 }

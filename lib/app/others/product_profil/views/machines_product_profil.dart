@@ -9,6 +9,7 @@ import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
+import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
 import '../../../constants/widgets.dart';
 import '../controllers/product_profil_controller.dart';
@@ -23,7 +24,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
   final List image;
   double a = 0.0;
   double b = 0.0;
-  MachinesProductProfil({ 
+  MachinesProductProfil({
     required this.name,
     required this.createdAt,
     required this.price,
@@ -34,19 +35,14 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AddCartButton(
-            id: id,
-            price: price,
-            productProfil: true,
-            createdAt: createdAt,
-            name: name,
-            image: image.first,
-          ),
-        ],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: AddCartButton(
+        id: id,
+        price: price,
+        productProfil: true,
+        createdAt: createdAt,
+        name: name,
+        image: image.first,
       ),
       body: FutureBuilder<MachineModel>(
         future: MachineService().getMachineByID(id),
@@ -66,82 +62,79 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return [appBar()];
             },
-            body: Padding(
+            body: ListView(
               padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
-              child: ListView(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        snapshot.data!.name!,
-                        style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 24),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            '$b',
-                            style: const TextStyle(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      snapshot.data!.name!,
+                      style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 24),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '$b',
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 22,
+                            fontFamily: normProBold,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(right: 6, top: 7),
+                          child: Text(
+                            ' TMT',
+                            style: TextStyle(
                               color: Colors.red,
-                              fontSize: 22,
+                              fontSize: 12,
                               fontFamily: normProBold,
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 6, top: 7),
-                            child: Text(
-                              ' TMT',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 12,
-                                fontFamily: normProBold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30, bottom: 10),
+                  child: Text(
+                    'data'.tr,
+                    style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30, bottom: 10),
-                    child: Text(
-                      'data'.tr,
-                      style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8, top: 8),
+                  child: twoText(name1: 'data3', name2: '${snapshot.data!.views}'),
+                ),
+                Divider(
+                  thickness: 1,
+                  color: Colors.grey.shade300,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8, top: 8),
+                  child: twoText(name1: 'createdAt'.tr, name2: '${snapshot.data!.createdAt}'),
+                ),
+                Divider(
+                  thickness: 1,
+                  color: Colors.grey.shade300,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30, bottom: 10),
+                  child: Text(
+                    'data5'.tr,
+                    style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8, top: 8),
-                    child: twoText(name1: 'data3', name2: '${snapshot.data!.views}'),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.grey.shade300,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8, top: 8),
-                    child: twoText(name1: 'createdAt'.tr, name2: '${snapshot.data!.createdAt}'),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.grey.shade300,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30, bottom: 10),
-                    child: Text(
-                      'data5'.tr,
-                      style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
-                    ),
-                  ),
-                  Text(
-                    snapshot.data!.description!,
-                    style: const TextStyle(fontFamily: normsProLight, fontSize: 18, color: Colors.black54),
-                  ),
-                  const SizedBox(
-                    height: 200,
-                  )
-                ],
-              ),
+                ),
+                Text(
+                  snapshot.data!.description!,
+                  style: const TextStyle(fontFamily: normsProLight, fontSize: 18, color: Colors.black54),
+                ),
+                const SizedBox(
+                  height: 200,
+                )
+              ],
             ),
           );
         },
@@ -231,7 +224,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
           },
           child: Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             decoration: const BoxDecoration(
               borderRadius: borderRadius15,
               color: Colors.white,
@@ -251,20 +244,32 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
         child: CarouselSlider.builder(
           itemCount: image.length,
           itemBuilder: (context, index, count) {
-            return CachedNetworkImage(
-              fadeInCurve: Curves.ease,
-              imageUrl: image[index],
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                Get.to(
+                  () => PhotoViewPage(
+                    image: image[index],
+                    networkImage: true,
+                  ),
+                );
+              },
+              child: CachedNetworkImage(
+                fadeInCurve: Curves.ease,
+                memCacheWidth: 10,
+                memCacheHeight: 10,
+                imageUrl: image[index],
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+                placeholder: (context, url) => Center(child: spinKit()),
+                errorWidget: (context, url, error) => noBannerImage(),
               ),
-              placeholder: (context, url) => Center(child: spinKit()),
-              errorWidget: (context, url, error) => noBannerImage(),
             );
           },
           options: CarouselOptions(

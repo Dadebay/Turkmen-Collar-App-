@@ -64,29 +64,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
         'page': '${homeController.page.value}',
         'limit': '${homeController.limit.value}',
       },
-    ).then((value) {
-      for (var element in value) {
-        if (widget.isCollar) {
-          homeController.showAllList.add({
-            'id': element.id,
-            'name': element.name,
-            'price': element.price,
-            'createdAt': element.createdAt,
-            'images': element.images,
-            'files': element.files,
-          });
-        } else {
-          homeController.showAllList.add({
-            'id': element.id,
-            'name': element.name,
-            'price': element.price,
-            'createdAt': element.createdAt,
-            'images': element.images,
-            'files': [],
-          });
-        }
-      }
-    });
+    );
   }
 
   void _onRefresh() async {
@@ -404,7 +382,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                     itemBuilder: (context, index) {
                       return widget.isCollar
                           ? ProductCard(
-                              image: homeController.showAllList[index]['images'] ?? [],
+                              image: homeController.showAllList[index]['images'],
                               name: '${homeController.showAllList[index]['name']}',
                               price: '${homeController.showAllList[index]['price']}',
                               id: homeController.showAllList[index]['id'],
@@ -414,7 +392,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                               createdAt: homeController.showAllList[index]['createdAt'],
                             )
                           : ProductCard(
-                              image: homeController.showAllList[index]['images'] ?? [],
+                              image: homeController.showAllList[index]['images'],
                               name: '${homeController.showAllList[index]['name']}',
                               price: '${homeController.showAllList[index]['price']}',
                               id: homeController.showAllList[index]['id'],

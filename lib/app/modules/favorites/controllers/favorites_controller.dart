@@ -9,100 +9,63 @@ import 'package:yaka2/app/data/services/fav_service.dart';
 class FavoritesController extends GetxController {
   final RxList favList = [].obs;
   final storage = GetStorage();
-  dynamic toggleFav(int id, String name, bool isCollar) async {
-    if (favList.isEmpty) {
-      favList.add({'id': id, 'name': name});
-      if (isCollar) {
-        await FavService().addCollarToFav(id: id).then((value) {
-          if (value == true) {
-            showSnackBar('copySucces', 'collarAddToFav', Colors.green);
-          } else {
-            showSnackBar('noConnection3', 'error', Colors.red);
-          }
-        });
-      } else {
-        await FavService().addProductToFav(id: id).then((value) {
-          if (value == true) {
-            showSnackBar('copySucces', 'productAddToFav', Colors.green);
-          } else {
-            showSnackBar('noConnection3', 'error', Colors.red);
-          }
-        });
-      }
-    } else {
-      bool value = false;
-      for (final element in favList) {
-        if (element['id'] == id) {
-          value = true;
-        }
-      }
-      if (value) {
-        favList.removeWhere((element) => element['id'] == id);
-        if (isCollar) {
-          await FavService().deleteCollarToFav(id: id).then((value) {
-            if (value == true) {
-              showSnackBar('copySucces', 'deleteCollar', Colors.red);
-            } else {
-              showSnackBar('noConnection3', 'error', Colors.red);
-            }
-          });
-        } else {
-          await FavService().deleteProductToFav(id: id).then((value) {
-            if (value == true) {
-              showSnackBar('copySucces', 'deleteProduct', Colors.red);
-            } else {
-              showSnackBar('noConnection3', 'error', Colors.red);
-            }
-          });
-        }
-      } else if (!value) {
+
+  dynamic addCollarFavList(int id, String name) async {
+    await FavService().addCollarToFav(id: id).then((value) {
+      if (value == 201) {
+        showSnackBar('copySucces', 'collarAddToFav', Colors.green);
         favList.add({'id': id, 'name': name});
-        if (isCollar) {
-          await FavService().addCollarToFav(id: id).then((value) {
-            if (value == true) {
-              showSnackBar('copySucces', 'collarAddToFav', Colors.green);
-            } else {
-              showSnackBar('noConnection3', 'error', Colors.red);
-            }
-          });
-        } else {
-          await FavService().addProductToFav(id: id).then((value) {
-            if (value == true) {
-              showSnackBar('copySucces', 'productAddToFav', Colors.green);
-            } else {
-              showSnackBar('noConnection3', 'error', Colors.red);
-            }
-          });
-        }
+      } else {
+        showSnackBar('noConnection3', 'error', Colors.red);
       }
-    }
+    });
     favList.refresh();
     final String jsonString = jsonEncode(favList);
     await storage.write('favList', jsonString);
   }
 
-  dynamic addFavList(int id, String name) {
-    bool value = false;
-    for (final element in favList) {
-      if (element['id'] == id) {
-        value = true;
+  dynamic removeCollarFavList(int id) async {
+    await FavService().deleteCollarToFav(id: id).then((value) {
+      if (value == 204) {
+        favList.removeWhere((element) => element['id'] == id);
+        showSnackBar('copySucces', 'deleteCollar', Colors.red);
+      } else {
+        showSnackBar('noConnection3', 'error', Colors.red);
       }
-    }
-    if (value) {
-    } else {
-      favList.add({'id': id, 'name': name});
-    }
+    });
+    favList.refresh();
+    final String jsonString = jsonEncode(favList);
+    await storage.write('favList', jsonString);
   }
 
-  // dynamic returnFavList() {
-  //   final result = storage.read('favList') ?? '[]';
-  //   final List jsonData = jsonDecode(result);
-  //   if (jsonData.isNotEmpty) {
-  //     for (final element in jsonData) {
-  //       toggleFav(element['id'], element['name']);
-  //     }
-  //   }
-  // }
+////////////////////////////////////////////////////////////
+  dynamic addProductFavList(int id, String name) async {
+    await FavService().addProductToFav(id: id).then((value) {
+      if (value == 201) {
+        showSnackBar('copySucces', 'productAddToFav', Colors.green);
+        favList.add({'id': id, 'name': name});
+      } else {
+        showSnackBar('noConnection3', 'error', Colors.red);
+      }
+    });
+    favList.refresh();
+    final String jsonString = jsonEncode(favList);
+    await storage.write('favList', jsonString);
+  }
+
+  dynamic removeProductFavList(int id) async {
+    await FavService().deleteProductToFav(id: id).then((value) {
+      if (value == 204) {
+        favList.removeWhere((element) => element['id'] == id);
+        showSnackBar('copySucces', 'deleteProduct', Colors.red);
+      } else {
+        showSnackBar('noConnection3', 'error', Colors.red);
+      }
+    });
+    favList.refresh();
+    final String jsonString = jsonEncode(favList);
+    await storage.write('favList', jsonString);
+  }
 
   dynamic clearFavList() {
     favList.clear();

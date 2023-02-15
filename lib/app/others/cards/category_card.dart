@@ -32,6 +32,8 @@ class CategoryCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 25, bottom: 10),
             child: CachedNetworkImage(
+                memCacheWidth: 10,
+                 memCacheHeight: 10,
               fadeInCurve: Curves.ease,
               imageUrl: image,
               imageBuilder: (context, imageProvider) => Container(

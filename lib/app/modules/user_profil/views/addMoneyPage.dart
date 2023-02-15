@@ -27,7 +27,7 @@ class _AddCashState extends State<AddCash> {
     super.initState();
     controller.returnPhoneNumber().then((value) {
       number = value;
-        if (!mounted) {
+      if (!mounted) {
         return;
       }
       setState(() {});
@@ -76,65 +76,59 @@ class _AddCashState extends State<AddCash> {
           )
         ],
       ),
-      body: SizedBox(
-        width: Get.size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Row(
-                children: [
-                  Text(
-                    'myNumber'.tr,
-                    style: const TextStyle(fontFamily: normsProMedium, fontSize: 18),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              children: [
+                Text(
+                  'myNumber'.tr,
+                  style: const TextStyle(fontFamily: normsProMedium, fontSize: 18),
+                ),
+                Expanded(
+                  child: Text(
+                    number,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
                   ),
-                  Expanded(
-                    child: Text(
-                      number,
-                      style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                'addMoneyTitle'.tr,
-                style: const TextStyle(fontFamily: normsProRegular, fontSize: 20),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'addMoneyTitle'.tr,
+              style: const TextStyle(fontFamily: normsProRegular, fontSize: 20),
             ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                'addMoneySubTitle'.tr,
-                style: const TextStyle(fontFamily: normProBold, color: Colors.red, fontSize: 18),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Text(
+              'addMoneySubTitle'.tr,
+              style: const TextStyle(fontFamily: normProBold, color: Colors.red, fontSize: 18),
             ),
-            SizedBox(
-              height: 300,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return RadioListTile(
-                    value: index,
-                    activeColor: kPrimaryColor,
-                    groupValue: value,
-                    onChanged: (int? ind) => setState(() => value = ind!),
-                    title: Text(
-                      '${moneyList[index]} TMT',
-                      style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 18),
-                    ),
-                  );
-                },
-                itemCount: 5,
-              ),
-            ),
-            const Spacer(),
-            sendMoneyButton(false),
-          ],
-        ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return RadioListTile(
+                value: index,
+                activeColor: kPrimaryColor,
+                groupValue: value,
+                onChanged: (int? ind) => setState(() => value = ind!),
+                title: Text(
+                  '${moneyList[index]} TMT',
+                  style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 18),
+                ),
+              );
+            },
+            itemCount: 5,
+          ),
+          sendMoneyButton(false),
+        ],
       ),
     );
   }

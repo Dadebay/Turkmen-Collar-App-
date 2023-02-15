@@ -365,6 +365,8 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                   child: ClipRRect(
                     borderRadius: borderRadius10,
                     child: CachedNetworkImage(
+                        memCacheWidth: 10,
+                 memCacheHeight: 10,
                       fadeInCurve: Curves.ease,
                       imageUrl: widget.image,
                       imageBuilder: (context, imageProvider) => Container(
@@ -403,6 +405,8 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                               ),
                             ),
                             child: CachedNetworkImage(
+                                memCacheWidth: 10,
+                 memCacheHeight: 10,
                               fadeInCurve: Curves.ease,
                               imageUrl: list[index].machineImage!.first,
                               imageBuilder: (context, imageProvider) => Container(

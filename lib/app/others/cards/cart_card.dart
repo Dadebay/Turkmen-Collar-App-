@@ -29,8 +29,8 @@ class CardCart extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          elevation: 0.3,
-          backgroundColor: kGreyColor,
+          elevation: 1,
+          // backgroundColor: Theme.of(context).colorScheme.background,
           padding: EdgeInsets.zero,
           shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
         ),
@@ -49,6 +49,8 @@ class CardCart extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: borderRadius10,
                   child: CachedNetworkImage(
+                    memCacheWidth: 10,
+                    memCacheHeight: 10,
                     fadeInCurve: Curves.ease,
                     imageUrl: image,
                     imageBuilder: (context, imageProvider) => Container(

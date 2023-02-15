@@ -39,7 +39,6 @@ class CategoryService {
   Future<List<dynamic>> getCategoryByID(int id, {required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
     final HomeController homeController = Get.put(HomeController());
-    final List<dynamic> categoryList = [];
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/categories/$id',
@@ -56,14 +55,28 @@ class CategoryService {
       final responseJson = json.decode(decoded);
       if (CategoryModel.fromJson(responseJson).isCollar ?? false) {
         for (final Map product in responseJson['collars']['data']) {
-          categoryList.add(CollarModel.fromJson(product));
+          homeController.showAllList.add({
+            'id': CollarModel.fromJson(product).id,
+            'name': CollarModel.fromJson(product).name,
+            'price': CollarModel.fromJson(product).price,
+            'createdAt': CollarModel.fromJson(product).createdAt,
+            'images': CollarModel.fromJson(product).images,
+            'files': CollarModel.fromJson(product).files,
+          });
         }
       } else {
         for (final Map product in responseJson['products']['data']) {
-          categoryList.add(DressesModel.fromJson(product));
+          homeController.showAllList.add({
+            'id': DressesModel.fromJson(product).id,
+            'name': DressesModel.fromJson(product).name,
+            'price': DressesModel.fromJson(product).price,
+            'createdAt': DressesModel.fromJson(product).createdAt,
+            'images': DressesModel.fromJson(product).images,
+            'files': [],
+          });
         }
       }
-      return categoryList;
+      return homeController.showAllList;
     } else {
       homeController.loading.value = 1;
 

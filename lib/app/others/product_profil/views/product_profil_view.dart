@@ -36,7 +36,7 @@ class ProductProfilView extends StatefulWidget {
     required this.downloadable,
     required this.image,
     required this.files,
-    super.key, 
+    super.key,
   });
 
   @override
@@ -49,13 +49,8 @@ class _ProductProfilViewState extends State<ProductProfilView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          downloadButton(),
-        ],
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: downloadButton(),
       body: widget.downloadable ? downloadablePage() : orderPage(),
     );
   }
@@ -351,7 +346,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           },
           child: Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             decoration: const BoxDecoration(
               borderRadius: borderRadius15,
               color: Colors.white,
@@ -382,6 +377,8 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               },
               child: CachedNetworkImage(
                 fadeInCurve: Curves.ease,
+                memCacheWidth: 10,
+                memCacheHeight: 10,
                 imageUrl: widget.image[index],
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(

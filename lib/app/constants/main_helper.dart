@@ -17,9 +17,8 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  description: 'This channel is used for important notifications.', // description
+  'high_importance_channel',
+  'High Importance Notifications',
   importance: Importance.high,
 );
 

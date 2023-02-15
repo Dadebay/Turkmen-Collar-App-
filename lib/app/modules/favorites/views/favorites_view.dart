@@ -6,11 +6,11 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/data/services/fav_service.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
+import '../../../data/models/clothes_model.dart';
 import '../controllers/favorites_controller.dart';
 
 class FavoritesView extends GetView<FavoritesController> {
@@ -100,7 +100,7 @@ class FavoritesView extends GetView<FavoritesController> {
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },
-                  staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.4 : 1.5),
+                  staggeredTileBuilder: (index) => const StaggeredTile.count(1,  1.5),
                 );
               },
             ),
@@ -141,7 +141,7 @@ class FavoritesView extends GetView<FavoritesController> {
                       createdAt: snapshot.data![index].createdAt ?? 'asd',
                     );
                   },
-                  staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.3 : 1.5),
+                  staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
                 );
               },
             ),

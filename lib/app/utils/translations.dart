@@ -138,9 +138,11 @@ class MyTranslations extends Translations {
           'wait10Min': '10 minut garaşyp täzeden synanşyň',
           'listview_goods': 'Tikinçilik harytlary',
           'myNumber': 'Meniň belgim : ',
-          'noOrder': 'Hiç hili sargyt ýok'
+          'noOrder': 'Hiç hili sargyt ýok',
+          'settings': 'Sazlamalar',
         },
         'ru': {
+          'settings': 'Настройки',
           'noOrder': 'Заказов нет',
           'myNumber': 'Мой номер :',
           'listview_goods': 'Одежда',

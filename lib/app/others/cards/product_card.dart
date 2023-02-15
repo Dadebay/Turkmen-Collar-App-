@@ -1,7 +1,6 @@
 // ignore_for_file: always_put_required_named_parameters_first
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
@@ -15,7 +14,7 @@ import '../../modules/auth/sign_in_page/views/tabbar_view.dart';
 import '../buttons/fav_button.dart';
 import '../product_profil/views/product_profil_view.dart';
 
-class ProductCard extends StatefulWidget {
+class ProductCard extends StatelessWidget {
   final List image;
   final String name;
   final String createdAt;
@@ -27,13 +26,7 @@ class ProductCard extends StatefulWidget {
   const ProductCard({super.key, required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable, this.removeAddCard});
 
   @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Container(
       width: 180,
       margin: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
@@ -47,13 +40,13 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
         onPressed: () {
           Get.to(
             () => ProductProfilView(
-              downloadable: widget.downloadable,
-              files: widget.files,
-              price: widget.price,
-              image: widget.image,
-              name: widget.name,
-              createdAt: widget.createdAt,
-              id: widget.id,
+              downloadable: downloadable,
+              files: files,
+              price: price,
+              image: image,
+              name: name,
+              createdAt: createdAt,
+              id: id,
             ),
           );
         },
@@ -75,54 +68,24 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
           Positioned.fill(
             child: ClipRRect(
               borderRadius: borderRadius10,
-              child: widget.image.length != 1
-                  ? CarouselSlider.builder(
-                      itemCount: widget.image.length,
-                      itemBuilder: (context, index, count) {
-                        return CachedNetworkImage(
-                          fadeInCurve: Curves.ease,
-                          imageUrl: widget.image[index],
-                          imageBuilder: (context, imageProvider) => Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 5),
-                            decoration: BoxDecoration(
-                              borderRadius: borderRadius10,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          placeholder: (context, url) => Center(child: spinKit()),
-                          errorWidget: (context, url, error) => noBannerImage(),
-                        );
-                      },
-                      options: CarouselOptions(
-                        onPageChanged: (index, CarouselPageChangedReason a) {},
-                        viewportFraction: 1.0,
-                        autoPlay: false,
-                        height: Get.size.height,
-                        aspectRatio: 4 / 2,
-                        scrollPhysics: const BouncingScrollPhysics(),
-                        autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                        autoPlayAnimationDuration: const Duration(milliseconds: 2000),
-                      ),
-                    )
-                  : CachedNetworkImage(
-                      fadeInCurve: Curves.ease,
-                      imageUrl: widget.image.first,
-                      imageBuilder: (context, imageProvider) => Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: borderRadius10,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(child: spinKit()),
-                      errorWidget: (context, url, error) => noBannerImage(),
+              child: CachedNetworkImage(
+                 memCacheWidth: 10,
+                 memCacheHeight: 10,
+                fadeInCurve: Curves.ease,
+                imageUrl: image.first,
+                imageBuilder: (context, imageProvider) => Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius10,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
                     ),
+                  ),
+                ),
+                placeholder: (context, url) => Center(child: spinKit()),
+                errorWidget: (context, url, error) => noBannerImage(),
+              ),
             ),
           ),
           Positioned(
@@ -134,16 +97,16 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
               height: 20,
             ),
           ),
-          widget.removeAddCard!
+          removeAddCard!
               ? const SizedBox.shrink()
               : Positioned(
                   top: 12,
                   right: 12,
                   child: FavButton(
-                    isCollar: widget.downloadable,
+                    isCollar: downloadable,
                     whcihPage: false,
-                    name: widget.name,
-                    id: widget.id,
+                    name: name,
+                    id: id,
                   ),
                 )
         ],
@@ -152,11 +115,11 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
   }
 
   Container namePart1() {
-    final double a = double.parse(widget.price.toString());
+    final double a = double.parse(price.toString());
     final double b = a / 100.0;
     return Container(
       width: double.infinity,
-      padding: widget.removeAddCard! ? const EdgeInsets.only(top: 8, bottom: 8, left: 5) : const EdgeInsets.only(top: 4, left: 5),
+      padding: removeAddCard! ? const EdgeInsets.only(top: 8, bottom: 8, left: 5) : const EdgeInsets.only(top: 4, left: 5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -189,23 +152,23 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
             ],
           ),
           Text(
-            widget.name,
+            name,
             textAlign: TextAlign.start,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.black, fontFamily: normsProLight, fontSize: 14),
           ),
-          widget.removeAddCard!
+          removeAddCard!
               ? const SizedBox.shrink()
-              : widget.downloadable
+              : downloadable
                   ? downloadButton()
                   : AddCartButton(
-                      id: widget.id,
-                      price: widget.price,
+                      id: id,
+                      price: price,
                       productProfil: false,
-                      createdAt: widget.createdAt,
-                      image: widget.image.first,
-                      name: widget.name,
+                      createdAt: createdAt,
+                      image: image.first,
+                      name: name,
                     )
         ],
       ),
@@ -220,14 +183,14 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
           showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
           await Get.to(() => const TabbarView());
         } else {
-          widget.files.isEmpty
+          files.isEmpty
               ? showSnackBar('errorTitle', 'noFile', Colors.red)
               : Get.to(
                   () => DownloadYakaPage(
-                    image: widget.image.first,
-                    id: widget.id,
-                    list: widget.files,
-                    pageName: widget.name,
+                    image: image.first,
+                    id: id,
+                    list: files,
+                    pageName: name,
                   ),
                 );
         }
@@ -248,7 +211,4 @@ class _ProductCardState extends State<ProductCard> with AutomaticKeepAliveClient
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

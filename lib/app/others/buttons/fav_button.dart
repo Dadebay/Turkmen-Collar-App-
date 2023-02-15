@@ -45,49 +45,43 @@ class _FavButtonState extends State<FavButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      work();
-
-      return GestureDetector(
-        onTap: () async {
-          final token = await Auth().getToken();
-          if (token == null || token == '') {
-            showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
-            await Get.to(() => const TabbarView());
-          } else {
-            if (widget.isCollar) {
-                if (!mounted) {
-        return;
-      }
-              setState(() {
-                value = !value;
-                favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);
-              });
-            }
-            if (widget.isCollar) {
-                if (!mounted) {
-        return;
-      }
-              setState(() {
-                value = !value;
-                favoritesController.toggleFav(widget.id, widget.name, widget.isCollar);
-              });
+    return GestureDetector(
+      onTap: () async {
+        final token = await Auth().getToken();
+        if (token == null || token == '') {
+          showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+          await Get.to(() => const TabbarView());
+        } else {
+          if (widget.isCollar) {
+            if (!value) {
+              favoritesController.addCollarFavList(widget.id, widget.name);
+            } else {
+              favoritesController.removeCollarFavList(widget.id);
             }
           }
-        },
-        child: Container(
-          padding: EdgeInsets.all(widget.whcihPage ? 8 : 6),
-          decoration: BoxDecoration(
-            borderRadius: widget.whcihPage ? borderRadius15 : borderRadius10,
-            color: Colors.white,
-          ),
-          child: Icon(
-            value ? IconlyBold.heart : IconlyLight.heart,
-            color: value ? Colors.red : Colors.black,
-            size: widget.whcihPage ? 28 : 22,
-          ),
+          if (!widget.isCollar) {
+            if (!value) {
+              favoritesController.addProductFavList(widget.id, widget.name);
+            } else {
+              favoritesController.removeProductFavList(widget.id);
+            }
+          }
+          value = !value;
+          setState(() {});
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.all(widget.whcihPage ? 8 : 6),
+        decoration: BoxDecoration(
+          borderRadius: widget.whcihPage ? borderRadius15 : borderRadius10,
+          color: Colors.white,
         ),
-      );
-    });
+        child: Icon(
+          value ? IconlyBold.heart : IconlyLight.heart,
+          color: value ? Colors.red : Colors.black,
+          size: widget.whcihPage ? 28 : 22,
+        ),
+      ),
+    );
   }
 }

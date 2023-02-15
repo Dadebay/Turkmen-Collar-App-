@@ -32,6 +32,7 @@ import 'category_view.dart';
 import 'listview_clothes_view.dart';
 import 'listview_collars_view.dart';
 import 'listview_goods.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -51,6 +52,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     homeController.getAllProducts();
+    homeController.userMoney();
   }
 
   void _onRefresh() async {
@@ -64,9 +66,9 @@ class _HomeViewState extends State<HomeView> {
     homeController.getAllProducts();
 
     homeController.userMoney();
-      if (!mounted) {
-        return;
-      }
+    if (!mounted) {
+      return;
+    }
     setState(() {});
   }
 
@@ -140,7 +142,7 @@ class _HomeViewState extends State<HomeView> {
       leading: Obx(() {
         return IconButton(
           icon: cartController.list.isNotEmpty
-              ? Badge(
+              ? badges.Badge(
                   padding: const EdgeInsets.all(6),
                   animationType: BadgeAnimationType.fade,
                   badgeContent: Text(
@@ -240,7 +242,7 @@ class _HomeViewState extends State<HomeView> {
               onTap: () {
                 Get.to(() => CartView());
               },
-              tileColor: Colors.white,
+              // tileColor: Colors.white,
               minVerticalPadding: 23,
               title: Text(
                 'cart'.tr,
@@ -251,7 +253,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               leading: cartController.list.isNotEmpty
-                  ? Badge(
+                  ? badges.Badge(
                       animationType: BadgeAnimationType.fade,
                       padding: const EdgeInsets.all(6),
                       badgeContent: Text(
@@ -305,7 +307,14 @@ class _HomeViewState extends State<HomeView> {
                   langIconStatus: false,
                 )
               : const SizedBox.shrink(),
-          divider(),
+          Padding(
+            // color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Divider(
+              color: kPrimaryColor.withOpacity(0.4),
+              thickness: 2,
+            ),
+          ),
           ProfilButton(
             name: 'transferUSB',
             onTap: () async {
@@ -326,9 +335,9 @@ class _HomeViewState extends State<HomeView> {
             langIconStatus: false,
           ),
           ProfilButton(
-            name: 'profil',
+            name: 'settings',
             onTap: () {
-              Get.to(() => UserProfilView());
+              Get.to(() => const UserProfilView());
             },
             icon: IconlyBold.profile,
             langIconStatus: false,

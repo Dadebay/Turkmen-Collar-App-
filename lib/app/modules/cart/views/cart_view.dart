@@ -14,7 +14,7 @@ import 'order_page.dart';
 
 class CartView extends GetView<CartController> {
   final CartController cartController = Get.put(CartController());
-
+  
    CartView({super.key});
   @override
   Widget build(BuildContext context) {
