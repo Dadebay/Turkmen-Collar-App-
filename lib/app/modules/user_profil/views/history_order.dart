@@ -190,7 +190,6 @@ class HistoryOrderProductID extends StatelessWidget {
                 price: '${snapshot.data![index].price}',
                 id: snapshot.data![index].id!,
                 downloadable: false,
-                files: const [],
                 removeAddCard: true,
                 createdAt: '',
               );

@@ -14,7 +14,6 @@ class ListviewCollarsView extends StatelessWidget {
   final HomeController collarController = Get.put(HomeController());
   ListviewCollarsView({Key? key}) : super(key: key);
 
-
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     refreshController.loadComplete();
@@ -78,7 +77,6 @@ class ListviewCollarsView extends StatelessWidget {
                       name: collarController.collarList[index]['name'],
                       price: collarController.collarList[index]['price'].toString(),
                       id: int.parse(collarController.collarList[index]['id'].toString()),
-                      files: collarController.collarList[index]['files'],
                       downloadable: true,
                       removeAddCard: false,
                       createdAt: collarController.collarList[index]['createdAt'],

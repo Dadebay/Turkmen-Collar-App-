@@ -6,12 +6,12 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
 import '../../../constants/widgets.dart';
+import '../../../data/models/clothes_model.dart';
 import '../controllers/product_profil_controller.dart';
 
 class MachinesProductProfil extends GetView<ProductProfilController> {
@@ -21,7 +21,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
   final String name;
   final String createdAt;
   final String price;
-  final List image;
+  final String image;
   double a = 0.0;
   double b = 0.0;
   MachinesProductProfil({
@@ -42,9 +42,9 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
         productProfil: true,
         createdAt: createdAt,
         name: name,
-        image: image.first,
+        image: image,
       ),
-      body: FutureBuilder<MachineModel>(
+      body: FutureBuilder<DressesModelByID>(
         future: MachineService().getMachineByID(id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -60,7 +60,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
           b = a / 100.0;
           return NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return [appBar()];
+              return [appBar(images: snapshot.data!.images)];
             },
             body: ListView(
               padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
@@ -191,7 +191,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
     );
   }
 
-  SliverAppBar appBar() {
+  SliverAppBar appBar({required List? images}) {
     return SliverAppBar(
       expandedHeight: 400,
       floating: true,
@@ -220,7 +220,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
       actions: [
         GestureDetector(
           onTap: () {
-            Share.share(image.first, subject: appName);
+            Share.share(image, subject: appName);
           },
           child: Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
@@ -242,22 +242,20 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
         color: Colors.grey.shade200,
         margin: const EdgeInsets.only(top: 30),
         child: CarouselSlider.builder(
-          itemCount: image.length,
+          itemCount: images!.length,
           itemBuilder: (context, index, count) {
             return GestureDetector(
               onTap: () {
                 Get.to(
                   () => PhotoViewPage(
-                    image: image[index],
+                    image: images[index],
                     networkImage: true,
                   ),
                 );
               },
               child: CachedNetworkImage(
                 fadeInCurve: Curves.ease,
-                memCacheWidth: 10,
-                memCacheHeight: 10,
-                imageUrl: image[index],
+                imageUrl: images[index],
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),

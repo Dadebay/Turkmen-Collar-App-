@@ -3,30 +3,58 @@
 class CollarModel {
   final int? id;
   final String? name;
-  final String? description;
   final int? price;
-  final String? machineName;
   final String? createdAt;
-  final int? views;
-  final int? downloads;
-  final List? images;
-  final List<FilesModel>? files;
-  final String? category;
+  final String? image;
   CollarModel({
     this.name,
-    this.category,
-    this.description,
     this.price,
-    this.machineName,
-    this.views,
-    this.downloads,
-    this.images,
-    this.files,
+    this.image,
     this.id,
     this.createdAt,
   });
 
   factory CollarModel.fromJson(Map<dynamic, dynamic> json) {
+    return CollarModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      createdAt: json['created_at'] ?? DateTime.now(),
+      price: json['price'] ?? 0,
+      image: json['thumb'] ?? '',
+    );
+  }
+
+  List? get images => null;
+}
+
+class CollarByIDModel {
+  final int? id;
+  final String? name;
+  final String? desc;
+  final int? price;
+  final int? views;
+  final int? downloads;
+  final String? tag;
+  final String? machineName;
+  final String? createdAt;
+  final List? images;
+  final List<FilesModel>? files;
+
+  CollarByIDModel({
+    this.id,
+    this.name,
+    this.desc,
+    this.price,
+    this.views,
+    this.downloads,
+    this.tag,
+    this.machineName,
+    this.createdAt,
+    this.images,
+    this.files,
+  });
+
+  factory CollarByIDModel.fromJson(Map<dynamic, dynamic> json) {
     final List image = json['images'] as List;
     List<dynamic> images = [];
     if (image == null) {
@@ -34,40 +62,36 @@ class CollarModel {
     } else {
       images = image.map((value) => value).toList();
     }
-    String categoryName = '';
-    if (json['category'] != null) {
-      categoryName = json['category']['name'];
-    } else {
-      categoryName = '';
-    }
-    return CollarModel(
-      id: json['id'],
-      name: json['name'],
-      createdAt: json['created_at'],
-      description: json['description'],
-      price: json['price'],
-      machineName: json['machine_name'],
-      views: json['views'],
-      downloads: json['downloads'],
-      files: (json['files'] as List).map((json) => FilesModel.fromJson(json)).toList(),
+    return CollarByIDModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      desc: json['description'] ?? '',
+      views: json['views'] ?? 0,
+      downloads: json['downlaods'] ?? 0,
+      price: json['price'] ?? 0,
+      tag: json['tag'] ?? '',
+      machineName: json['machine_name'] ?? '',
+      createdAt: json['created_at'] ?? DateTime.now(),
       images: images,
-      category: categoryName,
+      files: (json['files'] as List).map((json) => FilesModel.fromJson(json)).toList(),
     );
   }
 }
 
 class FilesModel {
-  int? price;
-  String? name;
-  String? machineName;
-  List? machineImage;
-  bool? purchased;
   int? id;
 
-  FilesModel({this.name, this.machineImage, this.purchased, this.price, this.machineName, this.id});
+  int? price;
+  String? machineLogo;
+  String? createtdAt;
+  List? images;
+  bool? purchased;
+  String? machineName;
+
+  FilesModel({this.id, this.price, this.machineLogo, this.createtdAt, this.images, this.purchased, this.machineName});
 
   factory FilesModel.fromJson(Map<String, dynamic> json) {
-    final List image = json['machine']['images'] as List;
+    final List image = json['images'] as List;
     List<dynamic> images = [];
     if (image == null) {
       images = [''];
@@ -75,12 +99,13 @@ class FilesModel {
       images = image.map((value) => value).toList();
     }
     return FilesModel(
-      machineName: json['machine']['name'],
-      machineImage: images,
-      purchased: json['purchased'],
-      price: json['price'],
-      name: json['name'],
-      id: json['id'],
+      id: json['id'] ?? 0,
+      price: json['price'] ?? 0,
+      machineLogo: json['machine_thumb'] ?? '',
+      createtdAt: json['created_at'],
+      images: images,
+      purchased: json['purchased'] ?? false,
+      machineName: json['machine_name'] ?? 'Ady',
     );
   }
 }

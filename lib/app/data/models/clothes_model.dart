@@ -9,9 +9,47 @@ class DressesModel {
   final int? views;
   final String? createdAt;
 
-  final List? images;
+  final String? image;
   final String? category;
   DressesModel({
+    this.name,
+    this.createdAt,
+    this.barcode,
+    this.category,
+    this.description,
+    this.price,
+    this.views,
+    this.image,
+    this.id,
+  });
+
+  factory DressesModel.fromJson(Map<dynamic, dynamic> json) {
+    return DressesModel(
+      id: json['id'],
+      createdAt: json['created_at'],
+      name: json['name'],
+      barcode: json['barcode'],
+      description: json['description'],
+      price: json['price'],
+      views: json['views'],
+      category: json['category'],
+      image: json['thumb'],
+    );
+  }
+}
+
+class DressesModelByID {
+  final int? id;
+  final String? name;
+  final String? description;
+  final String? barcode;
+  final int? price;
+  final int? views;
+  final String? createdAt;
+
+  final List? images;
+  final String? category;
+  DressesModelByID({
     this.name,
     this.createdAt,
     this.barcode,
@@ -23,7 +61,7 @@ class DressesModel {
     this.id,
   });
 
-  factory DressesModel.fromJson(Map<dynamic, dynamic> json) {
+  factory DressesModelByID.fromJson(Map<String, dynamic> json) {
     final List image = json['images'] as List;
     List<dynamic> images = [];
     if (image == null) {
@@ -31,17 +69,16 @@ class DressesModel {
     } else {
       images = image.map((value) => value).toList();
     }
-
-    return DressesModel(
-      id: json['id'],
-      createdAt: json['created_at'],
-      name: json['name'],
-      barcode: json['barcode'],
-      description: json['description'],
-      price: json['price'],
-      views: json['views'],
-      category: json['category']['name'],
+    return DressesModelByID(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'Ady',
+      description: json['description'] ?? 'mazmuny',
+      barcode: json['barcode'] ?? 'barcode',
+      price: json['price'] ?? 0,
+      views: json['views'] ?? 0,
       images: images,
+      createdAt: json['created_at'] ?? DateTime.now(),
+      category: json['category'] ?? 'kategoriya',
     );
   }
 }

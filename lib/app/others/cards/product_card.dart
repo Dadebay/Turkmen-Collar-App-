@@ -5,25 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
-import 'package:yaka2/app/others/product_profil/views/download_yaka.dart';
 
 import '../../data/services/auth_service.dart';
 import '../../modules/auth/sign_in_page/views/tabbar_view.dart';
 import '../buttons/fav_button.dart';
+import '../product_profil/views/download_yaka.dart';
 import '../product_profil/views/product_profil_view.dart';
 
 class ProductCard extends StatelessWidget {
-  final List image;
+  final String image;
   final String name;
   final String createdAt;
   final int id;
   final String price;
-  final List<FilesModel> files;
   final bool downloadable;
   final bool? removeAddCard;
-  const ProductCard({super.key, required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.files, required this.downloadable, this.removeAddCard});
+  const ProductCard({super.key, required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.downloadable, this.removeAddCard});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,6 @@ class ProductCard extends StatelessWidget {
           Get.to(
             () => ProductProfilView(
               downloadable: downloadable,
-              files: files,
               price: price,
               image: image,
               name: name,
@@ -69,10 +66,8 @@ class ProductCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: borderRadius10,
               child: CachedNetworkImage(
-                 memCacheWidth: 10,
-                 memCacheHeight: 10,
                 fadeInCurve: Curves.ease,
-                imageUrl: image.first,
+                imageUrl: image,
                 imageBuilder: (context, imageProvider) => Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
@@ -167,7 +162,7 @@ class ProductCard extends StatelessWidget {
                       price: price,
                       productProfil: false,
                       createdAt: createdAt,
-                      image: image.first,
+                      image: image,
                       name: name,
                     )
         ],
@@ -183,16 +178,13 @@ class ProductCard extends StatelessWidget {
           showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
           await Get.to(() => const TabbarView());
         } else {
-          files.isEmpty
-              ? showSnackBar('errorTitle', 'noFile', Colors.red)
-              : Get.to(
-                  () => DownloadYakaPage(
-                    image: image.first,
-                    id: id,
-                    list: files,
-                    pageName: name,
-                  ),
-                );
+          await Get.to(
+            () => DownloadYakaPage(
+              image: image,
+              id: id,
+              pageName: name,
+            ),
+          );
         }
       },
       child: Container(

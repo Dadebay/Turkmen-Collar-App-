@@ -10,12 +10,10 @@ class CategoryCard extends StatelessWidget {
     final int id;
   final String name;
   final String image;
-  final bool isCollar;
   const CategoryCard({
     required this.id,
     required this.name,
     required this.image,
-    required this.isCollar,
     Key? key,
   }) : super(key: key);
 
@@ -24,16 +22,13 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => ShowAllProductsView(name: name, id: id, isCollar: isCollar));
-        // Get.deleteAll();
+        Get.to(() => ShowAllProductsView(name: name, id: id,));
       },
       child: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 25, bottom: 10),
             child: CachedNetworkImage(
-                memCacheWidth: 10,
-                 memCacheHeight: 10,
               fadeInCurve: Curves.ease,
               imageUrl: image,
               imageBuilder: (context, imageProvider) => Container(

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -42,10 +43,22 @@ class LogInView extends GetView {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(left: 8, right: 8, top: 25),
-              child: Text(
-                'signInDialog'.tr,
-                textAlign: TextAlign.start,
-                style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minWidth: 300.0,
+                  maxWidth: 300.0,
+                  minHeight: 30.0,
+                  maxHeight: 100.0,
+                ),
+                child: AutoSizeText(
+                  'signInDialog'.tr,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: normsProMedium,
+                    fontSize: 18,
+                  ),
+                ),
               ),
             ),
             Padding(

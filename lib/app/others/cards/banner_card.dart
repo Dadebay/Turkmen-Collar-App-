@@ -32,8 +32,6 @@ class BannerCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: borderRadius10,
           child: CachedNetworkImage(
-              memCacheWidth: 10,
-                 memCacheHeight: 10,
             fadeInCurve: Curves.ease,
             imageUrl: image,
             imageBuilder: (context, imageProvider) => Container(

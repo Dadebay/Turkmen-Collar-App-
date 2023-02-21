@@ -90,17 +90,16 @@ class FavoritesView extends GetView<FavoritesController> {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ProductCard(
-                      image: snapshot.data![index].images ?? [],
+                      image: snapshot.data![index].image!,
                       name: '${snapshot.data![index].name}',
                       price: '${snapshot.data![index].price}',
                       id: snapshot.data![index].id!,
-                      files: snapshot.data![index].files!,
                       downloadable: true,
                       removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },
-                  staggeredTileBuilder: (index) => const StaggeredTile.count(1,  1.5),
+                  staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
                 );
               },
             ),
@@ -131,12 +130,11 @@ class FavoritesView extends GetView<FavoritesController> {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return ProductCard(
-                      image: snapshot.data![index].images ?? [],
+                      image: snapshot.data![index].image!,
                       name: snapshot.data![index].name ?? 'asd',
                       price: '${snapshot.data![index].price ?? 00}',
                       id: snapshot.data![index].id!,
                       downloadable: false,
-                      files: const [],
                       removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt ?? 'asd',
                     );

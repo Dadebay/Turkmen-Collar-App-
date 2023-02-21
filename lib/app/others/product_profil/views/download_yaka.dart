@@ -20,11 +20,10 @@ import '../../../modules/home/controllers/home_controller.dart';
 class DownloadYakaPage extends StatefulWidget {
   final int id;
   final String image;
-  final List<FilesModel> list;
+  // final List<FilesModel> list;
   final String pageName;
   const DownloadYakaPage({
     required this.image,
-    required this.list,
     required this.pageName,
     required this.id,
     Key? key,
@@ -43,7 +42,12 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
   @override
   void initState() {
     super.initState();
-    list = widget.list;
+    CollarService().getCollarsByID(widget.id).then(
+      (value) {
+        list = value.files!;
+        setState(() {});
+      },
+    );
     createDownloadFile();
   }
 
@@ -365,16 +369,16 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                   child: ClipRRect(
                     borderRadius: borderRadius10,
                     child: CachedNetworkImage(
-                        memCacheWidth: 10,
-                 memCacheHeight: 10,
                       fadeInCurve: Curves.ease,
                       imageUrl: widget.image,
                       imageBuilder: (context, imageProvider) => Container(
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
+                          color: Colors.black,
                           borderRadius: borderRadius10,
                           image: DecorationImage(
                             image: imageProvider,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -405,10 +409,8 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                               ),
                             ),
                             child: CachedNetworkImage(
-                                memCacheWidth: 10,
-                 memCacheHeight: 10,
                               fadeInCurve: Curves.ease,
-                              imageUrl: list[index].machineImage!.first,
+                              imageUrl: list[index].machineLogo!,
                               imageBuilder: (context, imageProvider) => Container(
                                 margin: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(

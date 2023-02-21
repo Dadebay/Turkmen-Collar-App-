@@ -13,7 +13,6 @@ import 'package:yaka2/app/data/services/collars_service.dart';
 import 'package:yaka2/app/data/services/dresses_service.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/buttons/fav_button.dart';
-import 'package:yaka2/app/others/product_profil/views/download_yaka.dart';
 import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
 import '../../../constants/widgets.dart';
@@ -26,8 +25,7 @@ class ProductProfilView extends StatefulWidget {
   final String price;
   final String name;
   final String createdAt;
-  final List image;
-  final List<FilesModel> files;
+  final String image;
   const ProductProfilView({
     required this.id,
     required this.price,
@@ -35,7 +33,6 @@ class ProductProfilView extends StatefulWidget {
     required this.createdAt,
     required this.downloadable,
     required this.image,
-    required this.files,
     super.key,
   });
 
@@ -55,8 +52,8 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     );
   }
 
-  FutureBuilder<DressesModel> orderPage() {
-    return FutureBuilder<DressesModel>(
+  FutureBuilder<DressesModelByID> orderPage() {
+    return FutureBuilder<DressesModelByID>(
       future: DressesService().getDressesByID(widget.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -72,9 +69,9 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         final double b = a / 100.0;
         return NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [appBar()];
+            return [appBar(images: snapshot.data!.images, value: false)];
           },
-          body: testPart(
+          body: textPart(
             name: snapshot.data!.name!,
             price: b,
             machineName: '',
@@ -89,8 +86,8 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     );
   }
 
-  FutureBuilder<CollarModel> downloadablePage() {
-    return FutureBuilder<CollarModel>(
+  FutureBuilder<CollarByIDModel> downloadablePage() {
+    return FutureBuilder<CollarByIDModel>(
       future: CollarService().getCollarsByID(widget.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -107,24 +104,24 @@ class _ProductProfilViewState extends State<ProductProfilView> {
 
         return NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [appBar()];
+            return [appBar(images: snapshot.data!.images, value: true)];
           },
-          body: testPart(
+          body: textPart(
             name: snapshot.data!.name!,
             price: b,
             barcode: '',
-            machineName: snapshot.data!.machineName ?? '',
-            category: snapshot.data!.category!,
-            downloads: '${snapshot.data!.downloads!}',
-            views: '${snapshot.data!.views!}',
-            desc: snapshot.data!.description!,
+            category: snapshot.data!.tag!,
+            desc: snapshot.data!.desc!,
+            downloads: snapshot.data!.downloads!.toString(),
+            machineName: snapshot.data!.machineName!,
+            views: snapshot.data!.views!.toString(),
           ),
         );
       },
     );
   }
 
-  Widget testPart({required String name, required double price, required String machineName, required String barcode, required String category, required String views, required String downloads, required String desc}) {
+  Widget textPart({required String name, required double price, required String machineName, required String barcode, required String category, required String views, required String downloads, required String desc}) {
     return ListView(
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
@@ -232,16 +229,16 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                 showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
                 await Get.to(() => const TabbarView());
               } else {
-                widget.files.isEmpty
-                    ? showSnackBar('errorTitle', 'noFile', Colors.red)
-                    : Get.to(
-                        () => DownloadYakaPage(
-                          image: widget.image.first,
-                          id: widget.id,
-                          list: widget.files,
-                          pageName: widget.name,
-                        ),
-                      );
+                // widget.files.isEmpty
+                //     ? showSnackBar('errorTitle', 'noFile', Colors.red)
+                //     : Get.to(
+                //         () => DownloadYakaPage(
+                //           image: widget.image.first,
+                //           id: widget.id,
+                //           list: widget.files,
+                //           pageName: widget.name,
+                //         ),
+                //       );
               }
             },
             child: Container(
@@ -265,7 +262,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             productProfil: true,
             createdAt: widget.createdAt,
             name: widget.name,
-            image: widget.image.first,
+            image: widget.image,
           );
   }
 
@@ -304,10 +301,11 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     );
   }
 
-  SliverAppBar appBar() {
+  SliverAppBar appBar({required List? images, required bool value}) {
     return SliverAppBar(
       expandedHeight: 400,
       floating: true,
+      collapsedHeight: 200,
       pinned: false,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.grey.shade200,
@@ -342,7 +340,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         ),
         GestureDetector(
           onTap: () {
-            Share.share(widget.image.first, subject: appName);
+            Share.share(images!.first, subject: appName);
           },
           child: Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4, right: 8),
@@ -364,28 +362,27 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         color: Colors.grey.shade200,
         margin: const EdgeInsets.only(top: 30),
         child: CarouselSlider.builder(
-          itemCount: widget.image.length,
+          itemCount: images!.length,
           itemBuilder: (context, index, count) {
             return GestureDetector(
               onTap: () {
                 Get.to(
                   () => PhotoViewPage(
-                    image: widget.image[index],
+                    image: images[index],
                     networkImage: true,
                   ),
                 );
               },
               child: CachedNetworkImage(
                 fadeInCurve: Curves.ease,
-                memCacheWidth: 10,
-                memCacheHeight: 10,
-                imageUrl: widget.image[index],
+                imageUrl: images[index],
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
+                    color: Colors.black,
                     borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
                     image: DecorationImage(
                       image: imageProvider,
-                      fit: BoxFit.cover,
+                      fit: value ? BoxFit.contain : BoxFit.cover,
                     ),
                   ),
                 ),

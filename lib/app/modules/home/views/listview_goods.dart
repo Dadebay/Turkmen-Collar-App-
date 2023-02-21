@@ -76,7 +76,6 @@ class ListViewGoods extends GetView {
                         price: goodsController.goodsList[index]['price'].toString(),
                         id: int.parse(goodsController.goodsList[index]['id'].toString()),
                         downloadable: false,
-                        files: const [],
                         removeAddCard: false,
                         createdAt: goodsController.goodsList[index]['createdAt'],
                       );

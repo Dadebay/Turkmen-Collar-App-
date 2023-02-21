@@ -79,8 +79,7 @@ class DownloadedView extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: CachedNetworkImage(  memCacheWidth: 10,
-                 memCacheHeight: 10,
+                      child: CachedNetworkImage(
                         fadeInCurve: Curves.ease,
                         imageUrl: snapshot.data![index].images!.first,
                         imageBuilder: (context, imageProvider) => Container(
@@ -178,7 +177,6 @@ class DownloadedView extends GetView {
               : Get.to(
                   () => DownloadYakaPage(
                     image: snapshot.data![index].images!.first,
-                    list: snapshot.data![index].files!,
                     pageName: snapshot.data![index].name!,
                     id: snapshot.data![index].id!,
                   ),

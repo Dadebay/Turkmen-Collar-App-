@@ -53,25 +53,18 @@ class ProductsModelMini {
   int? price;
   int? id;
   int? quantity;
-  List? image;
+  String? image;
   String? name;
 
   ProductsModelMini({this.name, this.price, this.id, this.quantity, this.image});
 
   factory ProductsModelMini.fromJson(Map<dynamic, dynamic> json) {
-    final List image = json['images'] as List;
-    List<dynamic> images = [];
-    if (image == null) {
-      images = [''];
-    } else {
-      images = image.map((value) => value).toList();
-    }
     return ProductsModelMini(
       price: json['price'],
       name: json['name'],
       id: json['id'],
       quantity: json['quantity'],
-      image: images,
+      image: json['thumb'],
     );
   }
 }

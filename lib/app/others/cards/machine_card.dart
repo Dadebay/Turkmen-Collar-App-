@@ -61,9 +61,7 @@ class MachineCard extends StatelessWidget {
                         borderRadius: borderRadius10,
                         child: CachedNetworkImage(
                           fadeInCurve: Curves.ease,
-                          memCacheWidth: 10,
-                          memCacheHeight: 10,
-                          imageUrl: model.images!.first,
+                          imageUrl: model.images!,
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               borderRadius: borderRadius10,
@@ -151,7 +149,7 @@ class MachineCard extends StatelessWidget {
                         price: '${model.price!}',
                         productProfil: false,
                         createdAt: model.createdAt!,
-                        image: model.images!.first,
+                        image: model.images!,
                         name: model.name!,
                       ),
                     )

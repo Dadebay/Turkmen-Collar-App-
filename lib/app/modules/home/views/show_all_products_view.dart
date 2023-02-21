@@ -21,11 +21,9 @@ import '../../../constants/widgets.dart';
 
 class ShowAllProductsView extends StatefulWidget {
   final int id;
-  final bool isCollar;
   final String name;
   const ShowAllProductsView({
     required this.name,
-    required this.isCollar,
     required this.id,
     Key? key,
   }) : super(key: key);
@@ -68,26 +66,25 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
   }
 
   void _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 3000));
     refreshController.refreshCompleted();
     homeController.showAllList.clear();
     homeController.page.value = 1;
-    homeController.limit.value = 10;
+    homeController.limit.value = 30;
     homeController.sortMachineID.value = 0;
     homeController.sortName.value = '';
     controller.clear();
     controller1.clear();
     value = 0;
     homeController.loading.value = 0;
-
     getData();
   }
 
   void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 3000));
     refreshController.loadComplete();
     homeController.page.value += 1;
-    homeController.limit.value = 10;
+    homeController.limit.value = 30;
     getData();
   }
 
@@ -258,13 +255,11 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      widget.isCollar ? _selectMachineType() : const SizedBox.shrink(),
-                      widget.isCollar
-                          ? Divider(
-                              color: kPrimaryColor.withOpacity(0.4),
-                              thickness: 2,
-                            )
-                          : const SizedBox.shrink(),
+                      _selectMachineType(),
+                      Divider(
+                        color: kPrimaryColor.withOpacity(0.4),
+                        thickness: 2,
+                      ),
                       twoTextEditingField(controller1: controller, controller2: controller1),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
@@ -272,7 +267,6 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                           onTap: () {
                             homeController.showAllList.clear();
                             homeController.page.value = 1;
-
                             getData();
                             homeController.sortName.value = '';
                             if (!mounted) {
@@ -376,31 +370,18 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                 : StaggeredGridView.countBuilder(
                     crossAxisCount: 2,
                     shrinkWrap: true,
-                    addAutomaticKeepAlives: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: homeController.showAllList.length,
                     itemBuilder: (context, index) {
-                      return widget.isCollar
-                          ? ProductCard(
-                              image: homeController.showAllList[index]['images'],
-                              name: '${homeController.showAllList[index]['name']}',
-                              price: '${homeController.showAllList[index]['price']}',
-                              id: homeController.showAllList[index]['id'],
-                              files: homeController.showAllList[index]['files'],
-                              downloadable: true,
-                              removeAddCard: false,
-                              createdAt: homeController.showAllList[index]['createdAt'],
-                            )
-                          : ProductCard(
-                              image: homeController.showAllList[index]['images'],
-                              name: '${homeController.showAllList[index]['name']}',
-                              price: '${homeController.showAllList[index]['price']}',
-                              id: homeController.showAllList[index]['id'],
-                              downloadable: false,
-                              removeAddCard: false,
-                              files: const [],
-                              createdAt: homeController.showAllList[index]['createdAt'],
-                            );
+                      return ProductCard(
+                        image: homeController.showAllList[index]['images'],
+                        name: '${homeController.showAllList[index]['name']}',
+                        price: '${homeController.showAllList[index]['price']}',
+                        id: homeController.showAllList[index]['id'],
+                        downloadable: widget.name == 'collar'.tr ? true : false,
+                        removeAddCard: false,
+                        createdAt: homeController.showAllList[index]['createdAt'],
+                      );
                     },
                     staggeredTileBuilder: (index) => const StaggeredTile.count(
                       1,

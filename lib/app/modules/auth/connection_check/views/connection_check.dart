@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
 
@@ -160,11 +159,6 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white),
-      ),
       body: Column(
         children: [
           Expanded(

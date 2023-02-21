@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 
 import 'auth_service.dart';
@@ -21,18 +22,19 @@ class MachineService {
       },
     );
     if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
+      final responseJson = json.decode(response.body);
+      print(responseJson);
       for (final Map product in responseJson['data']) {
         machineList.add(MachineModel.fromJson(product));
       }
+
       return machineList;
     } else {
       return [];
     }
   }
 
-  Future<MachineModel> getMachineByID(int id) async {
+  Future<DressesModelByID> getMachineByID(int id) async {
     final token = await Auth().getToken();
 
     final response = await http.get(
@@ -44,12 +46,13 @@ class MachineService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+
     if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      return MachineModel.fromJson(responseJson);
+      final responseJson = json.decode(response.body);
+      print(responseJson);
+      return DressesModelByID.fromJson(responseJson);
     } else {
-      return MachineModel();
+      return DressesModelByID();
     }
   }
 }

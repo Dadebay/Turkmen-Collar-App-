@@ -37,7 +37,6 @@ class CategoryView extends GetView {
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index, count) {
             return CategoryCard(
-              isCollar: snapshot.data![index].isCollar!,
               id: snapshot.data![index].id!,
               image: snapshot.data![index].image!,
               name: snapshot.data![index].name!,

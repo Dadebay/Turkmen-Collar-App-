@@ -18,7 +18,6 @@ import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 import 'package:yaka2/app/modules/cart/views/cart_view.dart';
 import 'package:yaka2/app/modules/favorites/views/favorites_view.dart';
 import 'package:yaka2/app/modules/home/views/instruction_page.dart';
-import 'package:yaka2/app/modules/home/views/listview_machines_view.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:yaka2/app/modules/user_profil/views/addMoneyPage.dart';
 import 'package:yaka2/app/modules/user_profil/views/downloaded_view.dart';
@@ -29,10 +28,12 @@ import '../../user_profil/views/history_order.dart';
 import '../controllers/home_controller.dart';
 import 'banners_view.dart';
 import 'category_view.dart';
+import 'package:badges/badges.dart' as badges;
+
 import 'listview_clothes_view.dart';
 import 'listview_collars_view.dart';
 import 'listview_goods.dart';
-import 'package:badges/badges.dart' as badges;
+import 'listview_machines_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);

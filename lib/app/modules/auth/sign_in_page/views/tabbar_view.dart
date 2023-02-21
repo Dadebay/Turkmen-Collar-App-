@@ -16,6 +16,7 @@ class TabbarView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: AppBar(
+          scrolledUnderElevation: 0.0,
           backgroundColor: kPrimaryColor,
           elevation: 0,
           leading: IconButton(
@@ -72,7 +73,10 @@ class TabbarView extends StatelessWidget {
                           isScrollable: true,
                           indicatorColor: Colors.black,
                           automaticIndicatorColorAdjustment: true,
-                          labelStyle: const TextStyle(fontFamily: normsProMedium, fontSize: 22),
+                          labelStyle: const TextStyle(
+                            fontFamily: normsProMedium,
+                            fontSize: 18,
+                          ),
                           unselectedLabelStyle: const TextStyle(fontFamily: normsProMedium),
                           labelColor: Colors.black,
                           indicatorWeight: 4,

@@ -21,7 +21,7 @@ class HomeController extends GetxController {
   late final Future<List<DressesModel>> favProducts;
   late final Future<List<BannerModel>> getBanners;
   late final Future<List<CategoryModel>> getCategories;
-  RxInt limit = 10.obs;
+  RxInt limit = 30.obs;
   RxInt loading = 0.obs;
   RxInt page = 1.obs;
   RxList showAllList = [].obs;
@@ -43,6 +43,10 @@ class HomeController extends GetxController {
     collarList.clear();
     clothesList.clear();
     goodsList.clear();
+    collarPage.value = 1;
+    page.value = 1;
+    clothesPage.value = 1;
+    goodsPage.value = 1;
     goodsLoading.value = 0;
     clothesLoading.value = 0;
     collarLoading.value = 0;
@@ -102,11 +106,10 @@ class HomeController extends GetxController {
     ).then((value) {
       for (var element in value) {
         collarList.add({
-          'images': element.images,
+          'images': element.image,
           'name': element.name,
           'price': element.price,
           'id': element.id,
-          'files': element.files,
           'createdAt': element.createdAt,
         });
       }
@@ -132,7 +135,7 @@ class HomeController extends GetxController {
           'price': element.price,
           'views': element.views,
           'createdAt': element.createdAt,
-          'images': element.images,
+          'images': element.image,
           'category': element.category,
         });
       }
@@ -161,7 +164,7 @@ class HomeController extends GetxController {
           'price': element.price,
           'views': element.views,
           'createdAt': element.createdAt,
-          'images': element.images,
+          'images': element.image,
           'category': element.category,
         });
       }

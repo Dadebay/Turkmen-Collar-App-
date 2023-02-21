@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -51,17 +52,16 @@ class CategoryService {
     if (response.statusCode == 200) {
       homeController.loading.value = 3;
 
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      if (CategoryModel.fromJson(responseJson).isCollar ?? false) {
+      final responseJson = json.decode(response.body);
+      if (CategoryModel.fromJson(responseJson).name == 'Ýakalar') {
         for (final Map product in responseJson['collars']['data']) {
+          log('$product');
           homeController.showAllList.add({
             'id': CollarModel.fromJson(product).id,
             'name': CollarModel.fromJson(product).name,
             'price': CollarModel.fromJson(product).price,
             'createdAt': CollarModel.fromJson(product).createdAt,
-            'images': CollarModel.fromJson(product).images,
-            'files': CollarModel.fromJson(product).files,
+            'images': CollarModel.fromJson(product).image,
           });
         }
       } else {
@@ -71,7 +71,7 @@ class CategoryService {
             'name': DressesModel.fromJson(product).name,
             'price': DressesModel.fromJson(product).price,
             'createdAt': DressesModel.fromJson(product).createdAt,
-            'images': DressesModel.fromJson(product).images,
+            'images': DressesModel.fromJson(product).image,
             'files': [],
           });
         }
@@ -79,7 +79,6 @@ class CategoryService {
       return homeController.showAllList;
     } else {
       homeController.loading.value = 1;
-
       return [];
     }
   }

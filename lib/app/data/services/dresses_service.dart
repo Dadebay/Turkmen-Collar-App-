@@ -26,14 +26,12 @@ class DressesService {
     );
     if (response.statusCode == 200) {
       clothesController.clothesLoading.value = 2;
-
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
+      final responseJson = json.decode(response.body);
+      print(responseJson);
       for (final Map product in responseJson['data']) {
         collarList.add(DressesModel.fromJson(product));
       }
       clothesController.clothesLoading.value = 3;
-
       return collarList;
     } else {
       clothesController.clothesLoading.value = 1;
@@ -41,7 +39,6 @@ class DressesService {
       return [];
     }
   }
-
 
   Future<List<DressesModel>> getGoods({required Map<String, dynamic> parametrs}) async {
     final token = await Auth().getToken();
@@ -56,11 +53,12 @@ class DressesService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       clothesController.goodsLoading.value = 2;
-
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
+      final responseJson = json.decode(response.body);
+      print(responseJson);
       for (final Map product in responseJson['data']) {
         collarList.add(DressesModel.fromJson(product));
       }
@@ -72,7 +70,7 @@ class DressesService {
     }
   }
 
-  Future<DressesModel> getDressesByID(int id) async {
+  Future<DressesModelByID> getDressesByID(int id) async {
     final token = await Auth().getToken();
 
     final response = await http.get(
@@ -85,11 +83,10 @@ class DressesService {
       },
     );
     if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      return DressesModel.fromJson(responseJson);
+      final responseJson = json.decode(response.body);
+      return DressesModelByID.fromJson(responseJson);
     } else {
-      return DressesModel();
+      return DressesModelByID();
     }
   }
 }

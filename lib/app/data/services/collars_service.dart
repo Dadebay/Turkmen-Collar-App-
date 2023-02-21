@@ -25,22 +25,19 @@ class CollarService {
     );
     if (response.statusCode == 200) {
       collarController.collarLoading.value = 2;
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
+      final responseJson = json.decode(response.body);
       for (final Map product in responseJson['data']) {
         collarList.add(CollarModel.fromJson(product));
       }
       collarController.collarLoading.value = 3;
-
       return collarList;
     } else {
       collarController.collarLoading.value = 1;
-
       return [];
     }
   }
 
-  Future<CollarModel> getCollarsByID(int id) async {
+  Future<CollarByIDModel> getCollarsByID(int id) async {
     final token = await Auth().getToken();
 
     final response = await http.get(
@@ -52,14 +49,13 @@ class CollarService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-
     if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
+      final responseJson = json.decode(response.body);
+      print(responseJson);
 
-      return CollarModel.fromJson(responseJson);
+      return CollarByIDModel.fromJson(responseJson);
     } else {
-      return CollarModel();
+      return CollarByIDModel();
     }
   }
 }
