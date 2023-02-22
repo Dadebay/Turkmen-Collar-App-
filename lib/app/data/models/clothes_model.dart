@@ -38,6 +38,43 @@ class DressesModel {
   }
 }
 
+class DressesModelFavorites {
+  final int? id;
+  final String? name;
+  final String? description;
+  final String? barcode;
+  final int? price;
+  final int? views;
+  final String? createdAt;
+  final String? image;
+  final String? category;
+  DressesModelFavorites({
+    this.name,
+    this.createdAt,
+    this.barcode,
+    this.category,
+    this.description,
+    this.price,
+    this.views,
+    this.image,
+    this.id,
+  });
+
+  factory DressesModelFavorites.fromJson(Map<dynamic, dynamic> json) {
+    return DressesModelFavorites(
+      id: json['id'],
+      createdAt: json['created_at'],
+      name: json['name'],
+      barcode: json['barcode'],
+      description: json['description'],
+      price: json['price'],
+      views: json['views'],
+      category: json['category'],
+      image: json['images'][0],
+    );
+  }
+}
+
 class DressesModelByID {
   final int? id;
   final String? name;

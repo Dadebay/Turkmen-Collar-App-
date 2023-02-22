@@ -10,7 +10,6 @@ import 'package:yaka2/app/others/cards/machine_card.dart';
 
 class ListviewMachinesView extends GetView {
   final HomeController homeController = Get.put(HomeController());
-
   ListviewMachinesView({Key? key}) : super(key: key);
 
   @override
@@ -29,7 +28,7 @@ class ListviewMachinesView extends GetView {
           ),
           Expanded(
             child: FutureBuilder<List<MachineModel>>(
-              future: MachineService().getMachines(),
+              future: homeController.getMachines,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return loaderMachines();

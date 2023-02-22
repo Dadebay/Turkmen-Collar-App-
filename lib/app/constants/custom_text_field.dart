@@ -6,15 +6,15 @@ import 'package:get/get.dart';
 import 'constants.dart';
 
 class CustomTextField extends StatelessWidget {
+  final bool? borderRadius;
+  final TextEditingController controller;
+  final bool? disabled;
+  final FocusNode focusNode;
+  final bool? isLabel;
+  final bool isNumber;
   final String labelName;
   final int? maxline;
-  final TextEditingController controller;
-  final FocusNode focusNode;
   final FocusNode requestfocusNode;
-  final bool isNumber;
-  final bool? borderRadius;
-  final bool? disabled;
-  final bool? isLabel;
 
   const CustomTextField({
     required this.labelName,
@@ -28,6 +28,7 @@ class CustomTextField extends StatelessWidget {
     this.disabled,
     Key? key,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

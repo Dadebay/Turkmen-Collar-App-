@@ -62,7 +62,7 @@ class FavoritesView extends GetView<FavoritesController> {
         ),
         body: TabBarView(
           children: [
-            FutureBuilder<List<CollarModel>>(
+            FutureBuilder<List<FavoritesModelCollar>>(
               future: FavService().getCollarFavList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -83,7 +83,6 @@ class FavoritesView extends GetView<FavoritesController> {
                     },
                   );
                 }
-
                 return StaggeredGridView.countBuilder(
                   crossAxisCount: 2,
                   itemCount: snapshot.data!.length,
@@ -103,7 +102,7 @@ class FavoritesView extends GetView<FavoritesController> {
                 );
               },
             ),
-            FutureBuilder<List<DressesModel>>(
+            FutureBuilder<List<DressesModelFavorites>>(
               future: FavService().getProductFavList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

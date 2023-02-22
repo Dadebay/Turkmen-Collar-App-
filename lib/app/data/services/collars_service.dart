@@ -51,8 +51,6 @@ class CollarService {
     );
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
-      print(responseJson);
-
       return CollarByIDModel.fromJson(responseJson);
     } else {
       return CollarByIDModel();

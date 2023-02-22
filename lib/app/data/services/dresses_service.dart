@@ -27,7 +27,6 @@ class DressesService {
     if (response.statusCode == 200) {
       clothesController.clothesLoading.value = 2;
       final responseJson = json.decode(response.body);
-      print(responseJson);
       for (final Map product in responseJson['data']) {
         collarList.add(DressesModel.fromJson(product));
       }
@@ -53,12 +52,9 @@ class DressesService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       clothesController.goodsLoading.value = 2;
       final responseJson = json.decode(response.body);
-      print(responseJson);
       for (final Map product in responseJson['data']) {
         collarList.add(DressesModel.fromJson(product));
       }

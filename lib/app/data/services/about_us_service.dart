@@ -36,7 +36,6 @@ class AboutUsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

@@ -9,10 +9,10 @@ import 'package:yaka2/app/data/models/collar_model.dart';
 import 'auth_service.dart';
 
 class FavService {
-  Future<List<DressesModel>> getProductFavList() async {
+  Future<List<DressesModelFavorites>> getProductFavList() async {
     final token = await Auth().getToken();
 
-    final List<DressesModel> favListProducts = [];
+    final List<DressesModelFavorites> favListProducts = [];
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/users/me/favorite-products',
@@ -26,10 +26,11 @@ class FavService {
       if (token == null) {
         return favListProducts;
       } else {
-        final decoded = utf8.decode(response.bodyBytes);
-        final responseJson = json.decode(decoded);
+        final responseJson = json.decode(response.body);
+        print(responseJson);
+
         for (final Map product in responseJson['data']) {
-          favListProducts.add(DressesModel.fromJson(product));
+          favListProducts.add(DressesModelFavorites.fromJson(product));
         }
 
         return favListProducts;
@@ -39,9 +40,9 @@ class FavService {
     }
   }
 
-  Future<List<CollarModel>> getCollarFavList() async {
+  Future<List<FavoritesModelCollar>> getCollarFavList() async {
     final token = await Auth().getToken();
-    final List<CollarModel> favListCollar = [];
+    final List<FavoritesModelCollar> favListCollar = [];
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/users/me/favorites',
@@ -51,18 +52,14 @@ class FavService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       if (token == null) {
         return favListCollar;
       } else {
-        final decoded = utf8.decode(response.bodyBytes);
-        final responseJson = json.decode(decoded);
+        final responseJson = json.decode(response.body);
         for (final Map product in responseJson['data']) {
-          favListCollar.add(CollarModel.fromJson(product));
+          favListCollar.add(FavoritesModelCollar.fromJson(product));
         }
-
         return favListCollar;
       }
     } else {

@@ -23,7 +23,6 @@ class MachineService {
     );
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
-      print(responseJson);
       for (final Map product in responseJson['data']) {
         machineList.add(MachineModel.fromJson(product));
       }
@@ -49,7 +48,6 @@ class MachineService {
 
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
-      print(responseJson);
       return DressesModelByID.fromJson(responseJson);
     } else {
       return DressesModelByID();

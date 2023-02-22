@@ -18,6 +18,7 @@ import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 import '../../../constants/widgets.dart';
 import '../../../modules/auth/sign_in_page/views/tabbar_view.dart';
 import '../controllers/product_profil_controller.dart';
+import 'download_yaka.dart';
 
 class ProductProfilView extends StatefulWidget {
   final int id;
@@ -229,16 +230,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                 showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
                 await Get.to(() => const TabbarView());
               } else {
-                // widget.files.isEmpty
-                //     ? showSnackBar('errorTitle', 'noFile', Colors.red)
-                //     : Get.to(
-                //         () => DownloadYakaPage(
-                //           image: widget.image.first,
-                //           id: widget.id,
-                //           list: widget.files,
-                //           pageName: widget.name,
-                //         ),
-                //       );
+                await Get.to(
+                  () => DownloadYakaPage(
+                    image: widget.image,
+                    id: widget.id,
+                    pageName: widget.name,
+                  ),
+                );
               }
             },
             child: Container(

@@ -9,17 +9,20 @@ import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller
 
 import '../../../data/models/banner_model.dart';
 import '../../../data/models/category_model.dart';
+import '../../../data/models/machines_model.dart';
 import '../../../data/services/banner_service.dart';
 import '../../../data/services/category_service.dart';
 import '../../../data/services/collars_service.dart';
 import '../../../data/services/dresses_service.dart';
+import '../../../data/services/machines_service.dart';
 
 class HomeController extends GetxController {
   RxString balance = '0'.obs;
   RxInt bannerDotsIndex = 0.obs;
-  late final Future<List<CollarModel>> favCollars;
-  late final Future<List<DressesModel>> favProducts;
+  late final Future<List<FavoritesModelCollar>> favCollars;
+  late final Future<List<DressesModelFavorites>> favProducts;
   late final Future<List<BannerModel>> getBanners;
+  late final Future<List<MachineModel>> getMachines;
   late final Future<List<CategoryModel>> getCategories;
   RxInt limit = 30.obs;
   RxInt loading = 0.obs;
@@ -53,6 +56,7 @@ class HomeController extends GetxController {
     getData();
     getDataClothes();
     getDataGoods();
+    getMachines = MachineService().getMachines();
   }
 
   dynamic savePhoneNumber(String number) {

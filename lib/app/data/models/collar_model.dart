@@ -1,11 +1,11 @@
 // ignore_for_file: unnecessary_null_comparison
 
 class CollarModel {
+  final String? createdAt;
   final int? id;
+  final String? image;
   final String? name;
   final int? price;
-  final String? createdAt;
-  final String? image;
   CollarModel({
     this.name,
     this.price,
@@ -23,23 +23,45 @@ class CollarModel {
       image: json['thumb'] ?? '',
     );
   }
+}
 
-  List? get images => null;
+class FavoritesModelCollar {
+  final int? id;
+  final String? name;
+  final int? price;
+  final String? createdAt;
+  final String? image;
+  FavoritesModelCollar({
+    this.name,
+    this.price,
+    this.image,
+    this.id,
+    this.createdAt,
+  });
+
+  factory FavoritesModelCollar.fromJson(Map<dynamic, dynamic> json) {
+    return FavoritesModelCollar(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      createdAt: json['created_at'] ?? DateTime.now(),
+      price: json['price'] ?? 0,
+      image: json['images'][0] ?? '',
+    );
+  }
 }
 
 class CollarByIDModel {
-  final int? id;
-  final String? name;
-  final String? desc;
-  final int? price;
-  final int? views;
-  final int? downloads;
-  final String? tag;
-  final String? machineName;
   final String? createdAt;
-  final List? images;
+  final String? desc;
+  final int? downloads;
   final List<FilesModel>? files;
-
+  final int? id;
+  final List? images;
+  final String? machineName;
+  final String? name;
+  final int? price;
+  final String? tag;
+  final int? views;
   CollarByIDModel({
     this.id,
     this.name,
@@ -79,15 +101,13 @@ class CollarByIDModel {
 }
 
 class FilesModel {
-  int? id;
-
-  int? price;
-  String? machineLogo;
   String? createtdAt;
+  int? id;
   List? images;
-  bool? purchased;
+  String? machineLogo;
   String? machineName;
-
+  int? price;
+  bool? purchased;
   FilesModel({this.id, this.price, this.machineLogo, this.createtdAt, this.images, this.purchased, this.machineName});
 
   factory FilesModel.fromJson(Map<String, dynamic> json) {

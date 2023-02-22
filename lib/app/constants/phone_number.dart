@@ -8,10 +8,10 @@ import 'constants.dart';
 
 class PhoneNumber extends StatelessWidget {
   final TextEditingController controller;
+  final bool? disabled;
   final FocusNode mineFocus;
   final FocusNode requestFocus;
   final bool style;
-  final bool? disabled;
   const PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
 
   @override
