@@ -3,7 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+
+import '../../../constants/loadings/loading.dart';
 
 class PhotoViewPage extends StatefulWidget {
   final String? image;
@@ -56,7 +57,7 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
                       imageProvider: AssetImage(widget.image!),
                       tightMode: false,
                       errorBuilder: (context, url, error) => const Icon(Icons.error_outline),
-                      loadingBuilder: (context, url) => Center(child: spinKit()),
+                      loadingBuilder: (context, url) => Loading(),
                     ),
             ),
             Positioned(

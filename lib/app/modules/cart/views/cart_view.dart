@@ -4,6 +4,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/empty_state/empty_cart.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
@@ -14,8 +15,8 @@ import 'order_page.dart';
 
 class CartView extends GetView<CartController> {
   final CartController cartController = Get.put(CartController());
-  
-   CartView({super.key});
+
+  CartView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,7 @@ class CartView extends GetView<CartController> {
         return Column(
           children: [
             cartController.list.isEmpty
-                ? emptyCart()
+                ? EmptyCart()
                 : Expanded(
                     child: ListView.builder(
                       itemCount: cartController.list.length,

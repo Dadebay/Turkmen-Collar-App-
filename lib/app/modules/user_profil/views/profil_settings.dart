@@ -13,6 +13,10 @@ import 'package:yaka2/app/data/models/about_us_model.dart';
 import 'package:yaka2/app/data/services/about_us_service.dart';
 import 'package:yaka2/app/others/buttons/agree_button.dart';
 
+import '../../../constants/empty_state/empty_state_text.dart';
+import '../../../constants/error_state/error_state.dart';
+import '../../../constants/loadings/loading.dart';
+
 class ProfilSettings extends StatefulWidget {
   const ProfilSettings({Key? key}) : super(key: key);
 
@@ -53,7 +57,7 @@ class _ProfilSettingsState extends State<ProfilSettings> {
     if (storage.read('userName') != null) {
       userNameController.text = storage.read('userName') ?? 'Yok';
       userSurnameController.text = storage.read('sureName') ?? 'Yok';
-        if (!mounted) {
+      if (!mounted) {
         return;
       }
       setState(() {});
@@ -89,19 +93,16 @@ class _ProfilSettingsState extends State<ProfilSettings> {
         future: AboutUsService().getuserData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return Loading();
+            ;
           } else if (snapshot.hasError) {
-            return errorPage(
+            return ErrorState(
               onTap: () {
                 AboutUsService().getuserData();
               },
             );
           } else if (snapshot.data == null) {
-            return emptyPageImage(
-              onTap: () {
-                AboutUsService().getuserData();
-              },
-            );
+            return EmptyStateText();
           }
           changeData(
             snapshot.data!.phone!.substring(4, 12),
@@ -114,28 +115,23 @@ class _ProfilSettingsState extends State<ProfilSettings> {
               CustomTextField(
                 labelName: '',
                 controller: userNameController,
-                borderRadius: true,
                 focusNode: userNameFocusNode,
                 requestfocusNode: phoneFocusNode,
                 isNumber: false,
-                disabled: true,
               ),
               textpart('signIn2', false),
               CustomTextField(
                 labelName: '',
                 controller: userSurnameController,
-                borderRadius: true,
                 focusNode: userSurnameFocusNode,
                 requestfocusNode: phoneFocusNode,
                 isNumber: false,
-                disabled: true,
               ),
               textpart('phoneNumber', false),
               PhoneNumber(
                 mineFocus: phoneFocusNode,
                 controller: phoneController,
                 requestFocus: userNameFocusNode,
-                style: false,
                 disabled: true,
               ),
               textpart('balance', false),

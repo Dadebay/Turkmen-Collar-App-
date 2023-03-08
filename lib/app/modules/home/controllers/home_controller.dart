@@ -24,10 +24,6 @@ class HomeController extends GetxController {
   late final Future<List<BannerModel>> getBanners;
   late final Future<List<MachineModel>> getMachines;
   late final Future<List<CategoryModel>> getCategories;
-  RxInt limit = 30.obs;
-  RxInt loading = 0.obs;
-  RxInt page = 1.obs;
-  RxList showAllList = [].obs;
   RxInt sortMachineID = 0.obs;
   RxString sortMachineName = 'Yaka'.obs;
   RxString sortName = ''.obs;
@@ -47,7 +43,7 @@ class HomeController extends GetxController {
     clothesList.clear();
     goodsList.clear();
     collarPage.value = 1;
-    page.value = 1;
+
     clothesPage.value = 1;
     goodsPage.value = 1;
     goodsLoading.value = 0;

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:yaka2/app/constants/loaders.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/machine_loading.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
@@ -31,15 +33,15 @@ class ListviewMachinesView extends GetView {
               future: homeController.getMachines,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return loaderMachines();
+                  return MachineLoading();
                 } else if (snapshot.hasError) {
-                  return errorPage(
+                  return ErrorState(
                     onTap: () {
                       MachineService().getMachines();
                     },
                   );
                 } else if (snapshot.data!.isEmpty) {
-                  return emptryPageText();
+                  return EmptyStateText();
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,

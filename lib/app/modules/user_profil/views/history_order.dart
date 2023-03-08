@@ -3,13 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/loadings/loading.dart';
 import 'package:yaka2/app/data/models/history_order_model.dart';
 import 'package:yaka2/app/data/services/history_order_service.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
+
+import '../../../constants/error_state/error_state.dart';
 
 class HistoryOrders extends StatelessWidget {
   const HistoryOrders({Key? key}) : super(key: key);
@@ -40,20 +43,16 @@ class HistoryOrders extends StatelessWidget {
         future: HistoryOrderService().getHistoryOrders(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return Loading();
+            ;
           } else if (snapshot.hasError) {
-            return errorPage(
+            return ErrorState(
               onTap: () {
                 HistoryOrderService().getHistoryOrders();
               },
             );
           } else if (snapshot.data!.isEmpty) {
-            return emptyPageImage(
-              name: 'noOrder',
-              onTap: () {
-                HistoryOrderService().getHistoryOrders();
-              },
-            );
+            return EmptyStateText();
           }
           return ListView.separated(
             itemCount: snapshot.data!.length,
@@ -164,37 +163,28 @@ class HistoryOrderProductID extends StatelessWidget {
         future: HistoryOrderService().getHistoryOrderByID(id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: spinKit(),
-            );
+            return Loading();
           } else if (snapshot.hasError) {
-            return errorPage(
+            return ErrorState(
               onTap: () {
                 HistoryOrderService().getHistoryOrderByID(id);
               },
             );
           } else if (snapshot.data!.isEmpty) {
-            return emptyPageImage(
-              onTap: () {
-                HistoryOrderService().getHistoryOrderByID(id);
-              },
-            );
+            return EmptyStateText();
           }
-          return StaggeredGridView.countBuilder(
-            crossAxisCount: 2,
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (BuildContext context, int index) {
               return ProductCard(
                 image: snapshot.data![index].image!,
                 name: '${snapshot.data![index].name}',
                 price: '${snapshot.data![index].price}',
                 id: snapshot.data![index].id!,
                 downloadable: false,
-                removeAddCard: true,
                 createdAt: '',
               );
             },
-            staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
           );
         },
       ),

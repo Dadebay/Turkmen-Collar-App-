@@ -47,16 +47,15 @@ class SignInView extends GetView {
                   style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
                 ),
               ),
-              CustomTextField(labelName: 'signIn1', controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, borderRadius: true, isNumber: false),
+              CustomTextField(labelName: 'signIn1', controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, isNumber: false),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: phoneNumberFocusNode, borderRadius: true, isNumber: false),
+                child: CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: phoneNumberFocusNode, isNumber: false),
               ),
               PhoneNumber(
                 mineFocus: phoneNumberFocusNode,
                 controller: phoneNumberController,
                 requestFocus: fullNameFocusNode,
-                style: false,
               ),
               const SizedBox(
                 height: 10,

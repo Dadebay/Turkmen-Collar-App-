@@ -1,11 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
+import 'package:yaka2/app/constants/loadings/loading.dart';
 
 class BannerProfileView extends GetView {
   final String description;
@@ -39,7 +40,7 @@ class BannerProfileView extends GetView {
       ),
       body: Column(
         children: [
-          CachedNetworkImage(
+          OptimizedCacheImage(
             fadeInCurve: Curves.ease,
             imageUrl: image,
             imageBuilder: (context, imageProvider) => Container(
@@ -52,8 +53,8 @@ class BannerProfileView extends GetView {
                 ),
               ),
             ),
-            placeholder: (context, url) => Center(child: spinKit()),
-            errorWidget: (context, url, error) => noBannerImage(),
+            placeholder: (context, url) => Loading(),
+            errorWidget: (context, url, error) => NoImage(),
           ),
           Padding(
             padding: const EdgeInsets.all(15),

@@ -1,11 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 
+import '../../constants/loadings/loading.dart';
 import '../product_profil/views/machines_product_profil.dart';
 
 class MachineCard extends StatelessWidget {
@@ -59,7 +60,7 @@ class MachineCard extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: ClipRRect(
                         borderRadius: borderRadius10,
-                        child: CachedNetworkImage(
+                        child: OptimizedCacheImage(
                           fadeInCurve: Curves.ease,
                           imageUrl: model.images!,
                           imageBuilder: (context, imageProvider) => Container(
@@ -71,8 +72,8 @@ class MachineCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          placeholder: (context, url) => Center(child: spinKit()),
-                          errorWidget: (context, url, error) => noBannerImage(),
+                          placeholder: (context, url) => Loading(),
+                          errorWidget: (context, url, error) => NoImage(),
                         ),
                       ),
                     ),

@@ -69,7 +69,7 @@ class OtpCheck extends StatelessWidget {
                 style: const TextStyle(color: Colors.red, fontSize: 20, fontFamily: normsProMedium),
               ),
             ),
-            Form(key: otpCheck, child: CustomTextField(labelName: 'otp', controller: otpController, focusNode: otpFocusNode, requestfocusNode: otpFocusNode, borderRadius: true, isNumber: true)),
+            Form(key: otpCheck, child: CustomTextField(labelName: 'otp', controller: otpController, focusNode: otpFocusNode, requestfocusNode: otpFocusNode, isNumber: true)),
             const SizedBox(
               height: 15,
             ),

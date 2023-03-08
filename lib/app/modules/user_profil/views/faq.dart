@@ -4,9 +4,12 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
 import 'package:yaka2/app/data/models/about_us_model.dart';
 import 'package:yaka2/app/data/services/about_us_service.dart';
+
+import '../../../constants/loadings/loading.dart';
 
 class FAQ extends GetView {
   const FAQ({Key? key}) : super(key: key);
@@ -36,19 +39,16 @@ class FAQ extends GetView {
         future: AboutUsService().getFAQ(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return Loading();
+            ;
           } else if (snapshot.hasError) {
-            return errorPage(
+            return ErrorState(
               onTap: () {
                 AboutUsService().getFAQ();
               },
             );
           } else if (snapshot.data == null) {
-            return emptyPageImage(
-              onTap: () {
-                AboutUsService().getFAQ();
-              },
-            );
+            return EmptyStateText();
           }
           return ListView.builder(
             itemCount: snapshot.data!.length,

@@ -1,15 +1,16 @@
 // ignore_for_file: always_put_required_named_parameters_first
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
 import 'package:yaka2/app/constants/widgets.dart';
-import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 
+import '../../constants/loadings/loading.dart';
 import '../../data/services/auth_service.dart';
 import '../../modules/auth/sign_in_page/views/tabbar_view.dart';
-import '../buttons/fav_button.dart';
+import '../buttons/add_cart_button.dart';
 import '../product_profil/views/download_yaka.dart';
 import '../product_profil/views/product_profil_view.dart';
 
@@ -20,8 +21,15 @@ class ProductCard extends StatelessWidget {
   final int id;
   final String price;
   final bool downloadable;
-  final bool? removeAddCard;
-  const ProductCard({super.key, required this.image, required this.createdAt, required this.name, required this.price, required this.id, required this.downloadable, this.removeAddCard});
+  const ProductCard({
+    super.key,
+    required this.image,
+    required this.createdAt,
+    required this.name,
+    required this.price,
+    required this.id,
+    required this.downloadable,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +56,67 @@ class ProductCard extends StatelessWidget {
           );
         },
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            imagePart(),
-            namePart1(),
+            ImagePart(),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, left: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        price,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 18,
+                          fontFamily: normProBold,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 6),
+                        child: Text(
+                          ' TMT',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 11,
+                            fontFamily: normsProMedium,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    name,
+                    textAlign: TextAlign.start,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black, fontFamily: normsProLight, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+            downloadable
+                ? downloadButton()
+                : AddCartButton(
+                    id: id,
+                    price: price,
+                    productProfil: false,
+                    createdAt: createdAt,
+                    image: image,
+                    name: name,
+                  ),
           ],
         ),
       ),
     );
   }
 
-  Expanded imagePart() {
+  Expanded ImagePart() {
     return Expanded(
       child: Stack(
         fit: StackFit.expand,
@@ -65,7 +124,7 @@ class ProductCard extends StatelessWidget {
           Positioned.fill(
             child: ClipRRect(
               borderRadius: borderRadius10,
-              child: CachedNetworkImage(
+              child: OptimizedCacheImage(
                 fadeInCurve: Curves.ease,
                 imageUrl: image,
                 imageBuilder: (context, imageProvider) => Container(
@@ -78,8 +137,8 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => noBannerImage(),
+                placeholder: (context, url) => Loading(),
+                errorWidget: (context, url, error) => NoImage(),
               ),
             ),
           ),
@@ -92,79 +151,6 @@ class ProductCard extends StatelessWidget {
               height: 20,
             ),
           ),
-          removeAddCard!
-              ? const SizedBox.shrink()
-              : Positioned(
-                  top: 12,
-                  right: 12,
-                  child: FavButton(
-                    isCollar: downloadable,
-                    whcihPage: false,
-                    name: name,
-                    id: id,
-                  ),
-                )
-        ],
-      ),
-    );
-  }
-
-  Container namePart1() {
-    final double a = double.parse(price.toString());
-    final double b = a / 100.0;
-    return Container(
-      width: double.infinity,
-      padding: removeAddCard! ? const EdgeInsets.only(top: 8, bottom: 8, left: 5) : const EdgeInsets.only(top: 4, left: 5),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                b.toStringAsFixed(b > 1000 ? 0 : 2),
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontSize: 18,
-                  fontFamily: normProBold,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 6),
-                child: Text(
-                  ' TMT',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 11,
-                    fontFamily: normsProMedium,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Text(
-            name,
-            textAlign: TextAlign.start,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.black, fontFamily: normsProLight, fontSize: 14),
-          ),
-          removeAddCard!
-              ? const SizedBox.shrink()
-              : downloadable
-                  ? downloadButton()
-                  : AddCartButton(
-                      id: id,
-                      price: price,
-                      productProfil: false,
-                      createdAt: createdAt,
-                      image: image,
-                      name: name,
-                    )
         ],
       ),
     );
@@ -188,8 +174,8 @@ class ProductCard extends StatelessWidget {
         }
       },
       child: Container(
-        margin: const EdgeInsets.only(top: 4),
         width: Get.size.width,
+        margin: const EdgeInsets.only(top: 4),
         padding: const EdgeInsets.symmetric(vertical: 4),
         decoration: const BoxDecoration(
           borderRadius: borderRadius5,

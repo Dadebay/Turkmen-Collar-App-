@@ -1,16 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
-import '../../../constants/widgets.dart';
+import '../../../constants/error_state/error_state.dart';
+import '../../../constants/loadings/loading.dart';
 import '../../../data/models/clothes_model.dart';
 import '../controllers/product_profil_controller.dart';
 
@@ -48,9 +50,9 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
         future: MachineService().getMachineByID(id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return Loading();
           } else if (snapshot.hasError) {
-            return errorPage(
+            return ErrorState(
               onTap: () {
                 MachineService().getMachineByID(id);
               },
@@ -253,7 +255,7 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                   ),
                 );
               },
-              child: CachedNetworkImage(
+              child: OptimizedCacheImage(
                 fadeInCurve: Curves.ease,
                 imageUrl: images[index],
                 imageBuilder: (context, imageProvider) => Container(
@@ -265,8 +267,8 @@ class MachinesProductProfil extends GetView<ProductProfilController> {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => noBannerImage(),
+                placeholder: (context, url) => Loading(),
+                errorWidget: (context, url, error) => NoImage(),
               ),
             );
           },

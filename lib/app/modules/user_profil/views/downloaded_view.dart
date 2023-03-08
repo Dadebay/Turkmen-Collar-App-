@@ -1,11 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
+import 'package:yaka2/app/constants/loadings/loading.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/auth_model.dart';
 import 'package:yaka2/app/data/models/donwloads_model.dart';
@@ -42,31 +45,20 @@ class DownloadedView extends GetView {
         future: DownloadsService().getDownloadedProducts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: spinKit(),
-            );
+            return Loading();
           } else if (snapshot.hasError) {
-            return Center(
-              child: errorPage(
-                onTap: () {
-                  DownloadsService().getDownloadedProducts();
-                },
-              ),
+            return ErrorState(
+              onTap: () {
+                DownloadsService().getDownloadedProducts();
+              },
             );
           } else if (snapshot.data!.isEmpty) {
-            return Center(
-              child: emptyPageImage(
-                onTap: () {
-                  DownloadsService().getDownloadedProducts();
-                },
-              ),
-            );
+            return EmptyStateText();
           }
 
-          return StaggeredGridView.countBuilder(
-            crossAxisCount: 2,
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (BuildContext context, int index) {
               final double a = double.parse(snapshot.data![index].price!.toString());
               final double b = a / 100.0;
               return Container(
@@ -79,7 +71,7 @@ class DownloadedView extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: CachedNetworkImage(
+                      child: OptimizedCacheImage(
                         fadeInCurve: Curves.ease,
                         imageUrl: snapshot.data![index].images!.first,
                         imageBuilder: (context, imageProvider) => Container(
@@ -92,8 +84,8 @@ class DownloadedView extends GetView {
                             ),
                           ),
                         ),
-                        placeholder: (context, url) => Center(child: spinKit()),
-                        errorWidget: (context, url, error) => noBannerImage(),
+                        placeholder: (context, url) => Loading(),
+                        errorWidget: (context, url, error) => NoImage(),
                       ),
                     ),
                     namePart(snapshot, index, b),
@@ -102,7 +94,6 @@ class DownloadedView extends GetView {
                 ),
               );
             },
-            staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
           );
         },
       ),

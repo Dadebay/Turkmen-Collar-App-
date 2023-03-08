@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:yaka2/app/constants/loaders.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/collar_loading.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
@@ -48,19 +50,15 @@ class ListviewClothesView extends GetView {
               child: Obx(
                 () {
                   if (clothesController.clothesLoading.value == 0) {
-                    return loaderCollar();
+                    return CollarLoading();
                   } else if (clothesController.clothesLoading.value == 1) {
-                    return Center(
-                      child: errorPage(
-                        onTap: () {
-                          clothesController.getDataClothes();
-                        },
-                      ),
+                    return ErrorState(
+                      onTap: () {
+                        clothesController.getDataClothes();
+                      },
                     );
                   } else if (clothesController.clothesLoading.value == 2) {
-                    return Center(
-                      child: emptryPageText(),
-                    );
+                    return EmptyStateText();
                   }
                   return ListView.builder(
                     itemCount: clothesController.clothesList.length,
@@ -75,7 +73,6 @@ class ListviewClothesView extends GetView {
                         price: clothesController.clothesList[index]['price'].toString(),
                         id: int.parse(clothesController.clothesList[index]['id'].toString()),
                         downloadable: false,
-                        removeAddCard: false,
                         createdAt: clothesController.clothesList[index]['createdAt'],
                       );
                     },

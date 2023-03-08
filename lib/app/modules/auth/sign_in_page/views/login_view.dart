@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -50,7 +49,7 @@ class LogInView extends GetView {
                   minHeight: 30.0,
                   maxHeight: 100.0,
                 ),
-                child: AutoSizeText(
+                child: Text(
                   'signInDialog'.tr,
                   textAlign: TextAlign.start,
                   style: const TextStyle(
@@ -67,7 +66,6 @@ class LogInView extends GetView {
                 mineFocus: phoneNumberFocusNode,
                 controller: phoneNumberController,
                 requestFocus: emailFocusNode,
-                style: false,
               ),
             ),
             Center(

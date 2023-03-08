@@ -64,7 +64,8 @@ Widget twoTextEditingField({required TextEditingController controller1, required
                   // LengthLimitingTextInputFormatter(9),
                 ],
                 decoration: InputDecoration(
-                  suffixIcon: Padding(padding: const EdgeInsets.only(right: 8), child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: normProBold, fontSize: 14, color: Colors.grey.shade400))),
+                  suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 8), child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: normProBold, fontSize: 14, color: Colors.grey.shade400))),
                   suffixIconConstraints: const BoxConstraints(minHeight: 15),
                   isDense: true,
                   hintText: 'maxPrice'.tr,

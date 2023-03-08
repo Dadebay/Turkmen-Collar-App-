@@ -6,6 +6,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
 import 'package:yaka2/app/data/models/clothes_model.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
@@ -15,6 +16,8 @@ import 'package:yaka2/app/others/buttons/add_cart_button.dart';
 import 'package:yaka2/app/others/buttons/fav_button.dart';
 import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
+import '../../../constants/error_state/error_state.dart';
+import '../../../constants/loadings/loading.dart';
 import '../../../constants/widgets.dart';
 import '../../../modules/auth/sign_in_page/views/tabbar_view.dart';
 import '../controllers/product_profil_controller.dart';
@@ -43,6 +46,14 @@ class ProductProfilView extends StatefulWidget {
 
 class _ProductProfilViewState extends State<ProductProfilView> {
   final ProductProfilController _productProfilController = Get.put(ProductProfilController());
+  late Future<DressesModelByID> future;
+  late Future<CollarByIDModel> collar;
+  @override
+  void initState() {
+    super.initState();
+    future = DressesService().getDressesByID(widget.id);
+    collar = CollarService().getCollarsByID(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +66,12 @@ class _ProductProfilViewState extends State<ProductProfilView> {
 
   FutureBuilder<DressesModelByID> orderPage() {
     return FutureBuilder<DressesModelByID>(
-      future: DressesService().getDressesByID(widget.id),
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: spinKit());
+          return Loading();
         } else if (snapshot.hasError) {
-          return errorPage(
+          return ErrorState(
             onTap: () {
               DressesService().getDressesByID(widget.id);
             },
@@ -89,12 +100,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
 
   FutureBuilder<CollarByIDModel> downloadablePage() {
     return FutureBuilder<CollarByIDModel>(
-      future: CollarService().getCollarsByID(widget.id),
+      future: collar,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: spinKit());
+          return Loading();
+          ;
         } else if (snapshot.hasError) {
-          return errorPage(
+          return ErrorState(
             onTap: () {
               CollarService().getCollarsByID(widget.id);
             },
@@ -122,7 +134,16 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     );
   }
 
-  Widget textPart({required String name, required double price, required String machineName, required String barcode, required String category, required String views, required String downloads, required String desc}) {
+  Widget textPart({
+    required String name,
+    required double price,
+    required String machineName,
+    required String barcode,
+    required String category,
+    required String views,
+    required String downloads,
+    required String desc,
+  }) {
     return ListView(
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
@@ -372,8 +393,8 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                 );
               },
               child: CachedNetworkImage(
-                fadeInCurve: Curves.ease,
                 imageUrl: images[index],
+                fit: BoxFit.cover,
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
@@ -384,8 +405,8 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => noBannerImage(),
+                placeholder: (context, url) => Loading(),
+                errorWidget: (context, url, error) => NoImage(),
               ),
             );
           },

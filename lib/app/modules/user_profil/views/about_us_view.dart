@@ -4,10 +4,11 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/loading.dart';
 import 'package:yaka2/app/data/models/about_us_model.dart';
 import 'package:yaka2/app/data/services/about_us_service.dart';
-
-import '../../../constants/widgets.dart';
 
 class AboutUsView extends GetView {
   const AboutUsView({Key? key}) : super(key: key);
@@ -38,19 +39,15 @@ class AboutUsView extends GetView {
         future: AboutUsService().getAboutUs(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return Loading();
           } else if (snapshot.hasError) {
-            return errorPage(
+            return ErrorState(
               onTap: () {
                 AboutUsService().getAboutUs();
               },
             );
           } else if (snapshot.data == null) {
-            return emptyPageImage(
-              onTap: () {
-                AboutUsService().getAboutUs();
-              },
-            );
+            return EmptyStateText();
           }
           return Padding(
             padding: const EdgeInsets.all(14.0),

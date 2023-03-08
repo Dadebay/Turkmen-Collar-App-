@@ -1,20 +1,22 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yaka2/app/constants/constants.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/data/services/collars_service.dart';
 import 'package:yaka2/app/data/services/file_download_service.dart';
 import 'package:yaka2/app/others/product_profil/views/photo_view.dart';
 
+import '../../../constants/loadings/loading.dart';
 import '../../../modules/home/controllers/home_controller.dart';
 
 class DownloadYakaPage extends StatefulWidget {
@@ -216,7 +218,9 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
 
     if (list[index].machineName!.toUpperCase() == 'BROTHER V3') {
       name = 'Emb';
-    } else if (list[index].machineName!.toUpperCase() == 'JANOME 450E - 500E' || list[index].machineName!.toUpperCase() == 'JANOME 4 IŇŇE' || list[index].machineName!.toUpperCase() == 'JANOME 200E - 230E') {
+    } else if (list[index].machineName!.toUpperCase() == 'JANOME 450E - 500E' ||
+        list[index].machineName!.toUpperCase() == 'JANOME 4 IŇŇE' ||
+        list[index].machineName!.toUpperCase() == 'JANOME 200E - 230E') {
       name = 'Emb';
     } else {
       name = 'EmbF5';
@@ -368,7 +372,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                   },
                   child: ClipRRect(
                     borderRadius: borderRadius10,
-                    child: CachedNetworkImage(
+                    child: OptimizedCacheImage(
                       fadeInCurve: Curves.ease,
                       imageUrl: widget.image,
                       imageBuilder: (context, imageProvider) => Container(
@@ -382,8 +386,8 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => Center(child: spinKit()),
-                      errorWidget: (context, url, error) => noBannerImage(),
+                      placeholder: (context, url) => Loading(),
+                      errorWidget: (context, url, error) => NoImage(),
                     ),
                   ),
                 ),
@@ -408,7 +412,7 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                                 0.2,
                               ),
                             ),
-                            child: CachedNetworkImage(
+                            child: OptimizedCacheImage(
                               fadeInCurve: Curves.ease,
                               imageUrl: list[index].machineLogo!,
                               imageBuilder: (context, imageProvider) => Container(
@@ -421,8 +425,8 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
                                   ),
                                 ),
                               ),
-                              placeholder: (context, url) => Center(child: spinKit()),
-                              errorWidget: (context, url, error) => noBannerImage(),
+                              placeholder: (context, url) => Loading(),
+                              errorWidget: (context, url, error) => NoImage(),
                             ),
                           ),
                         ),

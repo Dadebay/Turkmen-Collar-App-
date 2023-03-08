@@ -6,9 +6,7 @@ import 'package:get/get.dart';
 import 'constants.dart';
 
 class CustomTextField extends StatelessWidget {
-  final bool? borderRadius;
   final TextEditingController controller;
-  final bool? disabled;
   final FocusNode focusNode;
   final bool? isLabel;
   final bool isNumber;
@@ -24,8 +22,6 @@ class CustomTextField extends StatelessWidget {
     required this.isNumber,
     this.isLabel = false,
     this.maxline,
-    this.borderRadius,
-    this.disabled,
     Key? key,
   }) : super(key: key);
 
@@ -49,7 +45,6 @@ class CustomTextField extends StatelessWidget {
         keyboardType: isNumber ? TextInputType.number : TextInputType.text,
         maxLines: maxline ?? 1,
         focusNode: focusNode,
-        enabled: disabled ?? true,
         decoration: InputDecoration(
           errorMaxLines: 2,
           errorStyle: const TextStyle(fontFamily: normsProMedium),
@@ -67,43 +62,23 @@ class CustomTextField extends StatelessWidget {
                 ),
           contentPadding: const EdgeInsets.only(left: 25, top: 20, bottom: 20, right: 10),
           border: OutlineInputBorder(
-            borderRadius: borderRadius == null
-                ? borderRadius5
-                : borderRadius == false
-                    ? borderRadius5
-                    : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: const BorderSide(color: Colors.grey, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius == null
-                ? borderRadius5
-                : borderRadius == false
-                    ? borderRadius5
-                    : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: borderRadius == null
-                ? borderRadius5
-                : borderRadius == false
-                    ? borderRadius5
-                    : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: borderRadius == null
-                ? borderRadius5
-                : borderRadius == false
-                    ? borderRadius5
-                    : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: borderRadius == null
-                ? borderRadius5
-                : borderRadius == false
-                    ? borderRadius5
-                    : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: const BorderSide(color: Colors.red, width: 2),
           ),
         ),

@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/loaders.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/banner_loading.dart';
 import 'package:yaka2/app/data/models/banner_model.dart';
 import 'package:yaka2/app/data/services/banner_service.dart';
 import 'package:yaka2/app/others/cards/banner_card.dart';
 
+import '../../../constants/empty_state/empty_state_text.dart';
 import '../controllers/home_controller.dart';
 
 class BannersView extends GetView {
@@ -20,9 +21,9 @@ class BannersView extends GetView {
       future: bannerController.getBanners,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return loaderBanner();
+          return BannerLoading();
         } else if (snapshot.hasError) {
-          return errorPage(
+          return ErrorState(
             onTap: () {
               BannerService().getBanners();
             },
@@ -30,7 +31,7 @@ class BannersView extends GetView {
         } else if (snapshot.data!.isEmpty) {
           return SizedBox(
             height: 220,
-            child: emptryPageText(),
+            child: EmptyStateText(),
           );
         }
         return Column(

@@ -2,12 +2,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:yaka2/app/constants/loaders.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/mini_category_loading.dart';
 import 'package:yaka2/app/data/models/category_model.dart';
 import 'package:yaka2/app/data/services/category_service.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/category_card.dart';
+
+import '../../../constants/empty_state/empty_state_text.dart';
 
 class CategoryView extends GetView {
   @override
@@ -20,9 +22,9 @@ class CategoryView extends GetView {
       future: controller.getCategories,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return loaderCategory();
+          return MiniCategoryLoading();
         } else if (snapshot.hasError) {
-          return errorPage(
+          return ErrorState(
             onTap: () {
               CategoryService().getCategories();
             },
@@ -30,7 +32,7 @@ class CategoryView extends GetView {
         } else if (snapshot.data!.isEmpty) {
           return SizedBox(
             height: 170,
-            child: emptryPageText(),
+            child: EmptyStateText(),
           );
         }
         return CarouselSlider.builder(

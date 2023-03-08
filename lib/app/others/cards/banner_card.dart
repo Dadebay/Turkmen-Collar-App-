@@ -1,9 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/error_state/no_image.dart';
 import 'package:yaka2/app/modules/home/views/banner_profile_view.dart';
+
+import '../../constants/loadings/loading.dart';
 
 class BannerCard extends StatelessWidget {
   final String image;
@@ -31,7 +33,7 @@ class BannerCard extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: borderRadius10,
-          child: CachedNetworkImage(
+          child: OptimizedCacheImage(
             fadeInCurve: Curves.ease,
             imageUrl: image,
             imageBuilder: (context, imageProvider) => Container(
@@ -44,8 +46,8 @@ class BannerCard extends StatelessWidget {
                 ),
               ),
             ),
-            placeholder: (context, url) => Center(child: spinKit()),
-            errorWidget: (context, url, error) => noBannerImage(),
+            placeholder: (context, url) => Loading(),
+            errorWidget: (context, url, error) => NoImage(),
           ),
         ),
       ),

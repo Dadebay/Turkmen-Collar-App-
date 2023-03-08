@@ -10,16 +10,6 @@ import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller
 
 import '../data/models/auth_model.dart';
 
-dynamic noBannerImage() {
-  return Center(child: Text('noImage'.tr));
-}
-
-dynamic spinKit() {
-  return const CircularProgressIndicator(
-    color: kPrimaryColor,
-  );
-}
-
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
   SnackbarController.cancelAllSnackbars();
   return Get.snackbar(
@@ -41,39 +31,6 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
     borderRadius: 20.0,
     animationDuration: const Duration(milliseconds: 500),
     margin: const EdgeInsets.all(8),
-  );
-}
-
-Container divider() {
-  return Container(
-    color: Colors.white,
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-    child: Divider(
-      color: kPrimaryColor.withOpacity(0.4),
-      thickness: 2,
-    ),
-  );
-}
-
-Padding namePart({required String text, required bool removeIcon, required Function() onTap}) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(text.tr, style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 22)),
-        removeIcon
-            ? const SizedBox.shrink()
-            : IconButton(
-                onPressed: onTap,
-                icon: const Icon(
-                  IconlyLight.arrowRightCircle,
-                  color: kPrimaryColor,
-                  size: 25,
-                ),
-              )
-      ],
-    ),
   );
 }
 
@@ -235,43 +192,6 @@ void logOut() {
   );
 }
 
-CustomFooter footer() {
-  return CustomFooter(
-    builder: (BuildContext context, LoadStatus? mode) {
-      Widget body;
-      if (mode == LoadStatus.idle) {
-        body = const Text('Garasyn...');
-      } else if (mode == LoadStatus.loading) {
-        body = const CircularProgressIndicator(
-          color: kPrimaryColor,
-        );
-      } else if (mode == LoadStatus.failed) {
-        body = const Text('Load Failed!Click retry!');
-      } else if (mode == LoadStatus.canLoading) {
-        body = const Text('');
-      } else {
-        body = const Text('No more Data');
-      }
-      return SizedBox(
-        height: 55.0,
-        child: Center(child: body),
-      );
-    },
-  );
-}
-
-Padding textpart(String name, bool value) {
-  return Padding(
-    padding: EdgeInsets.only(left: 8, top: value ? 15 : 30),
-    child: Text(
-      name.tr,
-      overflow: TextOverflow.ellipsis,
-      maxLines: 1,
-      style: const TextStyle(fontSize: 18, color: Colors.black, fontFamily: normsProMedium),
-    ),
-  );
-}
-
 void defaultBottomSheet({required String name, required Widget child}) {
   Get.bottomSheet(
     Container(
@@ -310,34 +230,28 @@ void defaultBottomSheet({required String name, required Widget child}) {
   );
 }
 
-dynamic errorPage({required Function() onTap}) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'noConnection2'.tr,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: ElevatedButton(
-            onPressed: onTap,
-            style: ElevatedButton.styleFrom(
-              shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
-              backgroundColor: kPrimaryColor,
-            ),
-            child: Text(
-              'noConnection3'.tr,
-              style: const TextStyle(color: Colors.black, fontSize: 18),
-            ),
-          ),
-        )
-      ],
-    ),
+CustomFooter footer() {
+  return CustomFooter(
+    builder: (BuildContext context, LoadStatus? mode) {
+      Widget body;
+      if (mode == LoadStatus.idle) {
+        body = const Text('Garasyn...');
+      } else if (mode == LoadStatus.loading) {
+        body = const CircularProgressIndicator(
+          color: kPrimaryColor,
+        );
+      } else if (mode == LoadStatus.failed) {
+        body = const Text('Load Failed!Click retry!');
+      } else if (mode == LoadStatus.canLoading) {
+        body = const Text('');
+      } else {
+        body = const Text('No more Data');
+      }
+      return SizedBox(
+        height: 55.0,
+        child: Center(child: body),
+      );
+    },
   );
 }
 
@@ -354,75 +268,47 @@ Container customIcon(String iconNmae) {
   );
 }
 
-dynamic emptyPageImage({required Function() onTap, String? name}) => Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Lottie.asset(noData, width: 350, height: 350),
-          Text(
-            name?.tr ?? 'noData1'.tr,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
-          ),
-          const SizedBox(
-            height: 50,
-          )
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 8),
-          //   child: ElevatedButton(
-          //     onPressed: onTap,
-          //     style: ElevatedButton.styleFrom(
-          //       shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-          //       primary: kPrimaryColor,
-          //     ),
-          //     child: Text(
-          //       'noConnection3'.tr,
-          //       style: TextStyle(color: Colors.white, fontSize: 18),
-          //     ),
-          //   ),
-          // )
-        ],
-      ),
-    );
-
-dynamic emptryPageText() {
-  return Center(
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        'noData1'.tr,
-        textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 18),
-      ),
+Padding textpart(String name, bool value) {
+  return Padding(
+    padding: EdgeInsets.only(left: 8, top: value ? 15 : 30),
+    child: Text(
+      name.tr,
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+      style: const TextStyle(fontSize: 18, color: Colors.black, fontFamily: normsProMedium),
     ),
   );
 }
 
-Expanded emptyCart() {
-  return Expanded(
-    child: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Lottie.asset('assets/lottie/emptyCART.json', width: 350, height: 350),
-            Text(
-              'cartEmpty'.tr,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black, fontFamily: normProBold, fontSize: 20),
-            ),
-            Text(
-              'cartEmptySubtitle'.tr,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 20),
-            ),
-          ],
-        ),
-      ),
+Container divider() {
+  return Container(
+    color: Colors.white,
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    child: Divider(
+      color: kPrimaryColor.withOpacity(0.4),
+      thickness: 2,
+    ),
+  );
+}
+
+Padding namePart({required String text, required bool removeIcon, required Function() onTap}) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(text.tr, style: const TextStyle(color: Colors.black, fontFamily: normsProRegular, fontSize: 22)),
+        removeIcon
+            ? const SizedBox.shrink()
+            : IconButton(
+                onPressed: onTap,
+                icon: const Icon(
+                  IconlyLight.arrowRightCircle,
+                  color: kPrimaryColor,
+                  size: 25,
+                ),
+              )
+      ],
     ),
   );
 }

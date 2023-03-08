@@ -67,12 +67,15 @@ class _OrderPageState extends State<OrderPage> {
               requestfocusNode: orderPhoneNumber,
               isNumber: false,
               maxline: 1,
-              borderRadius: true,
             ),
             textpart('phoneNumber', false),
             Padding(
               padding: const EdgeInsets.only(bottom: 15),
-              child: PhoneNumber(mineFocus: orderPhoneNumber, controller: phoneController, requestFocus: orderAdressFocusNode, style: false),
+              child: PhoneNumber(
+                mineFocus: orderPhoneNumber,
+                controller: phoneController,
+                requestFocus: orderAdressFocusNode,
+              ),
             ),
             textpart('selectCityTitle', true),
             selectCity(),
@@ -83,7 +86,6 @@ class _OrderPageState extends State<OrderPage> {
               focusNode: orderAdressFocusNode,
               requestfocusNode: orderNote,
               isNumber: false,
-              borderRadius: true,
               maxline: 4,
             ),
             textpart('note', false),
@@ -94,7 +96,6 @@ class _OrderPageState extends State<OrderPage> {
               requestfocusNode: orderUserName,
               isNumber: false,
               maxline: 4,
-              borderRadius: true,
             ),
             const SizedBox(
               height: 40,
@@ -108,7 +109,9 @@ class _OrderPageState extends State<OrderPage> {
                   }
                   signInPageController.agreeButton.value = !signInPageController.agreeButton.value;
 
-                  OrderService().createOrder(products: list, note: noteController.text, customerName: userNameController.text, address: addressController.text, province: name, phone: phoneController.text).then((value) {
+                  OrderService()
+                      .createOrder(products: list, note: noteController.text, customerName: userNameController.text, address: addressController.text, province: name, phone: phoneController.text)
+                      .then((value) {
                     if (value == true) {
                       showSnackBar('copySucces', 'orderSubtitle', Colors.green);
 
@@ -160,9 +163,9 @@ class _OrderPageState extends State<OrderPage> {
                     TextButton(
                       onPressed: () {
                         name = cities[index];
-                          if (!mounted) {
-        return;
-      }
+                        if (!mounted) {
+                          return;
+                        }
                         setState(() {});
                         Get.back();
                       },

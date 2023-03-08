@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/loaders.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/collar_loading.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
@@ -48,19 +50,15 @@ class ListViewGoods extends GetView {
               child: Obx(
                 () {
                   if (goodsController.goodsLoading.value == 0) {
-                    return loaderCollar();
+                    return CollarLoading();
                   } else if (goodsController.goodsLoading.value == 1) {
-                    return Center(
-                      child: errorPage(
-                        onTap: () {
-                          goodsController.getDataGoods();
-                        },
-                      ),
+                    return ErrorState(
+                      onTap: () {
+                        goodsController.getDataGoods();
+                      },
                     );
                   } else if (goodsController.goodsLoading.value == 2) {
-                    return Center(
-                      child: emptryPageText(),
-                    );
+                    return EmptyStateText();
                   }
 
                   return ListView.builder(
@@ -76,7 +74,6 @@ class ListViewGoods extends GetView {
                         price: goodsController.goodsList[index]['price'].toString(),
                         id: int.parse(goodsController.goodsList[index]['id'].toString()),
                         downloadable: false,
-                        removeAddCard: false,
                         createdAt: goodsController.goodsList[index]['createdAt'],
                       );
                     },

@@ -11,8 +11,7 @@ class PhoneNumber extends StatelessWidget {
   final bool? disabled;
   final FocusNode mineFocus;
   final FocusNode requestFocus;
-  final bool style;
-  const PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
+  const PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, this.disabled});
 
   @override
   Widget build(BuildContext context) {
@@ -58,28 +57,27 @@ class PhoneNumber extends StatelessWidget {
           prefixIconConstraints: const BoxConstraints(minWidth: 80),
           isDense: true,
           hintText: '65 656565 ',
-          filled: style,
           fillColor: kPrimaryColor,
           alignLabelWithHint: true,
           hintStyle: TextStyle(color: Colors.grey.shade400, fontFamily: normsProMedium),
           border: OutlineInputBorder(
-            borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: style ? kPrimaryColor : Colors.grey, width: 2),
+            borderRadius: borderRadius20,
+            borderSide: BorderSide(color: Colors.grey, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: style ? kPrimaryColor : Colors.grey.shade200, width: 2),
+            borderRadius: borderRadius20,
+            borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: style ? borderRadius10 : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: style ? borderRadius10 : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: style ? borderRadius10 : borderRadius20,
+            borderRadius: borderRadius20,
             borderSide: const BorderSide(color: Colors.red, width: 2),
           ),
         ),

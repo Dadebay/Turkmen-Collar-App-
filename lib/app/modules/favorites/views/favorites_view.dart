@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
-import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/loading.dart';
 import 'package:yaka2/app/data/models/collar_model.dart';
 import 'package:yaka2/app/data/services/fav_service.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
@@ -66,39 +67,28 @@ class FavoritesView extends GetView<FavoritesController> {
               future: FavService().getCollarFavList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: spinKit(),
-                  );
+                  return Loading();
                 } else if (snapshot.hasError) {
-                  return errorPage(
+                  return ErrorState(
                     onTap: () {
-                      FavService().getCollarFavList();
+                      FavService().getProductFavList();
                     },
                   );
                 } else if (snapshot.data!.isEmpty) {
-                  return emptyPageImage(
-                    name: 'emptyFavoriteSubtitle'.tr,
-                    onTap: () {
-                      FavService().getCollarFavList();
-                    },
-                  );
+                  return EmptyState(name: 'emptyFavoriteSubtitle');
                 }
-                return StaggeredGridView.countBuilder(
-                  crossAxisCount: 2,
-                  itemCount: snapshot.data!.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                  itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
                       image: snapshot.data![index].image!,
                       name: '${snapshot.data![index].name}',
                       price: '${snapshot.data![index].price}',
                       id: snapshot.data![index].id!,
                       downloadable: true,
-                      removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt!,
                     );
                   },
-                  staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
                 );
               },
             ),
@@ -106,39 +96,28 @@ class FavoritesView extends GetView<FavoritesController> {
               future: FavService().getProductFavList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: spinKit(),
-                  );
+                  return Loading();
                 } else if (snapshot.hasError) {
-                  return errorPage(
+                  return ErrorState(
                     onTap: () {
                       FavService().getProductFavList();
                     },
                   );
                 } else if (snapshot.data!.isEmpty) {
-                  return emptyPageImage(
-                    name: 'emptyFavoriteSubtitle'.tr,
-                    onTap: () {
-                      FavService().getProductFavList();
-                    },
-                  );
+                  return EmptyState(name: 'emptyFavoriteSubtitle');
                 }
-                return StaggeredGridView.countBuilder(
-                  crossAxisCount: 2,
-                  itemCount: snapshot.data!.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                  itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
                       image: snapshot.data![index].image!,
                       name: snapshot.data![index].name ?? 'asd',
                       price: '${snapshot.data![index].price ?? 00}',
                       id: snapshot.data![index].id!,
                       downloadable: false,
-                      removeAddCard: false,
                       createdAt: snapshot.data![index].createdAt ?? 'asd',
                     );
                   },
-                  staggeredTileBuilder: (index) => const StaggeredTile.count(1, 1.5),
                 );
               },
             ),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:yaka2/app/constants/loaders.dart';
+import 'package:yaka2/app/constants/empty_state/empty_state_text.dart';
+import 'package:yaka2/app/constants/error_state/error_state.dart';
+import 'package:yaka2/app/constants/loadings/collar_loading.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/others/cards/product_card.dart';
 
@@ -51,19 +53,15 @@ class ListviewCollarsView extends StatelessWidget {
               ),
               child: Obx(() {
                 if (collarController.collarLoading.value == 0) {
-                  return loaderCollar();
+                  return CollarLoading();
                 } else if (collarController.collarLoading.value == 1) {
-                  return Center(
-                    child: errorPage(
-                      onTap: () {
-                        collarController.getData();
-                      },
-                    ),
+                  return ErrorState(
+                    onTap: () {
+                      collarController.getData();
+                    },
                   );
                 } else if (collarController.collarLoading.value == 2) {
-                  return Center(
-                    child: emptryPageText(),
-                  );
+                  return EmptyStateText();
                 }
                 return ListView.builder(
                   itemCount: collarController.collarList.length,
@@ -78,7 +76,6 @@ class ListviewCollarsView extends StatelessWidget {
                       price: collarController.collarList[index]['price'].toString(),
                       id: int.parse(collarController.collarList[index]['id'].toString()),
                       downloadable: true,
-                      removeAddCard: false,
                       createdAt: collarController.collarList[index]['createdAt'],
                     );
                   },

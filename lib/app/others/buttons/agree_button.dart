@@ -1,6 +1,5 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yaka2/app/constants/constants.dart';
@@ -45,12 +44,10 @@ class AgreeButton extends StatelessWidget {
                 ),
               ),
             )
-          : AutoSizeText(
+          : Text(
               'agree'.tr,
               textAlign: TextAlign.center,
               maxLines: 1,
-              maxFontSize: 22,
-              minFontSize: 18,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.white,
