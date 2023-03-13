@@ -6,6 +6,7 @@ import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/error_state/no_image.dart';
 import 'package:yaka2/app/constants/widgets.dart';
+import 'package:yaka2/app/others/buttons/fav_button.dart';
 
 import '../../constants/loadings/loading.dart';
 import '../../data/services/auth_service.dart';
@@ -141,6 +142,11 @@ class ProductCard extends StatelessWidget {
                 errorWidget: (context, url, error) => NoImage(),
               ),
             ),
+          ),
+          Positioned(
+            top: 8,
+            right: 15,
+            child: FavButton(whcihPage: false, isCollar: true, id: id, name: name),
           ),
           Positioned(
             bottom: 0,

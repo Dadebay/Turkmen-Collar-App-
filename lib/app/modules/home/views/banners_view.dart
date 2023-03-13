@@ -23,6 +23,7 @@ class BannersView extends GetView {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return BannerLoading();
         } else if (snapshot.hasError) {
+          print(snapshot.error);
           return ErrorState(
             onTap: () {
               BannerService().getBanners();

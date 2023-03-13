@@ -13,10 +13,8 @@ class DownloadsModel {
   final int? downloads;
   final List? images;
   final List<FilesModel>? files;
-  final String? category;
   DownloadsModel({
     this.name,
-    this.category,
     this.description,
     this.price,
     this.machineName,
@@ -37,17 +35,16 @@ class DownloadsModel {
       images = image.map((value) => value).toList();
     }
     return DownloadsModel(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'null',
+      description: json['description'] ?? 'null',
+      price: json['price'] ?? 'null',
+      machineName: json['machine_name'] ?? 'null',
+      views: json['views'] ?? 0,
       createdAt: json['created_at'],
-      description: json['description'],
-      price: json['price'],
-      machineName: json['machine_name'],
-      views: json['views'],
-      downloads: json['downloads'],
+      downloads: json['downloads'] ?? 0,
       files: (json['files'] as List).map((json) => FilesModel.fromJson(json)).toList(),
       images: images,
-      category: json['category']['name'],
     );
   }
 }

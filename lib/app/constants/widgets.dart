@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:yaka2/app/constants/constants.dart';
@@ -282,7 +281,7 @@ Padding textpart(String name, bool value) {
 
 Container divider() {
   return Container(
-    color: Colors.white,
+    // color: Colors.white,
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
     child: Divider(
       color: kPrimaryColor.withOpacity(0.4),

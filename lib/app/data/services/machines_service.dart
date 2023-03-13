@@ -35,7 +35,6 @@ class MachineService {
 
   Future<DressesModelByID> getMachineByID(int id) async {
     final token = await Auth().getToken();
-
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/products/$id',

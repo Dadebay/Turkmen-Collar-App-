@@ -24,105 +24,119 @@ class FavoritesView extends GetView<FavoritesController> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'favorites'.tr,
-            style: const TextStyle(fontFamily: normProBold, color: Colors.black),
-          ),
-          backgroundColor: kPrimaryColor,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(
-              IconlyLight.arrowLeftCircle,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-          systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
-          centerTitle: true,
-          bottom: TabBar(
-            labelStyle: const TextStyle(fontFamily: normsProMedium, fontSize: 20),
-            unselectedLabelStyle: const TextStyle(fontFamily: normsProLight, fontSize: 18),
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.white70,
-            labelPadding: const EdgeInsets.only(top: 8, bottom: 4),
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: Colors.black,
-            indicatorWeight: 3,
-            tabs: [
-              Tab(
-                text: 'collar'.tr,
-              ),
-              Tab(
-                text: 'products'.tr,
-              ),
-            ],
-          ),
-        ),
+        appBar: appBar(),
         body: TabBarView(
           children: [
-            FutureBuilder<List<FavoritesModelCollar>>(
-              future: FavService().getCollarFavList(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Loading();
-                } else if (snapshot.hasError) {
-                  return ErrorState(
-                    onTap: () {
-                      FavService().getProductFavList();
-                    },
-                  );
-                } else if (snapshot.data!.isEmpty) {
-                  return EmptyState(name: 'emptyFavoriteSubtitle');
-                }
-                return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductCard(
-                      image: snapshot.data![index].image!,
-                      name: '${snapshot.data![index].name}',
-                      price: '${snapshot.data![index].price}',
-                      id: snapshot.data![index].id!,
-                      downloadable: true,
-                      createdAt: snapshot.data![index].createdAt!,
-                    );
-                  },
-                );
-              },
-            ),
-            FutureBuilder<List<DressesModelFavorites>>(
-              future: FavService().getProductFavList(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Loading();
-                } else if (snapshot.hasError) {
-                  return ErrorState(
-                    onTap: () {
-                      FavService().getProductFavList();
-                    },
-                  );
-                } else if (snapshot.data!.isEmpty) {
-                  return EmptyState(name: 'emptyFavoriteSubtitle');
-                }
-                return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductCard(
-                      image: snapshot.data![index].image!,
-                      name: snapshot.data![index].name ?? 'asd',
-                      price: '${snapshot.data![index].price ?? 00}',
-                      id: snapshot.data![index].id!,
-                      downloadable: false,
-                      createdAt: snapshot.data![index].createdAt ?? 'asd',
-                    );
-                  },
-                );
-              },
-            ),
+            firstpage(),
+            secondPage(),
           ],
         ),
+      ),
+    );
+  }
+
+  FutureBuilder<List<DressesModelFavorites>> secondPage() {
+    return FutureBuilder<List<DressesModelFavorites>>(
+      future: FavService().getProductFavList(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Loading();
+        } else if (snapshot.hasError) {
+          return ErrorState(
+            onTap: () {
+              FavService().getProductFavList();
+            },
+          );
+        } else if (snapshot.data!.isEmpty) {
+          return EmptyState(name: 'emptyFavoriteSubtitle');
+        }
+        return GridView.builder(
+          itemCount: snapshot.data!.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 14),
+          itemBuilder: (BuildContext context, int index) {
+            return ProductCard(
+              image: snapshot.data![index].image!,
+              name: snapshot.data![index].name ?? 'asd',
+              price: '${snapshot.data![index].price ?? 00}',
+              id: snapshot.data![index].id!,
+              downloadable: false,
+              createdAt: snapshot.data![index].createdAt ?? 'asd',
+            );
+          },
+        );
+      },
+    );
+  }
+
+  FutureBuilder<List<FavoritesModelCollar>> firstpage() {
+    return FutureBuilder<List<FavoritesModelCollar>>(
+      future: FavService().getCollarFavList(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Loading();
+        } else if (snapshot.hasError) {
+          return ErrorState(
+            onTap: () {
+              FavService().getProductFavList();
+            },
+          );
+        } else if (snapshot.data!.isEmpty) {
+          return EmptyState(name: 'emptyFavoriteSubtitle');
+        }
+        return GridView.builder(
+          itemCount: snapshot.data!.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 14),
+          itemBuilder: (BuildContext context, int index) {
+            return ProductCard(
+              image: snapshot.data![index].image!,
+              name: '${snapshot.data![index].name}',
+              price: '${snapshot.data![index].price}',
+              id: snapshot.data![index].id!,
+              downloadable: true,
+              createdAt: snapshot.data![index].createdAt!,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+      title: Text(
+        'favorites'.tr,
+        style: const TextStyle(fontFamily: normProBold, color: Colors.black),
+      ),
+      backgroundColor: kPrimaryColor,
+      elevation: 0,
+      leading: IconButton(
+        icon: const Icon(
+          IconlyLight.arrowLeftCircle,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          Get.back();
+        },
+      ),
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
+      centerTitle: true,
+      bottom: TabBar(
+        labelStyle: const TextStyle(fontFamily: normsProMedium, fontSize: 20),
+        unselectedLabelStyle: const TextStyle(fontFamily: normsProLight, fontSize: 18),
+        labelColor: Colors.black,
+        unselectedLabelColor: Colors.white70,
+        labelPadding: const EdgeInsets.only(top: 8, bottom: 4),
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: Colors.black,
+        indicatorWeight: 3,
+        tabs: [
+          Tab(
+            text: 'collar'.tr,
+          ),
+          Tab(
+            text: 'products'.tr,
+          ),
+        ],
       ),
     );
   }

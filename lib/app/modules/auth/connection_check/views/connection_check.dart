@@ -54,7 +54,6 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
             MaterialPageRoute(
               builder: (BuildContext context) {
                 return const HomeView();
-                // return ShowAllProductsView(name: 'Yakalar', id: 9);
               },
             ),
           );

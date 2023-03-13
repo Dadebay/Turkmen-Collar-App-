@@ -70,10 +70,12 @@ class ListviewCollarsView extends StatelessWidget {
                   shrinkWrap: true,
                   addAutomaticKeepAlives: true,
                   itemBuilder: (BuildContext context, int index) {
+                    final double a = double.parse(collarController.collarList[index]['price'].toString());
+                    final double b = a / 100.0;
                     return ProductCard(
                       image: collarController.collarList[index]['images'],
                       name: collarController.collarList[index]['name'],
-                      price: collarController.collarList[index]['price'].toString(),
+                      price: b.toString(),
                       id: int.parse(collarController.collarList[index]['id'].toString()),
                       downloadable: true,
                       createdAt: collarController.collarList[index]['createdAt'],

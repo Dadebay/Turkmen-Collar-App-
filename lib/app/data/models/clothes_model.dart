@@ -3,22 +3,22 @@
 class DressesModel {
   final int? id;
   final String? name;
-  final String? description;
-  final String? barcode;
+  // final String? description;
+  // final String? barcode;
   final int? price;
-  final int? views;
+  // final int? views;
   final String? createdAt;
 
   final String? image;
-  final String? category;
+  // final String? category;
   DressesModel({
     this.name,
     this.createdAt,
-    this.barcode,
-    this.category,
-    this.description,
+    // this.barcode,
+    // this.category,
+    // this.description,
     this.price,
-    this.views,
+    // this.views,
     this.image,
     this.id,
   });
@@ -26,14 +26,14 @@ class DressesModel {
   factory DressesModel.fromJson(Map<dynamic, dynamic> json) {
     return DressesModel(
       id: json['id'],
-      createdAt: json['created_at'],
-      name: json['name'],
-      barcode: json['barcode'],
-      description: json['description'],
-      price: json['price'],
-      views: json['views'],
-      category: json['category'],
-      image: json['thumb'],
+      createdAt: json['created_at'] ?? 'null',
+      // barcode: json['barcode'] ?? 'null',
+      name: json['name'] ?? 'null',
+      // description: json['description'] ?? 'null',
+      price: json['price'] ?? 0,
+      // views: json['views'] ?? 0,
+      // category: json['category'] ?? 'null',
+      image: json['image'] ?? 'null',
     );
   }
 }
@@ -47,12 +47,10 @@ class DressesModelFavorites {
   final int? views;
   final String? createdAt;
   final String? image;
-  final String? category;
   DressesModelFavorites({
     this.name,
     this.createdAt,
     this.barcode,
-    this.category,
     this.description,
     this.price,
     this.views,
@@ -63,13 +61,12 @@ class DressesModelFavorites {
   factory DressesModelFavorites.fromJson(Map<dynamic, dynamic> json) {
     return DressesModelFavorites(
       id: json['id'],
+      name: json['name'] ?? 'null',
+      description: json['description'] ?? 'null',
+      price: json['price'] ?? 0,
+      views: json['views'] ?? 0,
+      barcode: json['barcode'] ?? 'null',
       createdAt: json['created_at'],
-      name: json['name'],
-      barcode: json['barcode'],
-      description: json['description'],
-      price: json['price'],
-      views: json['views'],
-      category: json['category'],
       image: json['images'][0],
     );
   }

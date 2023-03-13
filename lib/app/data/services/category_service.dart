@@ -38,7 +38,6 @@ class CategoryService {
     final token = await Auth().getToken();
     List<CollarModel> categoryList = [];
     List<DressesModel> productList = [];
-
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/v1/categories/$id',
@@ -48,7 +47,6 @@ class CategoryService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       if (CollarModel.fromJson(responseJson).name == 'Ýakalar') {

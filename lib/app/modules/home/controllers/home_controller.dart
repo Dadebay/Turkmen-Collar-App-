@@ -9,12 +9,10 @@ import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller
 
 import '../../../data/models/banner_model.dart';
 import '../../../data/models/category_model.dart';
-import '../../../data/models/machines_model.dart';
 import '../../../data/services/banner_service.dart';
 import '../../../data/services/category_service.dart';
 import '../../../data/services/collars_service.dart';
 import '../../../data/services/dresses_service.dart';
-import '../../../data/services/machines_service.dart';
 
 class HomeController extends GetxController {
   RxString balance = '0'.obs;
@@ -22,7 +20,6 @@ class HomeController extends GetxController {
   late final Future<List<FavoritesModelCollar>> favCollars;
   late final Future<List<DressesModelFavorites>> favProducts;
   late final Future<List<BannerModel>> getBanners;
-  late final Future<List<MachineModel>> getMachines;
   late final Future<List<CategoryModel>> getCategories;
   RxInt sortMachineID = 0.obs;
   RxString sortMachineName = 'Yaka'.obs;
@@ -43,7 +40,6 @@ class HomeController extends GetxController {
     clothesList.clear();
     goodsList.clear();
     collarPage.value = 1;
-
     clothesPage.value = 1;
     goodsPage.value = 1;
     goodsLoading.value = 0;
@@ -52,7 +48,6 @@ class HomeController extends GetxController {
     getData();
     getDataClothes();
     getDataGoods();
-    getMachines = MachineService().getMachines();
   }
 
   dynamic savePhoneNumber(String number) {
@@ -130,13 +125,13 @@ class HomeController extends GetxController {
         clothesList.add({
           'id': element.id,
           'name': element.name,
-          'desc': element.description,
-          'barcode': element.barcode,
-          'price': element.price,
-          'views': element.views,
+          // 'desc': element.description,
+          // 'barcode': element.barcode,
+          'price': element.price.toString(),
+          // 'views': element.views,
           'createdAt': element.createdAt,
           'images': element.image,
-          'category': element.category,
+          // 'category': element.category,
         });
       }
     });
@@ -159,13 +154,13 @@ class HomeController extends GetxController {
         goodsList.add({
           'id': element.id,
           'name': element.name,
-          'desc': element.description,
-          'barcode': element.barcode,
+          // 'desc': element.description,
+          // 'barcode': element.barcode,
           'price': element.price,
-          'views': element.views,
+          // 'views': element.views,
           'createdAt': element.createdAt,
           'images': element.image,
-          'category': element.category,
+          // 'category': element.category,
         });
       }
     });

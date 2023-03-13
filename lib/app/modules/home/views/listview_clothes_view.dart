@@ -67,10 +67,12 @@ class ListviewClothesView extends GetView {
                     shrinkWrap: true,
                     addAutomaticKeepAlives: true,
                     itemBuilder: (BuildContext context, int index) {
+                      final double summm = double.parse(clothesController.clothesList[index]['price'].toString());
+                      final double pricce = summm / 100.0;
                       return ProductCard(
                         image: clothesController.clothesList[index]['images'],
                         name: clothesController.clothesList[index]['name'],
-                        price: clothesController.clothesList[index]['price'].toString(),
+                        price: pricce.toString(),
                         id: int.parse(clothesController.clothesList[index]['id'].toString()),
                         downloadable: false,
                         createdAt: clothesController.clothesList[index]['createdAt'],

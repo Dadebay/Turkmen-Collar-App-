@@ -20,7 +20,7 @@ class CollarModel {
       name: json['name'] ?? '',
       createdAt: json['created_at'] ?? DateTime.now(),
       price: json['price'] ?? 0,
-      image: json['thumb'] ?? '',
+      image: json['images'] ?? '',
     );
   }
 }
@@ -122,10 +122,10 @@ class FilesModel {
       id: json['id'] ?? 0,
       price: json['price'] ?? 0,
       machineLogo: json['machine_thumb'] ?? '',
+      machineName: json['machine_name'] ?? 'Ady',
       createtdAt: json['created_at'],
       images: images,
       purchased: json['purchased'] ?? false,
-      machineName: json['machine_name'] ?? 'Ady',
     );
   }
 }

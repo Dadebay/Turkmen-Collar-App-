@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
+import 'package:new_version/new_version.dart';
 import 'package:open_file_manager/open_file_manager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:yaka2/app/constants/constants.dart';
@@ -12,7 +15,6 @@ import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/auth_service.dart';
 import 'package:yaka2/app/data/services/banner_service.dart';
 import 'package:yaka2/app/data/services/category_service.dart';
-import 'package:yaka2/app/data/services/machines_service.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/views/tabbar_view.dart';
 import 'package:yaka2/app/modules/cart/controllers/cart_controller.dart';
 import 'package:yaka2/app/modules/cart/views/cart_view.dart';
@@ -52,7 +54,12 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    homeController.getAllProducts();
+    Future.delayed(Duration(seconds: 1), () {
+      homeController.getAllProducts();
+      if (mounted) {
+        appVersionCheck(newVersion);
+      }
+    });
     homeController.userMoney();
   }
 
@@ -61,19 +68,38 @@ class _HomeViewState extends State<HomeView> {
     refreshController.refreshCompleted();
     await BannerService().getBanners();
     await CategoryService().getCategories();
-
-    await MachineService().getMachines();
-    await CategoryService().getCategories();
     homeController.getAllProducts();
-
     homeController.userMoney();
-    if (!mounted) {
-      return;
-    }
     setState(() {});
   }
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
+  final newVersion = NewVersion(
+    iOSId: 'com.bilermennesil.yaka',
+    androidId: 'com.bilermennesil.yaka',
+  );
+  appVersionCheck(NewVersion newVersion) async {
+    try {
+      final status = await newVersion.getVersionStatus();
+      if (status != null) {
+        if (status.canUpdate) {
+          newVersion.showUpdateDialog(
+            context: context,
+            versionStatus: status,
+            dismissButtonText: 'no'.tr,
+            dialogTitle: 'newVersion'.tr,
+            dialogText: 'newVersionTitle'.tr,
+            dismissAction: () {
+              Navigator.of(context).pop();
+            },
+            updateButtonText: 'yes'.tr,
+          );
+        }
+      }
+    } on SocketException catch (err) {
+      debugPrint(err.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,6 +251,14 @@ class _HomeViewState extends State<HomeView> {
           ProfilButton(
             name: 'home',
             onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return HomeView();
+                  },
+                ),
+              );
               Get.to(() => const HomeView());
             },
             icon: IconlyBold.home,

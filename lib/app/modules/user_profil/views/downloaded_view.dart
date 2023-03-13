@@ -47,6 +47,7 @@ class DownloadedView extends GetView {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Loading();
           } else if (snapshot.hasError) {
+            print(snapshot.error);
             return ErrorState(
               onTap: () {
                 DownloadsService().getDownloadedProducts();
@@ -55,9 +56,9 @@ class DownloadedView extends GetView {
           } else if (snapshot.data!.isEmpty) {
             return EmptyStateText();
           }
-
           return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemCount: snapshot.data!.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 15),
             itemBuilder: (BuildContext context, int index) {
               final double a = double.parse(snapshot.data![index].price!.toString());
               final double b = a / 100.0;

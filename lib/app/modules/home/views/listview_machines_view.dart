@@ -7,11 +7,9 @@ import 'package:yaka2/app/constants/loadings/machine_loading.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/models/machines_model.dart';
 import 'package:yaka2/app/data/services/machines_service.dart';
-import 'package:yaka2/app/modules/home/controllers/home_controller.dart';
 import 'package:yaka2/app/others/cards/machine_card.dart';
 
 class ListviewMachinesView extends GetView {
-  final HomeController homeController = Get.put(HomeController());
   ListviewMachinesView({Key? key}) : super(key: key);
 
   @override
@@ -30,7 +28,7 @@ class ListviewMachinesView extends GetView {
           ),
           Expanded(
             child: FutureBuilder<List<MachineModel>>(
-              future: homeController.getMachines,
+              future: MachineService().getMachines(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return MachineLoading();

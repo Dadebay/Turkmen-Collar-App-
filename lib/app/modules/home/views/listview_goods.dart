@@ -68,10 +68,12 @@ class ListViewGoods extends GetView {
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
+                      final double a = double.parse(goodsController.goodsList[index]['price'].toString());
+                      final double b = a / 100.0;
                       return ProductCard(
                         image: goodsController.goodsList[index]['images'],
                         name: goodsController.goodsList[index]['name'],
-                        price: goodsController.goodsList[index]['price'].toString(),
+                        price: b.toString(),
                         id: int.parse(goodsController.goodsList[index]['id'].toString()),
                         downloadable: false,
                         createdAt: goodsController.goodsList[index]['createdAt'],

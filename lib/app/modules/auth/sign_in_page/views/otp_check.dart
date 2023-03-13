@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/constants/custom_text_field.dart';
 import 'package:yaka2/app/constants/widgets.dart';
 import 'package:yaka2/app/data/services/login_sig_in_service.dart';
-import 'package:yaka2/app/modules/auth/connection_check/views/connection_check.dart';
 import 'package:yaka2/app/modules/auth/sign_in_page/controllers/sign_in_page_controller.dart';
 import 'package:yaka2/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:yaka2/app/others/buttons/agree_button.dart';
@@ -81,12 +81,7 @@ class OtpCheck extends StatelessWidget {
                     SignInService().otpCheck(otp: otpController.text, phoneNumber: '+993$phoneNumber').then((value) {
                       if (value == true) {
                         Get.find<UserProfilController>().userLogin.value = true;
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => const ConnectionCheckpage(),
-                          ),
-                          (Route<dynamic> route) => false,
-                        );
+                        Restart.restartApp();
                       } else {
                         showSnackBar('otpErrorTitle', 'otpErrorSubtitle', Colors.red);
                       }

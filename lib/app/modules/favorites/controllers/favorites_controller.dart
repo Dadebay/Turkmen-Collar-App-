@@ -19,6 +19,7 @@ class FavoritesController extends GetxController {
         showSnackBar('noConnection3', 'error', Colors.red);
       }
     });
+    print(favList);
     favList.refresh();
     final String jsonString = jsonEncode(favList);
     await storage.write('favList', jsonString);

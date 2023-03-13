@@ -140,8 +140,10 @@ class MyTranslations extends Translations {
           'myNumber': 'Meniň belgim : ',
           'noOrder': 'Hiç hili sargyt ýok',
           'settings': 'Sazlamalar',
+          'emptyData': 'Haryt tapylmady'
         },
         'ru': {
+          'emptyData': 'Товар не найден',
           'settings': 'Настройки',
           'noOrder': 'Заказов нет',
           'myNumber': 'Мой номер :',

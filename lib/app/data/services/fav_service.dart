@@ -27,12 +27,9 @@ class FavService {
         return favListProducts;
       } else {
         final responseJson = json.decode(response.body);
-        print(responseJson);
-
         for (final Map product in responseJson['data']) {
           favListProducts.add(DressesModelFavorites.fromJson(product));
         }
-
         return favListProducts;
       }
     } else {
