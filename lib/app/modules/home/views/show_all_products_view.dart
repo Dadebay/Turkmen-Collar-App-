@@ -32,7 +32,7 @@ class ShowAllProductsView extends StatefulWidget {
 }
 
 class _ShowAllProductsViewState extends State<ShowAllProductsView> {
-  int page = 0;
+  int page = 1;
   int limit = 10;
   String sortMachineName = '';
   int sortMachineID = 0;
@@ -107,6 +107,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                   final double a = double.parse(showAllList[index].price.toString());
                   final double b = a / 100.0;
                   return ProductCard(
+                    categoryName: 'collars'.tr,
                     image: showAllList[index].image!,
                     name: showAllList[index].name!,
                     price: b.toString(),
@@ -132,6 +133,7 @@ class _ShowAllProductsViewState extends State<ShowAllProductsView> {
                   final double a = double.parse(showAllListProducts[index].price.toString());
                   final double b = a / 100.0;
                   return ProductCard(
+                    categoryName: widget.name.tr,
                     image: showAllListProducts[index].image!,
                     name: showAllListProducts[index].name!,
                     price: b.toString(),

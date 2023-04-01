@@ -36,10 +36,6 @@ class _FavButtonState extends State<FavButton> {
   }
 
   dynamic work() {
-    // print(favoritesController.favList);
-    // print('enterd work page ');
-    // print(widget.id);
-    // print(widget.name);
     for (var element in favoritesController.favList) {
       if (element['id'] == widget.id && element['name'] == widget.name) {
         value = true;
@@ -70,6 +66,8 @@ class _FavButtonState extends State<FavButton> {
               favoritesController.removeProductFavList(widget.id);
             }
           }
+          print(favoritesController.favList);
+
           value = !value;
           setState(() {});
         }

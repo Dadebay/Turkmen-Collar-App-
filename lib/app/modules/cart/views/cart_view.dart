@@ -62,12 +62,12 @@ class CartView extends GetView<CartController> {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        final double a = double.parse(cartController.list[index]['price']);
+                        // final double a = double.parse(cartController.list[index]['price']);
                         return CardCart(
                           createdAt: cartController.list[index]['createdAt'] ?? '0.0.0',
                           name: cartController.list[index]['name'] ?? 'Ady',
                           id: cartController.list[index]['id'] ?? 1,
-                          price: '${a / 100}',
+                          price: cartController.list[index]['price'] ?? '0',
                           image: cartController.list[index]['image'] ?? '0',
                         );
                       },
@@ -85,7 +85,7 @@ class CartView extends GetView<CartController> {
     for (var element in cartController.list) {
       double a = double.parse(element['price']);
       a *= element['quantity'];
-      sum += a / 100;
+      sum += a;
     }
     return Container(
       color: Colors.white,
@@ -123,7 +123,7 @@ class CartView extends GetView<CartController> {
                   style: const TextStyle(fontFamily: normsProRegular, fontSize: 18),
                 ),
                 Text(
-                  '$sum TMT',
+                  '${sum.toStringAsFixed(2)} TMT',
                   style: const TextStyle(fontFamily: normProBold, fontSize: 20),
                 )
               ],

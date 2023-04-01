@@ -54,10 +54,13 @@ class FavoritesView extends GetView<FavoritesController> {
           itemCount: snapshot.data!.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 14),
           itemBuilder: (BuildContext context, int index) {
+            final double a = double.parse(snapshot.data![index].price.toString());
+            final double b = a / 100.0;
             return ProductCard(
+              categoryName: '',
               image: snapshot.data![index].image!,
               name: snapshot.data![index].name ?? 'asd',
-              price: '${snapshot.data![index].price ?? 00}',
+              price: b.toString(),
               id: snapshot.data![index].id!,
               downloadable: false,
               createdAt: snapshot.data![index].createdAt ?? 'asd',
@@ -87,10 +90,13 @@ class FavoritesView extends GetView<FavoritesController> {
           itemCount: snapshot.data!.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 14),
           itemBuilder: (BuildContext context, int index) {
+            final double a = double.parse(snapshot.data![index].price.toString());
+            final double b = a / 100.0;
             return ProductCard(
+              categoryName: '',
               image: snapshot.data![index].image!,
               name: '${snapshot.data![index].name}',
-              price: '${snapshot.data![index].price}',
+              price: b.toString(),
               id: snapshot.data![index].id!,
               downloadable: true,
               createdAt: snapshot.data![index].createdAt!,

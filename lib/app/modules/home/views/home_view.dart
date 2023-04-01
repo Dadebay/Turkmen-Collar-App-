@@ -56,10 +56,9 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     Future.delayed(Duration(seconds: 1), () {
       homeController.getAllProducts();
-      if (mounted) {
-        appVersionCheck(newVersion);
-      }
+      appVersionCheck(newVersion);
     });
+    cartController.returnCartList();
     homeController.userMoney();
   }
 
@@ -78,6 +77,7 @@ class _HomeViewState extends State<HomeView> {
     iOSId: 'com.bilermennesil.yaka',
     androidId: 'com.bilermennesil.yaka',
   );
+
   appVersionCheck(NewVersion newVersion) async {
     try {
       final status = await newVersion.getVersionStatus();
@@ -86,19 +86,17 @@ class _HomeViewState extends State<HomeView> {
           newVersion.showUpdateDialog(
             context: context,
             versionStatus: status,
-            dismissButtonText: 'no'.tr,
+            dismissButtonText: 'noUpdate'.tr,
             dialogTitle: 'newVersion'.tr,
             dialogText: 'newVersionTitle'.tr,
             dismissAction: () {
               Navigator.of(context).pop();
             },
-            updateButtonText: 'yes'.tr,
+            updateButtonText: 'yesUpdate'.tr,
           );
         }
       }
-    } on SocketException catch (err) {
-      debugPrint(err.toString());
-    }
+    } on SocketException {}
   }
 
   @override

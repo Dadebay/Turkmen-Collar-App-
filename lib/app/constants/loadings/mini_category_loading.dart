@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 import '../constants.dart';
 import 'loading.dart';
@@ -23,7 +24,7 @@ class MiniCategoryLoading extends StatelessWidget {
       },
       options: CarouselOptions(
         onPageChanged: (index, CarouselPageChangedReason a) {},
-        height: 170,
+        height: Get.size.height / 5,
         viewportFraction: 0.6,
         autoPlay: true,
         enableInfiniteScroll: true,

@@ -147,7 +147,6 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
   }
 
   Future<String> createFolderProductName(String name) async {
-    print(widget.pageName);
     final path1 = Directory('storage/emulated/0/Download/YAKA/$name/${widget.pageName}');
     final status = await Permission.storage.status;
     if (!status.isGranted) {

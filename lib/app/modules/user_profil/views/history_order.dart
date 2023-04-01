@@ -177,6 +177,7 @@ class HistoryOrderProductID extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemBuilder: (BuildContext context, int index) {
               return ProductCard(
+                categoryName: '',
                 image: snapshot.data![index].image!,
                 name: '${snapshot.data![index].name}',
                 price: '${snapshot.data![index].price}',

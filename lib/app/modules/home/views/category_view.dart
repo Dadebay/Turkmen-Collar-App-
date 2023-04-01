@@ -31,7 +31,7 @@ class CategoryView extends GetView {
           );
         } else if (snapshot.data!.isEmpty) {
           return SizedBox(
-            height: 170,
+            height: Get.size.height / 5,
             child: EmptyStateText(),
           );
         }
@@ -46,7 +46,7 @@ class CategoryView extends GetView {
           },
           options: CarouselOptions(
             onPageChanged: (index, CarouselPageChangedReason a) {},
-            height: 170,
+            height: Get.size.height / 5,
             viewportFraction: 0.6,
             autoPlay: true,
             enableInfiniteScroll: true,

@@ -73,6 +73,7 @@ class ListviewCollarsView extends StatelessWidget {
                     final double a = double.parse(collarController.collarList[index]['price'].toString());
                     final double b = a / 100.0;
                     return ProductCard(
+                      categoryName: 'collars'.tr,
                       image: collarController.collarList[index]['images'],
                       name: collarController.collarList[index]['name'],
                       price: b.toString(),

@@ -38,51 +38,6 @@ class _LogInViewState extends State<LogInView> {
   final login = GlobalKey<FormState>();
 
   final SignInPageController signInPageController = Get.put(SignInPageController());
-  // SimData? _simData;
-  // bool _isLoading = true;
-  // @override
-  // void initState() {
-  //   print('I ca,m,,,,,eé;');
-  //   print('I ca,m,,,,,eé;');
-  //   print('I ca,m,,,,,eé;');
-  //   print('I ca,m,,,,,eé;');
-  //   print('I ca,m,,,,,eé;');
-  //   init();
-  // }
-
-  // Future<void> init() async {
-  //   SimData simData;
-  //   try {
-  //     final status = await Permission.phone.status;
-  //     if (!status.isGranted) {
-  //       bool isGranted = await Permission.phone.request().isGranted;
-  //       if (!isGranted) return;
-  //     }
-  //     simData = await SimDataPlugin.getSimData();
-  //     setState(() {
-  //       _isLoading = false;
-  //       _simData = simData;
-  //     });
-  //     void printSimCardsData() async {
-  //       try {
-  //         SimData simData = await SimDataPlugin.getSimData();
-  //         for (var s in simData.cards) {
-  //           print('Serial number: ${s.serialNumber}');
-  //         }
-  //       } on PlatformException catch (e) {
-  //         debugPrint('error! code: ${e.code} - message: ${e.message}');
-  //       }
-  //     }
-
-  //     printSimCardsData();
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //     setState(() {
-  //       _isLoading = false;
-  //       _simData = null;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -31,6 +31,7 @@ class FileDownloadService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
     return json.decode(response.body);
   }
 }

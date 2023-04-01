@@ -176,10 +176,10 @@ class _ConnectionCheckpageState extends State with TickerProviderStateMixin {
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(80),
+                    borderRadius: BorderRadius.circular(50),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(80),
+                    borderRadius: BorderRadius.circular(50),
                     child: Image.asset(
                       logo,
                       fit: BoxFit.cover,

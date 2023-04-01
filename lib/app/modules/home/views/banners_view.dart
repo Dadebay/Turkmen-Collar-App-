@@ -23,7 +23,6 @@ class BannersView extends GetView {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return BannerLoading();
         } else if (snapshot.hasError) {
-          print(snapshot.error);
           return ErrorState(
             onTap: () {
               BannerService().getBanners();
@@ -31,7 +30,7 @@ class BannersView extends GetView {
           );
         } else if (snapshot.data!.isEmpty) {
           return SizedBox(
-            height: 220,
+            height: Get.size.height / 4,
             child: EmptyStateText(),
           );
         }
@@ -51,7 +50,7 @@ class BannersView extends GetView {
                 onPageChanged: (index, CarouselPageChangedReason a) {
                   bannerController.bannerDotsIndex.value = index;
                 },
-                height: 220,
+                height: Get.size.height / 4,
                 viewportFraction: 1.0,
                 autoPlay: true,
                 scrollPhysics: const BouncingScrollPhysics(),

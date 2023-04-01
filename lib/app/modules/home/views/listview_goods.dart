@@ -71,6 +71,7 @@ class ListViewGoods extends GetView {
                       final double a = double.parse(goodsController.goodsList[index]['price'].toString());
                       final double b = a / 100.0;
                       return ProductCard(
+                        categoryName: 'listview_goods'.tr,
                         image: goodsController.goodsList[index]['images'],
                         name: goodsController.goodsList[index]['name'],
                         price: b.toString(),

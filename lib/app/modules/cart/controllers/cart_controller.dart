@@ -38,6 +38,24 @@ class CartController extends GetxController {
     storage.write('cartList', jsonString);
   }
 
+  dynamic returnCartList() {
+    final result = storage.read('cartList') ?? '[]';
+    final List jsonData = jsonDecode(result);
+    if (jsonData.isEmpty) {
+    } else {
+      for (final element in jsonData) {
+        list.add({
+          'id': element['id'],
+          'name': element['name'],
+          'image': element['image'],
+          'price': element['price'],
+          'createdAt': element['createdAt'],
+          'quantity': element['quantity'],
+        });
+      }
+    }
+  }
+
   void removeAllCartElements() {
     list.clear();
     final String jsonString = jsonEncode(list);

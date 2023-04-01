@@ -21,11 +21,13 @@ class ProductCard extends StatelessWidget {
   final String createdAt;
   final int id;
   final String price;
+  final String categoryName;
   final bool downloadable;
   const ProductCard({
     super.key,
     required this.image,
     required this.createdAt,
+    required this.categoryName,
     required this.name,
     required this.price,
     required this.id,
@@ -48,6 +50,7 @@ class ProductCard extends StatelessWidget {
           Get.to(
             () => ProductProfilView(
               downloadable: downloadable,
+              categoryName: categoryName,
               price: price,
               image: image,
               name: name,

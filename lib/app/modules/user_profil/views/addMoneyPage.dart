@@ -8,6 +8,9 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaka2/app/constants/constants.dart';
 import 'package:yaka2/app/data/services/file_download_service.dart';
 
+import '../../../constants/widgets.dart';
+import '../../../data/models/auth_model.dart';
+import '../../auth/sign_in_page/views/tabbar_view.dart';
 import '../../home/controllers/home_controller.dart';
 
 class AddCash extends StatefulWidget {
@@ -27,18 +30,11 @@ class _AddCashState extends State<AddCash> {
     super.initState();
     controller.returnPhoneNumber().then((value) {
       number = value;
-
       setState(() {});
     });
   }
 
-  List moneyList = [
-    10,
-    20,
-    30,
-    40,
-    50,
-  ];
+  List moneyList = [10, 20, 30, 40, 50];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,6 +122,9 @@ class _AddCashState extends State<AddCash> {
             itemCount: 5,
           ),
           sendMoneyButton(false),
+          SizedBox(
+            height: 300,
+          )
         ],
       ),
     );
@@ -137,16 +136,22 @@ class _AddCashState extends State<AddCash> {
       margin: margin ? const EdgeInsets.only(left: 15, right: 15, top: 10) : const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: ElevatedButton(
         onPressed: () async {
-          await FileDownloadService().getAvailabePhoneNumber().then((element) async {
-            final String phoneNumber = element['data'][0];
-            if (Platform.isAndroid) {
-              final uri = 'sms:0804?body=$phoneNumber   ${moneyList[value]} ';
-              await launchUrlString(uri);
-            } else if (Platform.isIOS) {
-              final uri = 'sms:0804&body=$phoneNumber   ${moneyList[value]} ';
-              await launchUrlString(uri);
-            }
-          });
+          final token = await Auth().getToken();
+          if (token == null || token == '') {
+            showSnackBar('loginError', 'loginErrorSubtitle1', Colors.red);
+            await Get.to(() => const TabbarView());
+          } else {
+            await FileDownloadService().getAvailabePhoneNumber().then((element) async {
+              final String phoneNumber = element['data'][0];
+              if (Platform.isAndroid) {
+                final uri = 'sms:0804?body=$phoneNumber   ${moneyList[value]} ';
+                await launchUrlString(uri);
+              } else if (Platform.isIOS) {
+                final uri = 'sms:0804&body=$phoneNumber   ${moneyList[value]} ';
+                await launchUrlString(uri);
+              }
+            });
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: kPrimaryColor,

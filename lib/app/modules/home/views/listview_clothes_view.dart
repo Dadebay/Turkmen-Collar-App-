@@ -70,6 +70,7 @@ class ListviewClothesView extends GetView {
                       final double summm = double.parse(clothesController.clothesList[index]['price'].toString());
                       final double pricce = summm / 100.0;
                       return ProductCard(
+                        categoryName: 'womenClothes'.tr,
                         image: clothesController.clothesList[index]['images'],
                         name: clothesController.clothesList[index]['name'],
                         price: pricce.toString(),

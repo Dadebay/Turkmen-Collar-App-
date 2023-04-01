@@ -47,7 +47,6 @@ class DownloadedView extends GetView {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Loading();
           } else if (snapshot.hasError) {
-            print(snapshot.error);
             return ErrorState(
               onTap: () {
                 DownloadsService().getDownloadedProducts();

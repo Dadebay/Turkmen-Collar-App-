@@ -11,7 +11,7 @@ class BannerLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(8),
-      height: 220,
+      height: Get.size.height / 4,
       width: Get.size.width,
       decoration: const BoxDecoration(borderRadius: borderRadius15, color: kGreyColor),
       child: Loading(),

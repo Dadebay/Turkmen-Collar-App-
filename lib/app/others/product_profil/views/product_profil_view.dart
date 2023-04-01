@@ -27,12 +27,14 @@ class ProductProfilView extends StatefulWidget {
   final int id;
   final bool downloadable;
   final String price;
+  final String categoryName;
   final String name;
   final String createdAt;
   final String image;
   const ProductProfilView({
     required this.id,
     required this.price,
+    required this.categoryName,
     required this.name,
     required this.createdAt,
     required this.downloadable,
@@ -60,11 +62,11 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: downloadButton(),
-      body: widget.downloadable ? downloadablePage() : orderPage(),
+      body: widget.downloadable ? downloadablePage() : orderPage(categoryName: widget.categoryName),
     );
   }
 
-  FutureBuilder<DressesModelByID> orderPage() {
+  FutureBuilder<DressesModelByID> orderPage({required String categoryName}) {
     return FutureBuilder<DressesModelByID>(
       future: future,
       builder: (context, snapshot) {
@@ -88,7 +90,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             price: b,
             machineName: '',
             barcode: snapshot.data!.barcode!,
-            category: snapshot.data!.category!,
+            category: categoryName,
             downloads: snapshot.data!.createdAt!,
             views: '${snapshot.data!.views!}',
             desc: snapshot.data!.description!,
