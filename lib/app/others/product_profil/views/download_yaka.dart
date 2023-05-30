@@ -266,6 +266,15 @@ class _DownloadYakaPageState extends State<DownloadYakaPage> {
     final String name = findName(index);
     List<dynamic> downloadFileList = [];
     if (list[index].purchased == false) {
+      print(balance);
+      print(balance);
+      print(balance);
+      print(balance);
+      print('------------------------------------------------------------------------------------------');
+      print(list[index].price! / 100);
+      print(list[index].price! / 100);
+      print(list[index].price! / 100);
+      print(list[index].price! / 100);
       if (balance >= list[index].price! / 100) {
         wait = true;
         setState(() {});

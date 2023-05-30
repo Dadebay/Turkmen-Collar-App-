@@ -83,7 +83,7 @@ class _AddCashState extends State<AddCash> {
                 Expanded(
                   child: Text(
                     number,
-                    maxLines: 1,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.black, fontFamily: normsProMedium, fontSize: 20),
                   ),
@@ -107,6 +107,7 @@ class _AddCashState extends State<AddCash> {
           ),
           ListView.builder(
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return RadioListTile(
                 value: index,
@@ -123,7 +124,7 @@ class _AddCashState extends State<AddCash> {
           ),
           sendMoneyButton(false),
           SizedBox(
-            height: 300,
+            height: 1000,
           )
         ],
       ),

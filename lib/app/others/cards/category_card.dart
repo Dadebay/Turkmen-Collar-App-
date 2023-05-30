@@ -40,7 +40,7 @@ class CategoryCard extends StatelessWidget {
               borderRadius: borderRadius10,
               image: DecorationImage(
                 image: imageProvider,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
           ),
